@@ -1,0 +1,12 @@
+status: planned_not_frozen
+target_test_tasks: 60
+repetitions: 5
+configurations:
+- baseline.yaml
+- improved.yaml
+- large.yaml
+- ablations/schema.yaml
+- ablations/prevalidation.yaml
+- ablations/retry.yaml
+- ablations/descriptions.yaml
+target_attempts: 2100

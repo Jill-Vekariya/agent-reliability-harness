@@ -1,0 +1,44 @@
+{
+  "device": "Windows desktop via Desktop Commander",
+  "docker_base": "python:3.12.14-slim-trixie@sha256:f77ac9e44ae96ef2c90b8053ea08c31f8be030f824196b0ae4db6d462c84e51f",
+  "initial_docker_checks": {
+    "pytest_exit_code": 0,
+    "passed": 60,
+    "failed": 0,
+    "skipped": 0,
+    "pytest_seconds": 35.3,
+    "regression_exit_code": 0,
+    "regression_task_count": 20,
+    "network": "none"
+  },
+  "browser": {
+    "url": "http://localhost:8501",
+    "health_status": 200,
+    "title": "Agent Reliability Lab",
+    "regression_button": "passed",
+    "screenshots": [
+      "screenshots/trace-explorer.png",
+      "screenshots/offline-checks.png"
+    ]
+  },
+  "final_source_docker_verification": {
+    "build_exit_code": 0,
+    "pytest_exit_code": 0,
+    "passed": 60,
+    "failed": 0,
+    "skipped": 0,
+    "pytest_seconds": 39.84,
+    "regression_exit_code": 0,
+    "regression_task_count": 20,
+    "regression_gate_passed": true,
+    "network": "none",
+    "viewer_launch_exit_code": 0,
+    "viewer_health_status": 200,
+    "source_hash": "9c8105fd4cc8440df0b631d309d03a43ae4b3945e9aa98a588dc9b28d4889f3a",
+    "python": "3.12.14",
+    "sqlite": "3.46.1",
+    "image_manifest_digest": "sha256:8c43762639b86014f00c7da7a31b02a546594f29bdc6463a794c5b1470d2f4d2"
+  },
+  "api_spend_usd": "0",
+  "publicly_deployed": false
+}

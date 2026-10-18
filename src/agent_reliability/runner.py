@@ -26,16 +26,32 @@ def source_hash(root: Path) -> str:
 
 def environment_manifest(root: Path, config: dict[str, Any]) -> dict[str, Any]:
     def git(*args: str) -> str:
-        p = subprocess.run(["git", *args], cwd=root, capture_output=True, text=True)
+        try:
+            p = subprocess.run(["git", *args], cwd=root, capture_output=True, text=True)
+        except FileNotFoundError:
+            return "unavailable"
         return p.stdout.strip() if p.returncode == 0 else "unavailable"
 
     dirty = git("status", "--porcelain")
+    untracked = git("ls-files", "--others", "--exclude-standard", "-z")
+    untracked_hashes = {
+        name: file_hash(root / name)
+        for name in untracked.split("\0")
+        if name
+        and untracked != "unavailable"
+        and (root / name).is_file()
+        and not (root / name).is_symlink()
+    }
     return {
         "schema_version": 1,
         "created_at": datetime.now(UTC).isoformat(),
         "code_revision": git("rev-parse", "HEAD"),
-        "dirty_worktree": bool(dirty and dirty != "unavailable"),
-        "dirty_worktree_hash": digest(dirty),
+        "dirty_worktree": None if dirty == "unavailable" else bool(dirty),
+        "dirty_worktree_hash": digest(
+            {"tracked_diff": git("diff", "HEAD", "--binary"), "untracked": untracked_hashes}
+        )
+        if dirty != "unavailable"
+        else None,
         "source_hash": source_hash(root),
         "dependency_lock_hash": file_hash(root / "uv.lock"),
         "database_manifest_hash": file_hash(root / "data/manifest.json"),

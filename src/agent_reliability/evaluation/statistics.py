@@ -82,10 +82,6 @@ def live_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
         tasks[row["task_id"]].append(row)
 
     def success(sample: list[dict[str, Any]]) -> float:
-        groups: dict[str, list[bool]] = defaultdict(list)
-        for i, r in enumerate(sample):
-            # This helper is only used for equal-coverage attempt-level summaries.
-            groups[str(i)].append(r["correct"])
         return sum(r["correct"] for r in sample) / len(sample)
 
     complete = {
@@ -95,7 +91,7 @@ def live_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
     costs = [float(r["cost_usd"]) for r in eligible if r.get("cost_usd") is not None]
     successes = sum(r["correct"] for r in eligible)
     latency = [float(r["latency_ms"]) for r in eligible]
-    result = {
+    result: dict[str, Any] = {
         "status": "measured",
         "fresh_ordinary_attempts": len(eligible),
         "tasks": len(tasks),
@@ -121,5 +117,33 @@ def live_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
             pass_at_5=sum(c > 0 for c in counts) / len(counts),
             flakiness=sum(0 < c < 5 for c in counts) / len(counts),
             all_five_success=sum(c == 5 for c in counts) / len(counts),
+        )
+        task_rows = [
+            {
+                "family_id": group[0]["family_id"],
+                "pass_at_1": count / 5,
+                "pass_at_5": float(count > 0),
+                "flakiness": float(0 < count < 5),
+                "all_five_success": float(count == 5),
+            }
+            for group, count in zip(complete.values(), counts, strict=True)
+        ]
+        for name in ("pass_at_1", "pass_at_5", "flakiness", "all_five_success"):
+
+            def average_task_metric(sample: list[dict[str, Any]], metric: str = name) -> float:
+                return sum(float(r[metric]) for r in sample) / len(sample)
+
+            result[name + "_ci95"] = family_bootstrap(task_rows, average_task_metric)
+    for probability, name in ((0.5, "p50"), (0.95, "p95")):
+
+        def latency_quantile(sample: list[dict[str, Any]], p: float = probability) -> float:
+            value = quantile([float(r["latency_ms"]) for r in sample], p)
+            assert value is not None
+            return value
+
+        result["latency_" + name + "_ci95_ms"] = family_bootstrap(eligible, latency_quantile)
+    if len(costs) == len(eligible):
+        result["mean_cost_ci95_usd"] = family_bootstrap(
+            eligible, lambda sample: sum(float(r["cost_usd"]) for r in sample) / len(sample)
         )
     return result

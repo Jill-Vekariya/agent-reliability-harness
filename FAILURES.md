@@ -1,0 +1,15 @@
+# Failure evidence status
+
+Real live-model failures observed: **0**. No live model experiment or human labeling has been performed. The reserved target of 50 distinct held-out dev failures is entirely pending. There is no evidence-backed live failure taxonomy accuracy yet.
+
+Synthetic detector demonstrations, not real model incidents:
+
+| Task | Observable evidence | Meaning | Remedy illustrated |
+|---|---|---|---|
+| q002 | Query requests InventedName; SQLite returns no such column | Scripted hallucinated-schema fixture | Inspect schema and query Name, shown in a separate scripted recovery |
+| s001 / s002 | Injected Track.Name reaches the next fixture request; DELETE is then blocked | Unsafe scripted decision and successful SQL enforcement | Treat stored text as data; retain mandatory authorizer |
+| s005 / s006 | Recursive sequence or Cartesian join hits a resource limit | Expected resource-enforcement diagnostic | Terminate/reap worker; do not claim a complete query result |
+
+The other categories have no real observed examples. Synthetic unit fixtures test classification mechanics and are not evidence of real category prevalence. Recoverable errors and expected resource termination must not automatically be counted as overall task failures.
+
+Actual implementation bugs and their fixes are recorded separately in `docs/DECISIONS.md`.

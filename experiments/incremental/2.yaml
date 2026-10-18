@@ -1,0 +1,12 @@
+id: dev-increment-2
+provider: openai
+model: MODEL_SMALL_PENDING
+temperature: 0.0
+max_output_tokens: 512
+max_input_tokens: 16384
+schema_retrieval: true
+prevalidate: true
+retry_on_error: 0
+clear_descriptions: false
+limits:
+  max_steps: 12

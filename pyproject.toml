@@ -13,7 +13,7 @@ dependencies = [
 dev = ["pytest==9.1.1", "ruff==0.17.1", "mypy==1.20.2", "types-PyYAML==6.0.12.20260906"]
 
 [build-system]
-requires = ["hatchling>=1.27,<2"]
+requires = ["hatchling==1.32.4"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
@@ -42,5 +42,11 @@ disallow_untyped_defs = true
 warn_unused_ignores = true
 
 [[tool.mypy.overrides]]
-module = ["matplotlib==3.11.2", "streamlit==1.66.0", "sqlglot==30.23.0"]
+module = ["matplotlib.*", "streamlit.*", "sqlglot.*", "pandas.*"]
 ignore_missing_imports = true
+
+[tool.uv]
+build-constraint-dependencies = [
+  "packaging==26.3", "pathspec==1.1.1", "pluggy==1.7.0",
+  "tomlkit==0.15.2", "trove-classifiers==2026.9.21.13",
+]

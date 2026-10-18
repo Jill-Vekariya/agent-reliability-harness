@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-18T12:00:29.447907+00:00",
+  "environment": {
+    "schema_version": 1,
+    "created_at": "2026-10-18T12:00:29.458820+00:00",
+    "code_revision": "d27ecfeba1f5c40318db009d4a1d8f993d1beb81",
+    "dirty_worktree": true,
+    "dirty_worktree_hash": "334342eb1294bc69df63e39479bac237d2ed2608fc5c2c8448ddb044b3b6465f",
+    "source_hash": "9c8105fd4cc8440df0b631d309d03a43ae4b3945e9aa98a588dc9b28d4889f3a",
+    "dependency_lock_hash": "484f1a21effebc80fd4f08bcaa7f8136e6917946b37dbfd1239f872734ce367a",
+    "database_manifest_hash": "f0437b180814bf7537e3188fdea89c741a4e0c010a361a094869ca86eff24860",
+    "task_hash": "c985c50850dcf0f905ad7cca2ae91e9f9490102a5530ee8662cf65bd02f58bc1",
+    "split_hash": "edf8aa69d094564651c84ccfeaf84711b3750c17555bd320bffb954952e76442",
+    "python": "3.12.14",
+    "sqlite": "3.53.1",
+    "sqlite_compile_options": [
+      "ATOMIC_INTRINSICS=1",
+      "COMPILER=clang-22.1.3",
+      "DEFAULT_AUTOVACUUM",
+      "DEFAULT_CACHE_SIZE=-2000",
+      "DEFAULT_FILE_FORMAT=4",
+      "DEFAULT_JOURNAL_SIZE_LIMIT=-1",
+      "DEFAULT_MMAP_SIZE=0",
+      "DEFAULT_PAGE_SIZE=4096",
+      "DEFAULT_PCACHE_INITSZ=20",
+      "DEFAULT_RECURSIVE_TRIGGERS",
+      "DEFAULT_SECTOR_SIZE=4096",
+      "DEFAULT_SYNCHRONOUS=2",
+      "DEFAULT_WAL_AUTOCHECKPOINT=1000",
+      "DEFAULT_WAL_SYNCHRONOUS=2",
+      "DEFAULT_WORKER_THREADS=0",
+      "DIRECT_OVERFLOW_READ",
+      "ENABLE_DBSTAT_VTAB",
+      "ENABLE_FTS3",
+      "ENABLE_FTS3_PARENTHESIS",
+      "ENABLE_FTS4",
+      "ENABLE_FTS5",
+      "ENABLE_GEOPOLY",
+      "ENABLE_MATH_FUNCTIONS",
+      "ENABLE_PERCENTILE",
+      "ENABLE_RTREE",
+      "MALLOC_SOFT_LIMIT=1024",
+      "MAX_ATTACHED=10",
+      "MAX_COLUMN=2000",
+      "MAX_COMPOUND_SELECT=500",
+      "MAX_DEFAULT_PAGE_SIZE=8192",
+      "MAX_EXPR_DEPTH=1000",
+      "MAX_FUNCTION_ARG=1000",
+      "MAX_LENGTH=1000000000",
+      "MAX_LIKE_PATTERN_LENGTH=50000",
+      "MAX_MMAP_SIZE=0x7fff0000",
+      "MAX_PAGE_COUNT=0xfffffffe",
+      "MAX_PAGE_SIZE=65536",
+      "MAX_SQL_LENGTH=1000000000",
+      "MAX_TRIGGER_DEPTH=1000",
+      "MAX_VARIABLE_NUMBER=32766",
+      "MAX_VDBE_OP=250000000",
+      "MAX_WORKER_THREADS=8",
+      "MUTEX_PTHREADS",
+      "SYSTEM_MALLOC",
+      "TEMP_STORE=1",
+      "THREADSAFE=1"
+    ],
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "concurrency": 1,
+    "config": {
+      "id": "release-checks"
+    },
+    "config_hash": "cc3ad49e5ef0f1813bb70a4550a353e3a5daebaadecd31492ab235d194a24ccd",
+    "base_seed": 20261018,
+    "sampling_seed_supported": false,
+    "pricing_version": "unknown; live execution disabled until configured"
+  },
+  "commands": [
+    {
+      "command": [
+        "make",
+        "data"
+      ],
+      "started_at": "2026-10-18T12:00:15.183376+00:00",
+      "finished_at": "2026-10-18T12:00:15.463134+00:00",
+      "exit_code": 0,
+      "stdout": "uv run --no-sync arh data\nPinned Chinook v1.4.5 and diagnostic fixture checksums verified; no download needed.\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "make",
+        "lint"
+      ],
+      "started_at": "2026-10-18T12:00:15.463215+00:00",
+      "finished_at": "2026-10-18T12:00:15.537980+00:00",
+      "exit_code": 0,
+      "stdout": "uv run --no-sync ruff check src tests scripts\nAll checks passed!\nuv run --no-sync ruff format --check src tests scripts\n50 files already formatted\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "make",
+        "typecheck"
+      ],
+      "started_at": "2026-10-18T12:00:15.538060+00:00",
+      "finished_at": "2026-10-18T12:00:17.237826+00:00",
+      "exit_code": 0,
+      "stdout": "uv run --no-sync mypy src\nSuccess: no issues found in 30 source files\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "make",
+        "test"
+      ],
+      "started_at": "2026-10-18T12:00:17.237881+00:00",
+      "finished_at": "2026-10-18T12:00:26.053696+00:00",
+      "exit_code": 0,
+      "stdout": "uv run --no-sync pytest\n============================= test session starts ==============================\nplatform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.7.0\nrootdir: /workspace/scratch/c4cd5847dedb/agent-reliability-harness\nconfigfile: pyproject.toml\ntestpaths: tests\nplugins: anyio-4.15.1\ncollected 60 items\n\ntests/integration/test_agent.py ...                                      [  5%]\ntests/integration/test_cli.py .                                          [  6%]\ntests/integration/test_recording.py ..                                   [ 10%]\ntests/integration/test_regression.py ..                                  [ 13%]\ntests/integration/test_sandbox.py ...........................            [ 58%]\ntests/integration/test_tasks.py .                                        [ 60%]\ntests/integration/test_viewer.py .                                       [ 61%]\ntests/unit/test_budget.py ...                                            [ 66%]\ntests/unit/test_final_grade.py .                                         [ 68%]\ntests/unit/test_grading.py ..........                                    [ 85%]\ntests/unit/test_human.py ..                                              [ 88%]\ntests/unit/test_otel.py .                                                [ 90%]\ntests/unit/test_provider.py ..                                           [ 93%]\ntests/unit/test_statistics.py ....                                       [100%]\n\n============================== 60 passed in 8.14s ==============================\n",
+      "stderr": "",
+      "test_counts": {
+        "passed": 60,
+        "failed": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "command": [
+        "/workspace/scratch/c4cd5847dedb/agent-reliability-harness/.venv/bin/python",
+        "-m",
+        "agent_reliability.cli",
+        "validate-tasks"
+      ],
+      "started_at": "2026-10-18T12:00:26.053762+00:00",
+      "finished_at": "2026-10-18T12:00:27.438554+00:00",
+      "exit_code": 0,
+      "stdout": "{\n  \"tasks\": 37,\n  \"errors\": [],\n  \"human_reviewed\": 0\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "make",
+        "eval"
+      ],
+      "started_at": "2026-10-18T12:00:27.438633+00:00",
+      "finished_at": "2026-10-18T12:00:28.528296+00:00",
+      "exit_code": 0,
+      "stdout": "uv run --no-sync arh eval --mode regression\nMODE=regression; network/model fallback forbidden; bundled origin=SYNTHETIC\n{\n  \"schema_version\": 1,\n  \"origin\": \"synthetic\",\n  \"mode\": \"regression\",\n  \"run_dir\": \"/workspace/scratch/c4cd5847dedb/agent-reliability-harness/artifacts/20261018T120027Z-748b3129\",\n  \"ordinary_successes\": 19,\n  \"ordinary_attempts\": 20,\n  \"baseline_successes\": 19,\n  \"regressions\": [],\n  \"incompatible\": [],\n  \"gate_passed\": true,\n  \"live_measurements\": 0,\n  \"api_spend_usd\": \"0\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "make",
+        "eval",
+        "MODE=replay"
+      ],
+      "started_at": "2026-10-18T12:00:28.528358+00:00",
+      "finished_at": "2026-10-18T12:00:29.022929+00:00",
+      "exit_code": 0,
+      "stdout": "uv run --no-sync arh eval --mode replay\nMODE=replay; network/model fallback forbidden; bundled origin=SYNTHETIC\n{\n  \"schema_version\": 1,\n  \"origin\": \"synthetic\",\n  \"mode\": \"replay\",\n  \"run_dir\": \"/workspace/scratch/c4cd5847dedb/agent-reliability-harness/artifacts/20261018T120028Z-f8fa327d\",\n  \"ordinary_successes\": 19,\n  \"ordinary_attempts\": 20,\n  \"baseline_successes\": 19,\n  \"regressions\": [],\n  \"incompatible\": [],\n  \"gate_passed\": true,\n  \"live_measurements\": 0,\n  \"api_spend_usd\": \"0\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "make",
+        "estimate"
+      ],
+      "started_at": "2026-10-18T12:00:29.022996+00:00",
+      "finished_at": "2026-10-18T12:00:29.255373+00:00",
+      "exit_code": 0,
+      "stdout": "uv run --no-sync arh estimate\n{\n  \"currency\": \"USD\",\n  \"authorized_budget\": \"0\",\n  \"pricing_status\": \"unknown / unconfigured; paid execution disabled\",\n  \"current_dev_candidates\": 37,\n  \"current_reviewed_test_tasks\": 0,\n  \"target_test_tasks\": 60,\n  \"target_configurations\": 7,\n  \"fresh_repetitions\": 5,\n  \"target_test_agent_attempts\": 2100,\n  \"target_ordinary_attempts\": 1680,\n  \"target_safety_attempts\": 420,\n  \"cost_upper_bound_usd\": null,\n  \"pilot_cost_usd\": null,\n  \"full_study_cost_usd\": null,\n  \"note\": \"Planning arithmetic only. Supply verified official model/pricing/context bounds and request concrete approval before paid work.\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "make",
+        "report"
+      ],
+      "started_at": "2026-10-18T12:00:29.255552+00:00",
+      "finished_at": "2026-10-18T12:00:29.447845+00:00",
+      "exit_code": 0,
+      "stdout": "uv run --no-sync arh report\n/workspace/scratch/c4cd5847dedb/agent-reliability-harness/reports/generated/REPORT.md\n",
+      "stderr": ""
+    }
+  ],
+  "all_checks_passed": true,
+  "fresh_provider_calls": 0,
+  "paid_api_spend_usd": "0",
+  "human_reviews": 0,
+  "public_deployment": false,
+  "desktop_checks": "See desktop-verification.json for independent Docker/browser evidence."
+}

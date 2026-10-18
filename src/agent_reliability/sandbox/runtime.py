@@ -52,6 +52,12 @@ class Sandbox:
         return self.schema[name]
 
     def run(self, sql: str) -> SQLResult:
+        if os.name == "nt":
+            return SQLResult(
+                ok=False,
+                error="Use Docker on Windows for the isolated SQL worker",
+                error_kind="platform",
+            )
         if not isinstance(sql, str) or not sql.strip():
             return SQLResult(ok=False, error="SQL must be nonempty text", error_kind="arguments")
         if len(sql.encode()) > self.limits.max_sql_bytes or "\x00" in sql:

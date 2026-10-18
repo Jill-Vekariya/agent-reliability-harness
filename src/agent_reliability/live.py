@@ -60,7 +60,8 @@ def run_live(
     campaign_id = str(approval["campaign_id"])
     if not campaign_id.replace("-", "").replace("_", "").isalnum():
         raise ValueError("Campaign ID must contain only letters, numbers, hyphens, underscores")
-    run_dir = resume or root / "artifacts" / "live" / campaign_id
+    artifact_base = Path(os.environ.get("ARH_ARTIFACT_DIR", str(root / "artifacts")))
+    run_dir = resume or artifact_base / "live" / campaign_id
     manifest = environment_manifest(root, config)
     manifest.update(
         {
@@ -88,7 +89,7 @@ def run_live(
         run_dir.mkdir(parents=True, exist_ok=False)
         write_json(run_dir / "manifest.json", manifest)
     ledger = Ledger(
-        run_dir / "spend.sqlite",
+        artifact_base / "spend.sqlite",
         str(approval["budget_usd"]),
         str(approval["per_attempt_budget_usd"]),
     )

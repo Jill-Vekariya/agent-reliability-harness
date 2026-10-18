@@ -1,0 +1,29 @@
+name: offline-regression
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # verified v4 ref, 2026-10-18
+        with:
+          fetch-depth: 0
+      - name: Install pinned tool and runtime
+        run: |
+          python3 -m pip install uv==0.12.23
+          uv python install 3.12.14
+          make setup
+      - name: Verify current implementation
+        run: make ci
+      - name: Compare against target-branch baseline on PRs
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git show "$BASE_SHA:tests/regression/baseline.json" > "$RUNNER_TEMP/trusted-baseline.json"
+          ARH_BASELINE_FILE="$RUNNER_TEMP/trusted-baseline.json" uv run --no-sync arh eval
+      - name: Docker regression without networking
+        run: |
+          docker build -t agent-reliability-harness:ci .
+          docker run --rm --network none --read-only --tmpfs /tmp --tmpfs /reports:uid=10001,gid=10001,mode=1777 --memory 768m --cpus 2 --cap-drop ALL --security-opt no-new-privileges agent-reliability-harness:ci arh eval

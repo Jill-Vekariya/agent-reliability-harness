@@ -1,0 +1,20 @@
+{
+  "approved_by": null,
+  "approved_at": null,
+  "provider": "openai",
+  "model": null,
+  "campaign_id": null,
+  "config_hash": null,
+  "task_hash": null,
+  "task_ids": [],
+  "max_attempts": 0,
+  "budget_usd": "0",
+  "per_attempt_budget_usd": "0",
+  "official_pricing_url": null,
+  "pricing_checked_at": null,
+  "official_context_limit_url": null,
+  "provider_context_window_tokens": null,
+  "input_usd_per_million": null,
+  "cached_input_usd_per_million": null,
+  "output_usd_per_million": null
+}
