@@ -12,16 +12,37 @@ def build_report(
     summary: dict[str, Any], destination: Path, trace_base: Path | None = None
 ) -> Path:
     destination.mkdir(parents=True, exist_ok=True)
+    # These are generated outputs, not user inputs. Remove previous measurements
+    # before rendering a partial/replay report into a reused destination.
+    for name in ("pareto.png", "paired-effects.json", "attempts.csv"):
+        (destination / name).unlink(missing_ok=True)
     rows = summary["rows"]
     fresh = [r for r in rows if r["origin"] == "live" and r["mode"] == "record"]
     if len({r["attempt_id"] for r in fresh}) != len(fresh):
         raise ValueError("Duplicate fresh attempts cannot be counted as evidence")
-    metrics = live_metrics(rows)
-    groups = {
-        name: [r for r in fresh if r["config"] == name]
-        for name in sorted({r["config"] for r in fresh})
+    if len({row.get("split") for row in fresh}) > 1:
+        raise ValueError("Report development and held-out results separately")
+    planned = summary.get("planned_attempts")
+    metrics = (
+        {
+            "status": "stratified; consult configuration coverage",
+            "fresh_ordinary_attempts": sum(row["category"] == "ordinary" for row in fresh),
+        }
+        if fresh
+        else live_metrics(rows)
+    )
+    names = {r["config"] for r in fresh} | {r["config"] for r in (planned or [])}
+    groups = {name: [r for r in fresh if r["config"] == name] for name in sorted(names)}
+    by_config = {
+        name: live_metrics(
+            group,
+            planned_attempts=None
+            if planned is None
+            else [row for row in planned if row["config"] == name],
+            require_manifest=True,
+        )
+        for name, group in groups.items()
     }
-    by_config = {name: live_metrics(group) for name, group in groups.items()}
     metrics["by_configuration"] = by_config
     write_json(destination / "metrics.json", metrics)
     if rows:
@@ -58,11 +79,26 @@ def build_report(
         "|---|---:|",
     ]
     lines.extend(f"| {name} | {n} |" for name, n in sorted(failures.items()))
-    if fresh:
+    if not fresh and planned is None and any(row["origin"] == "live" for row in rows):
         lines = [
-            f"# What {len(fresh)} agent runs taught me about failure modes",
+            "# Saved live traces — playback only",
+            "",
+            f"Saved outcomes: {len(rows)}. Fresh recorded attempts: 0.",
+            "",
+            "Replay/regression is not a fresh model measurement. Original provider cost is historical; this report makes no claim about paid spend or headline performance.",
+        ]
+    if fresh or planned is not None:
+        lines = [
+            f"# What {len(fresh)} agent runs taught me about failure modes"
+            if fresh
+            else "# Campaign coverage — no completed model outcomes",
             "",
             "N counts unique fresh recorded attempts in this report, including safety cases. Synthetic, replay, and regression rows are excluded.",
+            "Scope: "
+            + ", ".join(sorted({row["split"] for row in fresh + (planned or [])}))
+            + ". Development measurements do not establish held-out performance.",
+            "Ledger exposure (if supplied): "
+            + str(summary.get("ledger", "not supplied; no zero-cost assumption")),
             "",
             "| Configuration | Ordinary attempts | Pass@1 | 95% interval | Pass@5 | Mean USD/attempt | p50/p95 ms |",
             "|---|---:|---:|---|---:|---:|---|",
@@ -74,15 +110,28 @@ def build_report(
         lines += [
             "",
             "Undefined values indicate insufficient coverage/usage, not zero. Intervals resample whole families; few-family/degenerate intervals provide limited evidence. Pass@5 assumes an oracle.",
+            "Headline pass/cost metrics require complete declared campaign coverage. Started or never-started gaps are retained separately; observed latency and success intervals describe only recorded outcomes.",
             "",
             "## Paired configuration contrasts",
             "",
         ]
+        for name, measurement in by_config.items():
+            lines.append(
+                f"* {name}: {measurement['fresh_ordinary_attempts']} observed ordinary outcomes; planned={measurement.get('planned_ordinary_attempts')}; missing={measurement.get('missing_expected_attempts')}; status={measurement['status']}."
+            )
         effects = {}
         if "B" in groups:
             reference = [r for r in groups["B"] if r["category"] == "ordinary"]
             for name, group in groups.items():
                 if name == "B":
+                    continue
+                if (
+                    by_config["B"]["status"] != "measured"
+                    or by_config[name]["status"] != "measured"
+                ):
+                    lines.append(
+                        f"* {name} versus B: complete planned coverage unavailable; no paired effect estimated."
+                    )
                     continue
                 try:
                     effect = paired_difference(
@@ -147,6 +196,22 @@ def build_report(
             "Call-level conditional block rates and injection-conditional analyses require their trace evidence and declared exposure denominators; a missing denominator is not a 100% block rate.",
             "Classifier-versus-human agreement remains pending until actual held-out labels are imported. Non-obvious relationships must be investigated against these traces before claiming a finding.",
         ]
+        if all(
+            "unsafe_sql_proposals" in row and "blocked_unsafe_sql_proposals" in row for row in fresh
+        ):
+            proposed = sum(row["unsafe_sql_proposals"] for row in fresh)
+            blocked = sum(row["blocked_unsafe_sql_proposals"] for row in fresh)
+            lines.append(
+                f"Heuristically detected unsafe SQL calls blocked: {blocked}/{proposed}; conditional rate={blocked / proposed if proposed else 'undefined (zero proposals)'}."
+            )
+        injected = [
+            row
+            for row in fresh
+            if row.get("category") == "injection" and row.get("injection_exposed") is True
+        ]
+        lines.append(
+            f"Unsafe decisions among injection-exposed attempts: {sum(bool(row.get('unsafe_attempt')) for row in injected)}/{len(injected)}; conditional rate={sum(bool(row.get('unsafe_attempt')) for row in injected) / len(injected) if injected else 'undefined (no recorded exposure)'}."
+        )
     lines.extend(
         ["", "## Trace index", "", "| Task | Mode | Outcome | Trace |", "|---|---|---|---|"]
     )

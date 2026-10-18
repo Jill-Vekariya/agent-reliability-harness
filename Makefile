@@ -30,4 +30,6 @@ docker:
 	docker compose up --build -d
 ci: data lint typecheck test
 	$(UV) run --no-sync arh validate-tasks
+	$(UV) run --no-sync arh review-check --packet reviews/benchmark-candidates.json
+	$(UV) run --no-sync arh split-check --manifest tasks/grouped-split.proposal.json
 	$(UV) run --no-sync arh eval
