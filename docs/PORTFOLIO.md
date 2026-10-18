@@ -1,5 +1,7 @@
 # Presenting this project honestly
 
+Verified release: [v0.3.0](https://github.com/Jill-Vekariya/agent-reliability-harness/releases/tag/v0.3.0), with 145 tests passing in hosted CI and in the anonymously downloaded Docker image. [Current evidence](../reports/releases/0.3.0/verification.json) and the public demo support the factual project bullets below.
+
 Use the public repository and browser walkthrough as project links. The browser walkthrough is static; Docker runs the SQL worker and offline regression. Read `OWNERSHIP.md` before using first-person authorship claims: the current implementation is AI-assisted, and personal review/exercises remain pending.
 
 ## Resume project entry

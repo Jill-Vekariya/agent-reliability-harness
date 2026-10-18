@@ -1,0 +1,93 @@
+{
+  "assets": [
+    {
+      "browser_download_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/download/v0.3.0/browser-local.json",
+      "digest": "sha256:496d329a183c95d0641b486a254ebc36103baae23407e7163250eff01b6fb4a7",
+      "id": 654095942,
+      "name": "browser-local.json",
+      "size": 155
+    },
+    {
+      "browser_download_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/download/v0.3.0/browser-public.json",
+      "digest": "sha256:bbf0214c851e66711a978181f24dc817c9fc6e4fa6c5912984e1cc8c32db7cd8",
+      "id": 654095941,
+      "name": "browser-public.json",
+      "size": 438
+    },
+    {
+      "browser_download_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/download/v0.3.0/ci-workflows.json",
+      "digest": "sha256:834db14796c37090aba0967a3f65be332a0b694b627cfe44992b7992a5e7fd4f",
+      "id": 654095931,
+      "name": "ci-workflows.json",
+      "size": 36183
+    },
+    {
+      "browser_download_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/download/v0.3.0/offline-checks.png",
+      "digest": "sha256:dabc65bd579f85c1b95b17843f147d6d0b83ca4f48a5b85c79688d1ac0df42d0",
+      "id": 654095930,
+      "name": "offline-checks.png",
+      "size": 120939
+    },
+    {
+      "browser_download_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/download/v0.3.0/public-demo.png",
+      "digest": "sha256:ee51112dfd47bfee6865133f540e1764df1937ab02b6e2a017ebe32f1f4176ad",
+      "id": 654095898,
+      "name": "public-demo.png",
+      "size": 63069
+    },
+    {
+      "browser_download_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/download/v0.3.0/published-image.json",
+      "digest": "sha256:f1af6cd824fc56043d99cee68e4eb2a45bb94182c7edbdf5bc5ebaabc9dd7456",
+      "id": 654096005,
+      "name": "published-image.json",
+      "size": 7343
+    },
+    {
+      "browser_download_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/download/v0.3.0/runtime-probe.json",
+      "digest": "sha256:595d47f9247be15cbd399de47a597845973b6139a68281d20fc9bbfa4ca48087",
+      "id": 654096004,
+      "name": "runtime-probe.json",
+      "size": 3590
+    },
+    {
+      "browser_download_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/download/v0.3.0/SHA256SUMS",
+      "digest": "sha256:edd4cc37b946464525e8512a91909a72f24177709144252b304c5a1521c16d10",
+      "id": 654096023,
+      "name": "SHA256SUMS",
+      "size": 929
+    },
+    {
+      "browser_download_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/download/v0.3.0/trace-explorer.png",
+      "digest": "sha256:3bc73fb93cb3ab4252e59c94866107c476e77fb446e0c409d782a8153cd36ea9",
+      "id": 654096029,
+      "name": "trace-explorer.png",
+      "size": 69775
+    },
+    {
+      "browser_download_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/download/v0.3.0/verification.json",
+      "digest": "sha256:cec159e41ba6206c2c7e784e6619da0e7e6ae0b8c5070c01821affaef606a77c",
+      "id": 654096041,
+      "name": "verification.json",
+      "size": 6896
+    },
+    {
+      "browser_download_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/download/v0.3.0/viewer.json",
+      "digest": "sha256:3a9467ba0c2dd9b126a5c2582bea296c6a61c1bba27e233f6404ed8deec79fc7",
+      "id": 654096045,
+      "name": "viewer.json",
+      "size": 703
+    },
+    {
+      "browser_download_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/download/v0.3.0/windows-launcher.json",
+      "digest": "sha256:77487cb012ee52129ac85515e7f66396163fac358665d89e76738ed5104ce39a",
+      "id": 654096046,
+      "name": "windows-launcher.json",
+      "size": 3872
+    }
+  ],
+  "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/tag/v0.3.0",
+  "id": 416605780,
+  "published_at": "2026-10-18T17:52:01Z",
+  "tag_name": "v0.3.0",
+  "target_commitish": "main"
+}

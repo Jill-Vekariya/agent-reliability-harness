@@ -1,0 +1,29 @@
+{
+  "read_only": true,
+  "ports": {
+    "8501/tcp": [
+      {
+        "HostIp": "127.0.0.1",
+        "HostPort": "8501"
+      }
+    ]
+  },
+  "memory_bytes": 805306368,
+  "api_budget_usd": [
+    "API_BUDGET_USD=0"
+  ],
+  "captured_at": "2026-10-18T17:46:15.8828664Z",
+  "user": "10001:10001",
+  "nano_cpus": 2000000000,
+  "health": "healthy",
+  "security_options": [
+    "no-new-privileges:true"
+  ],
+  "image_id": "sha256:15b7c4c6ea5c73cdb38eab5a06c3aa82d8bb13e3dfb3ae86bceafcfb7bf15e5d",
+  "cap_drop": [
+    "ALL"
+  ],
+  "health_http": 200,
+  "image": "ghcr.io/jill-vekariya/agent-reliability-harness:0.3.0@sha256:15b7c4c6ea5c73cdb38eab5a06c3aa82d8bb13e3dfb3ae86bceafcfb7bf15e5d",
+  "pids_limit": 64
+}

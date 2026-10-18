@@ -1,5 +1,19 @@
 # Verified public delivery
 
+## Current verified delivery: v0.3.0
+
+The audit is now published through merged PR #9. Hosted PR, main/Pages, and tag/container workflows succeeded at release revision `2e0d20e36a5c507f951d2de1b63cab62d7e6007f`. The actual GHCR image passed 145 tests in 67.64 seconds, the 37-case offline gate (29/30 ordinary scripted matches), an anonymous inspection/pull, installed-source/checksum checks, and the documented non-root/read-only/network/resource probes. SPDX SBOM and SLSA provenance predicates are present.
+
+Current image: `ghcr.io/jill-vekariya/agent-reliability-harness:0.3.0@sha256:15b7c4c6ea5c73cdb38eab5a06c3aa82d8bb13e3dfb3ae86bceafcfb7bf15e5d`. The Windows launcher passed 145 tests in 59.16 seconds and the fixed regression. Public/mobile and local regression-button browser checks passed; the local viewer now runs the pinned 0.3.0 image at http://localhost:8501. Follow-up PR #10 and main run 39150428931 verified the Ubuntu 24.04 and Node 24 checkout/Pages maintenance.
+
+See `reports/releases/0.3.0/verification.json`, companion command outputs/screenshots, and `SHA256SUMS`. Pre-release audit evidence below keeps its original revision and source hash; package version metadata changed for 0.3.0 and is separately verified in the published-image probe. Human review, genuine held-out tasks, live model calls, and paid spend remain zero.
+
+The current hosted runs are [release PR](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39149568475), [release main/Pages](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39149726886), [tag/container](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39149733068), and [CI maintenance main/Pages](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39150428931). The tagged source selects version 0.3.0; verified main pins its immutable digest after publication.
+
+Release ID **416605780** includes 12 assets. The verification asset is **654096041** (SHA-256 `cec159e41ba6206c2c7e784e6619da0e7e6ae0b8c5070c01821affaef606a77c`); SHA256SUMS is asset **654096023**. Every uploaded asset digest was compared with its local bytes. See the [publication receipt](../reports/releases/0.3.0-receipt.json) for all IDs, URLs, sizes, and digests.
+
+## Historical 0.2.x delivery
+
 The 0.2.1 packaging patch removes a stale image name from the Windows test launcher. Its actual publication, verification, and immutable image digest are recorded in the [patch release](https://github.com/Jill-Vekariya/agent-reliability-harness/releases/tag/v0.2.1). The 0.2.0 evidence below is retained as historical evidence of the first public delivery.
 
 Read-only audit checks on 2026-10-18 reconfirmed v0.2.1 at `d3eb1e002afe99638df1cce60bda76a25148c7fa`: [main run 39129538947](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39129538947) and [tag run 39129542108](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39129542108) succeeded. The tag verify/container jobs succeeded; Pages was correctly skipped for the tag. The public walkthrough returned HTTP 200, and the existing released Docker viewer remained healthy. `reports/audit-external.json` records these reads; they do not validate the unpublished audit branch.

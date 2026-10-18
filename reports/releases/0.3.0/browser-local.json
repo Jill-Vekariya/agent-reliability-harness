@@ -1,0 +1,8 @@
+{
+  "title": "Agent Reliability Lab",
+  "browser_regression_button": "passed",
+  "screenshots": [
+    "trace-explorer.png",
+    "offline-checks.png"
+  ]
+}
