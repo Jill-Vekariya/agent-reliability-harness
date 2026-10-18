@@ -51,3 +51,26 @@ Replace the final sentence only with your actual contributions. You should be ab
 6. Update this resume entry with your actual contributions and the current verification evidence.
 
 These are user exercises, not automatically completed labels.
+
+## Factual project bullets and demonstration
+
+Use these as descriptions of the project. First-person contribution claims require your own completed work and understanding.
+
+* SQL-agent reliability harness with isolated SQLite execution, typed duplicate-aware grading, strict trace replay, and current-tool regression.
+* 145 automated engineering tests covering SQL authorization, process deadlines/cleanup, concurrent spending reservations, trace integrity, and incomplete campaign coverage; verified natively and in a network-disabled Docker container.
+* Public synthetic trace walkthrough, versioned GitHub/GHCR delivery, pinned runtime/data/dependencies, and recorded CI/container evidence. Human-reviewed benchmarking and live-model comparisons remain pending.
+
+Project: https://github.com/Jill-Vekariya/agent-reliability-harness
+
+Demo: https://jill-vekariya.github.io/agent-reliability-harness/
+
+| Time | Demonstrate and explain |
+|---|---|
+| 0-2 min | q001: attempt-local results and supported final answers |
+| 2-5 min | q002 and the separate scripted recovery: visible failure, no empirical retry-gain claim |
+| 5-8 min | s001 and the SQL worker: untrusted values, authorizer, read-only mode, process limits |
+| 8-11 min | Budget/resume tests: atomic exposure accounting, unknown charges, preserved incompatibility |
+| 11-13 min | Review/exposure manifests and missing-cohort test: no manufactured holdout or missing denominator |
+| 13-15 min | Actual CI/release evidence and the next scoped live experiment |
+
+Practice process supervision, SQLite transactions, typed contracts, and packaging for backend discussions; evaluation validity, provenance, leakage, and uncertainty for AI infrastructure discussions. Show code and actual evidence for each claim.
