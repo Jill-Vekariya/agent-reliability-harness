@@ -62,7 +62,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: printf '%s' "$GH_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
-      - uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # verified v6, 2026-10-18
+      - uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # verified v6, 2026-10-18
         id: push
         with:
           context: .
