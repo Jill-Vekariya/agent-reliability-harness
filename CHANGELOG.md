@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1 — Windows packaging correction
+
+* The Windows test launcher resolves its image from Compose instead of a stale hardcoded 0.1.0 tag. It also propagates regression failure and applies the PID limit to both test commands.
+* Maintainer browser-capture helpers wait for rendered controls and settled selection, avoiding timing failures during a fresh Streamlit render or smooth scroll.
+* Publication and published-image browser evidence from 0.2.0 are retained with their original identities; the patch's verification and image digest are recorded separately.
+
 ## 0.2.0 — public engineering release
 
 * Added a static browser walkthrough exported from four explicitly selected, hash-validated synthetic traces. Provider requests and evaluator gold are excluded; hostile HTML is escaped and DOM content uses text nodes.

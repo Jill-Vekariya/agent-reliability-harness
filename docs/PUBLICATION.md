@@ -1,5 +1,7 @@
 # Verified public delivery
 
+The 0.2.1 packaging patch removes a stale image name from the Windows test launcher. Its actual publication, verification, and immutable image digest are recorded in the [patch release](https://github.com/Jill-Vekariya/agent-reliability-harness/releases/tag/v0.2.1). The 0.2.0 evidence below is retained as historical evidence of the first public delivery.
+
 * Repository: https://github.com/Jill-Vekariya/agent-reliability-harness
 * Static browser walkthrough: https://jill-vekariya.github.io/agent-reliability-harness/
 * First public source/Pages workflow: https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39127910554 — successful verification and Pages deployment.
