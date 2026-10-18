@@ -2,7 +2,7 @@
 
 import sqlite3
 import uuid
-from decimal import ROUND_CEILING, Decimal
+from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
@@ -11,16 +11,31 @@ def micros(amount: str | Decimal) -> int:
     value = Decimal(amount)
     if not value.is_finite() or value < 0:
         raise ValueError("Amount must be finite and nonnegative")
-    return int((value * 1000000).to_integral_value(rounding=ROUND_CEILING))
+    numerator, denominator = value.as_integer_ratio()
+    return (numerator * 1000000 + denominator - 1) // denominator
+
+
+def cap_micros(amount: str) -> int:
+    value = Decimal(amount)
+    if not value.is_finite() or value < 0:
+        raise ValueError("Cap must be finite and nonnegative")
+    # Rounding authorization upward would create money the user never approved.
+    numerator, denominator = value.as_integer_ratio()
+    return numerator * 1000000 // denominator
 
 
 class BudgetExceeded(RuntimeError):
     pass
 
 
+def usd(amount: int) -> str:
+    whole, fraction = divmod(amount, 1000000)
+    return f"{whole}.{fraction:06d}".rstrip("0").rstrip(".")
+
+
 class Ledger:
     def __init__(self, path: Path, cap_usd: str, task_cap_usd: str) -> None:
-        self.path, self.cap, self.task_cap = path, micros(cap_usd), micros(task_cap_usd)
+        self.path, self.cap, self.task_cap = path, cap_micros(cap_usd), cap_micros(task_cap_usd)
         path.parent.mkdir(parents=True, exist_ok=True)
         with sqlite3.connect(path) as conn:
             conn.execute(
@@ -66,7 +81,11 @@ class Ledger:
                 return
             amount = micros(actual_usd)
             if amount > row[0]:
-                conn.execute("UPDATE reservations SET state='unknown' WHERE id=?", (key,))
+                # Preserve at least the observed exposure, even when a supposedly
+                # conservative bound was wrong. More requests remain blocked.
+                conn.execute(
+                    "UPDATE reservations SET reserved=?, state='unknown' WHERE id=?", (amount, key)
+                )
                 conn.commit()
                 raise BudgetExceeded("Actual charge exceeded conservative reservation")
             conn.execute(
@@ -79,7 +98,7 @@ class Ledger:
                 "SELECT COALESCE(SUM(actual),0), COALESCE(SUM(CASE WHEN actual IS NULL THEN reserved ELSE 0 END),0) FROM reservations"
             ).fetchone()
         return {
-            "settled_usd": str(Decimal(settled) / 1000000),
-            "reserved_usd": str(Decimal(unresolved) / 1000000),
-            "cap_usd": str(Decimal(self.cap) / 1000000),
+            "settled_usd": usd(settled),
+            "reserved_usd": usd(unresolved),
+            "cap_usd": usd(self.cap),
         }

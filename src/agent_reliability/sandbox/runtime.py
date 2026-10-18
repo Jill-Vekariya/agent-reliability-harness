@@ -60,7 +60,11 @@ class Sandbox:
             )
         if not isinstance(sql, str) or not sql.strip():
             return SQLResult(ok=False, error="SQL must be nonempty text", error_kind="arguments")
-        if len(sql.encode()) > self.limits.max_sql_bytes or "\x00" in sql:
+        try:
+            sql_bytes = sql.encode("utf-8")
+        except UnicodeEncodeError:
+            return SQLResult(ok=False, error="Invalid UTF-8 SQL", error_kind="arguments")
+        if len(sql_bytes) > self.limits.max_sql_bytes or "\x00" in sql:
             return SQLResult(ok=False, error="SQL size or encoding limit", error_kind="arguments")
         request = json.dumps(
             {
@@ -79,19 +83,20 @@ class Sandbox:
                 stdin=subprocess.PIPE,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.DEVNULL,
+                bufsize=0,
             )
             self.last_pid = proc.pid
             try:
                 assert proc.stdin is not None and proc.stdout is not None
-                proc.stdin.write(request)
-                proc.stdin.close()
-                # selectors on pipes is POSIX; Windows reference execution is Docker.
-                if os.name == "nt":
-                    raise RuntimeError("Use Docker on Windows for the isolated SQL worker")
                 chunks = bytearray()
                 deadline = time.monotonic() + self.limits.wall_seconds + 0.25
+                sent = 0
+                os.set_blocking(proc.stdin.fileno(), False)
+                os.set_blocking(proc.stdout.fileno(), False)
                 with selectors.DefaultSelector() as selector:
-                    selector.register(proc.stdout, selectors.EVENT_READ)
+                    selector.register(proc.stdout, selectors.EVENT_READ, "output")
+                    selector.register(proc.stdin, selectors.EVENT_WRITE, "input")
+                    eof = False
                     while True:
                         remaining = deadline - time.monotonic()
                         if remaining <= 0:
@@ -104,17 +109,34 @@ class Sandbox:
                         ready = selector.select(remaining)
                         if not ready:
                             continue
-                        part = os.read(proc.stdout.fileno(), 4096)
-                        if not part:
+                        for key, _ in ready:
+                            if key.data == "input":
+                                try:
+                                    sent += os.write(
+                                        proc.stdin.fileno(), request[sent : sent + 4096]
+                                    )
+                                except BrokenPipeError:
+                                    selector.unregister(proc.stdin)
+                                    proc.stdin.close()
+                                    continue
+                                if sent == len(request):
+                                    selector.unregister(proc.stdin)
+                                    proc.stdin.close()
+                            else:
+                                part = os.read(proc.stdout.fileno(), 4096)
+                                if not part:
+                                    eof = True
+                                    break
+                                chunks.extend(part)
+                                if len(chunks) > self.limits.max_output_bytes:
+                                    return SQLResult(
+                                        ok=False,
+                                        error="Worker output limit",
+                                        error_kind="resource",
+                                        resource_limited=True,
+                                    )
+                        if eof:
                             break
-                        chunks.extend(part)
-                        if len(chunks) > self.limits.max_output_bytes:
-                            return SQLResult(
-                                ok=False,
-                                error="Worker output limit",
-                                error_kind="resource",
-                                resource_limited=True,
-                            )
                 proc.wait(timeout=max(0.01, deadline - time.monotonic()))
                 if not chunks or proc.returncode:
                     return SQLResult(
@@ -124,11 +146,21 @@ class Sandbox:
                         resource_limited=bool(proc.returncode and proc.returncode < 0),
                     )
                 return SQLResult.model_validate_json(chunks)
-            except (ValueError, OSError, RuntimeError, subprocess.TimeoutExpired) as exc:
+            except subprocess.TimeoutExpired:
+                return SQLResult(
+                    ok=False,
+                    error="Parent wall deadline",
+                    error_kind="resource",
+                    resource_limited=True,
+                )
+            except (ValueError, OSError, RuntimeError) as exc:
                 return SQLResult(ok=False, error=str(exc)[:500], error_kind="worker")
             finally:
                 if proc.poll() is None:
-                    proc.terminate()
+                    try:
+                        proc.terminate()
+                    except ProcessLookupError:
+                        pass
                     try:
                         proc.wait(timeout=0.2)
                     except subprocess.TimeoutExpired:
@@ -136,3 +168,5 @@ class Sandbox:
                         proc.wait(timeout=1)
                 if proc.stdout:
                     proc.stdout.close()
+                if proc.stdin and not proc.stdin.closed:
+                    proc.stdin.close()

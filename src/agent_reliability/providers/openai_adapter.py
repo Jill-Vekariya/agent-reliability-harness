@@ -2,13 +2,27 @@
 
 import json
 import os
-from decimal import Decimal
+from copy import deepcopy
+from decimal import Decimal, InvalidOperation
+from fractions import Fraction
 from pathlib import Path
 from typing import Any
 
 from ..models import ProviderReply, ToolCall
 from ..util import canonical, digest
-from .budget import BudgetExceeded, Ledger
+from .budget import BudgetExceeded, Ledger, cap_micros, usd
+
+
+def priced_usd(pricing: dict[str, Any], prompt: int, cached: int, completion: int) -> str:
+    # Multiplying a per-million price by tokens gives microdollars directly.
+    # Rational arithmetic avoids Decimal-context rounding near a microdollar boundary.
+    exposure = (
+        (prompt - cached) * Fraction(Decimal(str(pricing["input_usd_per_million"])))
+        + cached * Fraction(Decimal(str(pricing["cached_input_usd_per_million"])))
+        + completion * Fraction(Decimal(str(pricing["output_usd_per_million"])))
+    )
+    amount = -(-exposure.numerator // exposure.denominator)
+    return usd(amount)
 
 
 def validate_approval(approval: dict[str, Any], config: dict[str, Any], tasks_hash: str) -> None:
@@ -28,14 +42,20 @@ def validate_approval(approval: dict[str, Any], config: dict[str, Any], tasks_ha
         raise BudgetExceeded("Approval does not match configuration or task corpus")
     if approval.get("model") != config.get("model") or approval.get("provider") != "openai":
         raise BudgetExceeded("Provider/model scope mismatch")
-    if Decimal(str(approval.get("budget_usd", "0"))) <= 0:
+    budget = Decimal(str(approval.get("budget_usd", "0")))
+    if not budget.is_finite() or budget <= 0:
         raise BudgetExceeded("Paid execution disabled: authorized budget is zero")
     for key in ("input_usd_per_million", "cached_input_usd_per_million", "output_usd_per_million"):
         value = Decimal(str(approval.get(key, "NaN")))
         if not value.is_finite() or value < 0:
             raise BudgetExceeded("Unknown or invalid pricing")
-    if int(approval.get("provider_context_window_tokens", 0)) <= 0:
+    context = approval.get("provider_context_window_tokens", 0)
+    if type(context) is not int or context <= 0:
         raise BudgetExceeded("A verified full provider context-window upper bound is required")
+    for name, default in (("max_output_tokens", 512), ("max_input_tokens", 8192)):
+        limit = config.get(name, default)
+        if type(limit) is not int or limit <= 0:
+            raise BudgetExceeded(f"{name} must be a positive integer")
     if Decimal(str(approval["cached_input_usd_per_million"])) > Decimal(
         str(approval["input_usd_per_million"])
     ):
@@ -57,12 +77,9 @@ class OpenAIProvider:
         client: Any = None,
     ) -> None:
         validate_approval(approval, config, tasks_hash)
-        environment_budget = Decimal(os.environ.get("API_BUDGET_USD", "0"))
-        if environment_budget <= 0 or ledger.cap > int(environment_budget * 1000000):
-            raise BudgetExceeded("API_BUDGET_USD must explicitly cover the authorized ledger cap")
-        if ledger.cap > int(Decimal(str(approval["budget_usd"])) * 1000000):
-            raise BudgetExceeded("Ledger cap exceeds approved cumulative cap")
-        self.approval, self.config, self.ledger, self.task_key = approval, config, ledger, task_key
+        self.approval, self.config = deepcopy(approval), deepcopy(config)
+        self.ledger, self.task_key, self.tasks_hash = ledger, task_key, tasks_hash
+        self._check_scope()
         if client is None:
             from openai import OpenAI
 
@@ -70,7 +87,19 @@ class OpenAIProvider:
         else:
             self.client = client
 
+    def _check_scope(self) -> None:
+        validate_approval(self.approval, self.config, self.tasks_hash)
+        try:
+            environment_cap = cap_micros(os.environ.get("API_BUDGET_USD", "0"))
+        except (ValueError, InvalidOperation) as exc:
+            raise BudgetExceeded("Invalid API_BUDGET_USD") from exc
+        if environment_cap <= 0 or self.ledger.cap > environment_cap:
+            raise BudgetExceeded("API_BUDGET_USD must explicitly cover the authorized ledger cap")
+        if self.ledger.cap > cap_micros(str(self.approval["budget_usd"])):
+            raise BudgetExceeded("Ledger cap exceeds approved cumulative cap")
+
     def complete(self, request: dict[str, Any]) -> ProviderReply:
+        self._check_scope()
         if request["model"] != self.config["model"]:
             raise BudgetExceeded("Request model changed after approval")
         output_cap = int(self.config.get("max_output_tokens", 512))
@@ -83,11 +112,8 @@ class OpenAIProvider:
             raise BudgetExceeded("Conservative input admission cap exceeded")
         pricing = self.approval
         context_cap = int(pricing["provider_context_window_tokens"])
-        upper = (
-            Decimal(context_cap) * Decimal(str(pricing["input_usd_per_million"]))
-            + Decimal(output_cap) * Decimal(str(pricing["output_usd_per_million"]))
-        ) / 1000000
-        key = self.ledger.reserve(self.task_key, str(upper))
+        upper = priced_usd(pricing, context_cap, 0, output_cap)
+        key = self.ledger.reserve(self.task_key, upper)
         try:
             response = self.client.chat.completions.create(
                 **request,
@@ -95,26 +121,23 @@ class OpenAIProvider:
                 n=1,
                 stream=False,
             )
-        except Exception:
+            usage = response.usage
+            if usage is None:
+                raise BudgetExceeded("Missing provider usage; charge remains reserved")
+            prompt, completion = usage.prompt_tokens, usage.completion_tokens
+            details = usage.prompt_tokens_details
+            cached = details.cached_tokens if details and details.cached_tokens is not None else 0
+            if (
+                any(type(value) is not int for value in (prompt, completion, cached))
+                or not (0 <= cached <= prompt <= context_cap)
+                or not (0 <= completion <= output_cap)
+            ):
+                raise BudgetExceeded("Usage outside verified billing bounds")
+            actual = priced_usd(pricing, prompt, cached, completion)
+        except BaseException:
+            # An operator interrupt after dispatch is uncertain billing too.
             self.ledger.reconcile(key, None)
             raise
-        usage = response.usage
-        if usage is None or usage.prompt_tokens is None or usage.completion_tokens is None:
-            self.ledger.reconcile(key, None)
-            raise BudgetExceeded("Missing provider usage; charge remains reserved")
-        details = usage.prompt_tokens_details
-        cached = details.cached_tokens if details and details.cached_tokens is not None else 0
-        if (
-            not (0 <= cached <= usage.prompt_tokens <= context_cap)
-            or usage.completion_tokens > output_cap
-        ):
-            self.ledger.reconcile(key, None)
-            raise BudgetExceeded("Usage outside verified billing bounds")
-        actual = (
-            Decimal(usage.prompt_tokens - cached) * Decimal(str(pricing["input_usd_per_million"]))
-            + Decimal(cached) * Decimal(str(pricing["cached_input_usd_per_million"]))
-            + Decimal(usage.completion_tokens) * Decimal(str(pricing["output_usd_per_million"]))
-        ) / 1000000
         self.ledger.reconcile(key, str(actual))
         choice = response.choices[0]
         calls = []

@@ -15,6 +15,10 @@ from agent_reliability.sandbox import Sandbox
         ("WITH x AS (SELECT 2 AS v) SELECT v FROM x", [[2]]),
         ("SELECT 'a;b'", [["a;b"]]),
         ("SELECT Name FROM Artist WHERE ArtistId=1", [["AC/DC"]]),
+        (
+            "SELECT ArtistId, ROW_NUMBER() OVER (ORDER BY ArtistId) AS n FROM Artist ORDER BY ArtistId LIMIT 2",
+            [[1, 1], [2, 2]],
+        ),
     ],
 )
 def test_legitimate(sandbox, sql, rows):
@@ -27,12 +31,19 @@ def test_legitimate(sandbox, sql, rows):
     "sql",
     [
         "DELETE FROM Artist",
+        "/* comment */ -- another comment\n DeLeTe FROM Artist",
+        "INSERT INTO Artist(ArtistId,Name) VALUES (9999,'blocked')",
+        "REPLACE INTO Artist(ArtistId,Name) VALUES (1,'blocked')",
+        "ALTER TABLE Artist ADD COLUMN injected TEXT",
         "dRoP TABLE Artist",
         "UPDATE Artist SET Name='bad'",
         "CREATE TABLE pwn(x)",
         "ATTACH DATABASE ':memory:' AS extra",
         "DETACH DATABASE main",
         "PRAGMA writable_schema=ON",
+        "PRAGMA table_info(Artist)",
+        "SELECT * FROM pragma_table_info('Artist')",
+        "SELECT * FROM temp.sqlite_master",
         "SELECT load_extension('missing')",
         "SELECT * FROM sqlite_master",
         "VACUUM",

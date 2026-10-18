@@ -11,7 +11,9 @@ from agent_reliability.tracing.recording import (
     RecordingMismatch,
     load_trace,
     save_trace,
+    strict_replay,
 )
+from agent_reliability.util import digest
 
 
 def test_regression_current_tools_and_no_network(sandbox, tmp_path, monkeypatch):
@@ -77,3 +79,75 @@ def test_no_gold_in_serialized_request(sandbox):
         '"dev"',
     ]:
         assert secret not in request
+
+
+@pytest.mark.parametrize(
+    "kind",
+    [
+        "root",
+        "missing_hash",
+        "inner_version",
+        "event_version",
+        "indices",
+        "payload",
+        "duplicate_key",
+        "missing_events",
+        "boolean_version",
+    ],
+)
+def test_malformed_recordings_are_domain_errors(sandbox, tmp_path, kind):
+    trace = SQLAgent(FixtureProvider([{"name": "list_tables", "arguments": {}}]), sandbox).run(
+        TaskInput(id="opaque", question="List tables")
+    )
+    path = tmp_path / "bad.json"
+    save_trace(path, trace)
+    envelope = json.loads(path.read_text())
+    if kind == "root":
+        envelope = []
+    elif kind == "missing_hash":
+        del envelope["payload_sha256"]
+    else:
+        if kind == "inner_version":
+            envelope["trace"]["schema_version"] = 2
+        elif kind == "event_version":
+            envelope["trace"]["events"][0]["schema_version"] = 2
+        elif kind == "indices":
+            envelope["trace"]["events"][0]["index"] = 7
+        elif kind == "payload":
+            envelope["trace"]["events"][0]["payload"] = {}
+        elif kind == "missing_events":
+            del envelope["trace"]["events"]
+        elif kind == "boolean_version":
+            envelope["trace"]["schema_version"] = True
+        envelope["payload_sha256"] = digest(envelope["trace"])
+    text = json.dumps(envelope)
+    if kind == "duplicate_key":
+        text = text.replace('"schema_version": 1', '"schema_version": 2, "schema_version": 1', 1)
+    path.write_text(text)
+    with pytest.raises(RecordingMismatch):
+        load_trace(path)
+
+
+def test_trusted_file_hash_rejects_rehashed_payload(sandbox, tmp_path):
+    from agent_reliability.util import file_hash
+
+    path = tmp_path / "signed-by-manifest.json"
+    trace = SQLAgent(FixtureProvider([]), sandbox).run(TaskInput(id="q", question="Example"))
+    save_trace(path, trace)
+    trusted = file_hash(path)
+    save_trace(path, trace.model_copy(update={"task_id": "changed"}))
+    with pytest.raises(RecordingMismatch):
+        strict_replay(path, trusted)
+
+
+def test_trace_size_limit_applies_before_json_and_trusted_replay(tmp_path, monkeypatch):
+    import agent_reliability.tracing.recording as recording
+
+    path = tmp_path / "oversized.json"
+    path.write_bytes(b" " * 1024)
+    with pytest.raises(RecordingMismatch, match="byte limit"):
+        load_trace(path, max_bytes=100)
+    # Prove strict replay uses the bounded loader rather than a separate read_bytes.
+    monkeypatch.setattr(type(path), "read_bytes", lambda self: pytest.fail("unbounded read"))
+    with pytest.raises(RecordingMismatch, match="trusted baseline"):
+        recording.strict_replay(path, "0" * 64)
