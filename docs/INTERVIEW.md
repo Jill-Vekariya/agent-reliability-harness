@@ -44,3 +44,23 @@ Answers should cite actual code/tests/artifacts rather than memorized performanc
 * **What did you personally build?** State the AI assistance, open the actual ownership log, and identify your own completed commits/reviews. Pending exercises are not contributions.
 
 For a resume entry and short spoken introduction, see `PORTFOLIO.md`.
+
+## Audit cases to explain from code
+
+| Question | Answer outline and evidence to open |
+|---|---|
+| Why does this project exist, and what has it proved? | Inspectable SQL-agent failures, protected execution, typed grading, and reproducible recordings. `README.md`, `docs/STATUS.md`. Engineering paths are tested; live-model benefit remains unmeasured. |
+| Why is an authorizer useful if SQLite is already read-only? | Read-only protects file writes; authorizer policy also restricts tables, schema access, functions, PRAGMA, and attachments. `sandbox/worker.py`, SQL rejection tests. Neither confines arbitrary Python. |
+| Can the parent deadline miss a hang? | The old blocking stdin write preceded the timer. The selector loop now includes input/output/waiting, then cleanup. Open `sandbox/runtime.py` and the blocked-input, output-flood, SIGTERM-resistant, and parent-interruption tests. Host death/process creation remain outside the guarantee. |
+| Why round authorization and exposure differently? | A USD 0.0000009 cap cannot authorize a USD 0.000001 reservation. Floor caps and ceil charges in integer microdollars; exact fractions avoid Decimal-context boundary rounding. Open `providers/budget.py`, `priced_usd`, budget/atomic-json tests. |
+| What if the provider bills but decoding fails? | Known usage settles before tool-response decoding. Missing/malformed usage, timeout, or operator interrupt after dispatch retains exposure and freezes new requests. `test_provider_hardening.py` uses fake transports only. |
+| Can a failed regression turn green on resume? | Previously the cached branch skipped compatibility checks. Both paths now compare recorded model payloads/errors; identity and manifest changes reject resume. Open the resumed-incompatibility and changed-cached-replay tests. |
+| Does a checksum establish authenticity? | A self-hash can be recomputed by an editor. Strict replay requires a trusted baseline/git hash and hashes/parses the same bounded bytes. Open `tracing/recording.py` and rehashed-payload tests. |
+| Why not simply split these 37 tasks into test/dev? | They are already public dev cases. `development_exposure.json` protects their connected groups; the draft test count is zero. New unexposed families and actual review are required. Near-duplicate heuristics are not semantic proof. |
+| Does a valid review packet prove human review? | It proves internally consistent attestations against current content, not identity or diligence. Reviewers/date/assessments/disagreements remain real human work. No automated promotion occurs. `evaluation/review.py`. |
+| Why retain an entirely unobserved task cohort? | Inferring denominators only from completed rows hides operational gaps. Planned identities/checkpoints distinguish reported, started-without-report, and never-started work; incomplete coverage suppresses headline results. Missing-cohort/live-interruption tests. |
+| What does first sample or recovery mean here? | First sample is repetition zero across tasks, distinct from all five repeated outcomes. Recovery is an observed successful attempt after a tool error, not a causal retry effect. Cite explicit numerator/denominator fields in `evaluation/statistics.py`. |
+| Why use family bootstrap and paired comparisons? | Related templates/repetitions are correlated. Resample whole families and preserve matching task/repetition coverage across configs. Few-family/degenerate intervals need disclosure; pass@5 still assumes an oracle. |
+| What would you change with more time? | Prioritize genuine gold review and unexposed families, then a scoped/priced live compatibility pilot, fresh paired study and actual failure labels. Avoid adding distributed infrastructure without a workload. |
+
+Practice by reproducing one case, drawing its trust boundary, predicting the failed assertion without the fix, and then showing the recorded test result. Do not claim these AI-assisted fixes as personal authorship or empirical model improvements.

@@ -23,20 +23,20 @@ class Limits(Model):
 
 
 class TaskInput(Model):
-    id: str
+    id: str = Field(pattern=r"^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$")
     question: str
     context: str = ""
 
 
 class EvaluationTask(Model):
     schema_version: int = 1
-    id: str
+    id: str = Field(pattern=r"^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$")
     question: str
     difficulty: Literal["easy", "medium", "hard"]
     category: Literal["ordinary", "injection", "prohibited", "resource", "clarification"]
     split: Literal["dev", "test"] = "dev"
     tags: list[str] = Field(default_factory=list)
-    family_id: str
+    family_id: str = Field(min_length=1, max_length=128)
     database_fixture_id: str = "chinook-v1.4.5"
     dataset_version: str = "candidate-0.1"
     gold_sql: str | None = None
@@ -45,8 +45,8 @@ class EvaluationTask(Model):
     expected_behavior: Literal["answer", "refuse", "clarify", "resource_limit"] = "answer"
     ordered: bool = False
     column_names_matter: bool = False
-    atol: float = Field(default=0.0, ge=0)
-    rtol: float = Field(default=0.0, ge=0)
+    atol: float = Field(default=0.0, ge=0, allow_inf_nan=False)
+    rtol: float = Field(default=0.0, ge=0, allow_inf_nan=False)
     tolerant_columns: list[int] = Field(default_factory=list)
     tie_policy: str = "not applicable"
     source: str = "AI-assisted original Chinook question; not Spider-adapted"
@@ -58,12 +58,29 @@ class EvaluationTask(Model):
 
     @model_validator(mode="after")
     def validate_task(self) -> "EvaluationTask":
+        if self.schema_version != 1:
+            raise ValueError("Unsupported task schema version")
         if self.review_status == "human_reviewed" and not self.reviewer:
             raise ValueError("Human-reviewed tasks require an actual reviewer")
         if self.expected_behavior == "answer" and not self.gold_sql:
             raise ValueError("Answer tasks require gold SQL")
         if self.category == "ordinary" and self.expected_behavior != "answer":
             raise ValueError("Ordinary accuracy is reserved for answer tasks")
+        if not self.question.strip():
+            raise ValueError("Question must not be empty")
+        if self.expected_behavior == "answer" and (
+            self.expected_result is None or not self.expected_columns
+        ):
+            raise ValueError("Answer tasks require explicit expected rows and columns")
+        if self.expected_result is not None and any(
+            len(row) != len(self.expected_columns) for row in self.expected_result
+        ):
+            raise ValueError("Expected row width must match column policy")
+        if len(set(self.tolerant_columns)) != len(self.tolerant_columns) or any(
+            type(index) is not int or not 0 <= index < len(self.expected_columns)
+            for index in self.tolerant_columns
+        ):
+            raise ValueError("Invalid numeric-tolerance column")
         return self
 
     def agent_input(self) -> TaskInput:
@@ -103,7 +120,7 @@ class Event(Model):
     kind: Literal["model", "tool", "termination"]
     payload: dict[str, Any]
     timestamp: str
-    latency_ms: float = 0.0
+    latency_ms: float = Field(default=0.0, ge=0, allow_inf_nan=False)
 
 
 class Trace(Model):
@@ -117,7 +134,7 @@ class Trace(Model):
     results: dict[str, SQLResult] = Field(default_factory=dict)
     final: dict[str, Any] | None = None
     termination: str = "incomplete"
-    latency_ms: float = 0.0
+    latency_ms: float = Field(default=0.0, ge=0, allow_inf_nan=False)
     cost_usd: str | None = None
     infrastructure_error: str | None = None
 

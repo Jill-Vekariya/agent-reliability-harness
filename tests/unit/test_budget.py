@@ -41,3 +41,43 @@ def test_reconcile_and_per_task_cap(tmp_path):
         ledger.reserve("t", "0.01")
     with pytest.raises(ValueError):
         ledger.reconcile(key, "0.1")
+
+
+def test_authorized_caps_round_down_while_exposure_rounds_up(tmp_path):
+    ledger = Ledger(tmp_path / "tiny.sqlite", "0.0000009", "1")
+    with pytest.raises(BudgetExceeded):
+        ledger.reserve("tiny", "0.0000001")
+    ledger = Ledger(tmp_path / "task.sqlite", "1", "0.0000019")
+    ledger.reserve("t", "0.0000001")
+    with pytest.raises(BudgetExceeded):
+        ledger.reserve("t", "0.0000001")
+
+
+def test_over_reservation_charge_is_visible_and_freezes_ledger(tmp_path):
+    ledger = Ledger(tmp_path / "overrun.sqlite", "1", "1")
+    key = ledger.reserve("t", "0.2")
+    with pytest.raises(BudgetExceeded):
+        ledger.reconcile(key, "0.3")
+    assert ledger.summary()["reserved_usd"] == "0.3"
+    with pytest.raises(BudgetExceeded):
+        ledger.reserve("other", "0.01")
+
+
+def test_interrupted_reservation_survives_reopen_and_verified_zero_settlement(tmp_path):
+    path = tmp_path / "crash.sqlite"
+    key = Ledger(path, "0.5", "0.5").reserve("attempt", "0.5")
+    reopened = Ledger(path, "0.5", "0.5")
+    with pytest.raises(BudgetExceeded):
+        reopened.reserve("next", "0.000001")
+    # Zero is a trusted reconciliation result, never an automatic timeout release.
+    reopened.reconcile(key, "0")
+    reopened.reserve("next", "0.5")
+
+
+@pytest.mark.parametrize("value", ["-1", "NaN", "Infinity"])
+def test_invalid_amount_does_not_release_outstanding_exposure(tmp_path, value):
+    ledger = Ledger(tmp_path / "invalid.sqlite", "1", "1")
+    key = ledger.reserve("t", "0.2")
+    with pytest.raises(ValueError):
+        ledger.reconcile(key, value)
+    assert ledger.summary()["reserved_usd"] == "0.2"
