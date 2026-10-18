@@ -1,6 +1,6 @@
 # Presenting this project honestly
 
-Verified release: [v0.3.0](https://github.com/Jill-Vekariya/agent-reliability-harness/releases/tag/v0.3.0), with 145 tests passing in hosted CI and in the anonymously downloaded Docker image. [Current evidence](../reports/releases/0.3.0/verification.json) and the public demo support the factual project bullets below.
+Verified release: [v0.3.1](https://github.com/Jill-Vekariya/agent-reliability-harness/releases/tag/v0.3.1), with 148 tests passing in hosted CI and in the anonymously downloaded Docker image. [Current evidence](../reports/releases/0.3.1/verification.json) and the public demo support the factual project bullets below.
 
 Use the public repository and browser walkthrough as project links. The browser walkthrough is static; Docker runs the SQL worker and offline regression. Read `OWNERSHIP.md` before using first-person authorship claims: the current implementation is AI-assisted, and personal review/exercises remain pending.
 
@@ -59,7 +59,7 @@ These are user exercises, not automatically completed labels.
 Use these as descriptions of the project. First-person contribution claims require your own completed work and understanding.
 
 * SQL-agent reliability harness with isolated SQLite execution, typed duplicate-aware grading, strict trace replay, and current-tool regression.
-* 145 automated engineering tests covering SQL authorization, process deadlines/cleanup, concurrent spending reservations, trace integrity, and incomplete campaign coverage; verified natively and in a network-disabled Docker container.
+* 148 automated engineering tests covering SQL authorization, process deadlines/cleanup, concurrent spending reservations, trace integrity, and incomplete campaign coverage; verified in hosted CI and in a network-disabled Docker container.
 * Public synthetic trace walkthrough, versioned GitHub/GHCR delivery, pinned runtime/data/dependencies, and recorded CI/container evidence. Human-reviewed benchmarking and live-model comparisons remain pending.
 
 Project: https://github.com/Jill-Vekariya/agent-reliability-harness

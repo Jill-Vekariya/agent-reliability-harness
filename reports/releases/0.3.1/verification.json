@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-18T18:17:02.508Z",
+  "release": "v0.3.1",
+  "release_source_revision": "394f42c2674d1d2135adaf0606f9fc789fef967c",
+  "image": {
+    "reference": "ghcr.io/jill-vekariya/agent-reliability-harness:0.3.1",
+    "digest": "sha256:4254993a830a5b827300f5c415fcbad4a1aaa4176c0a08130ff55cf02b8004da",
+    "pinned_reference": "ghcr.io/jill-vekariya/agent-reliability-harness:0.3.1@sha256:4254993a830a5b827300f5c415fcbad4a1aaa4176c0a08130ff55cf02b8004da",
+    "predicate_types": [
+      "https://spdx.dev/Document",
+      "https://slsa.dev/provenance/v1"
+    ],
+    "labels": {
+      "org.opencontainers.image.licenses": "MIT",
+      "org.opencontainers.image.revision": "394f42c2674d1d2135adaf0606f9fc789fef967c",
+      "org.opencontainers.image.source": "https://github.com/Jill-Vekariya/agent-reliability-harness",
+      "org.opencontainers.image.version": "v0.3.1"
+    }
+  },
+  "published_image_tests": {
+    "passed": 148,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 61.93,
+    "offline_all_gate_passed": true,
+    "ordinary_scripted_matches": 29,
+    "ordinary_scripted_tasks": 30,
+    "regressions": [],
+    "incompatible": []
+  },
+  "installed_source_matches_checkout": true,
+  "runtime_source_hash": "1a2f54ce76ed4bd4d6416c12b33d844eb99dccc065ac6eb13e53c3a6b8b60253",
+  "hosted_workflows": [
+    {
+      "name": "patch_pull_request",
+      "conclusion": "success",
+      "created_at": "2026-10-18T18:05:44Z",
+      "event": "pull_request",
+      "head_branch": "fix/demo-evidence",
+      "head_sha": "4f94ff7bc9f5e9dee35618a4db1cd8622d533233",
+      "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152580419",
+      "id": 39152580419,
+      "status": "completed",
+      "updated_at": "2026-10-18T18:07:46Z"
+    },
+    {
+      "name": "patch_main",
+      "conclusion": "success",
+      "created_at": "2026-10-18T18:08:01Z",
+      "event": "push",
+      "head_branch": "main",
+      "head_sha": "394f42c2674d1d2135adaf0606f9fc789fef967c",
+      "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152751839",
+      "id": 39152751839,
+      "status": "completed",
+      "updated_at": "2026-10-18T18:10:33Z"
+    },
+    {
+      "name": "patch_tag",
+      "conclusion": "success",
+      "created_at": "2026-10-18T18:08:06Z",
+      "event": "push",
+      "head_branch": "v0.3.1",
+      "head_sha": "394f42c2674d1d2135adaf0606f9fc789fef967c",
+      "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152759313",
+      "id": 39152759313,
+      "status": "completed",
+      "updated_at": "2026-10-18T18:11:27Z"
+    }
+  ],
+  "fresh_real_provider_attempts": 0,
+  "paid_api_spend_usd": "0",
+  "human_reviews": 0,
+  "genuine_heldout_tasks": 0,
+  "repository": "https://github.com/Jill-Vekariya/agent-reliability-harness",
+  "release_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/tag/v0.3.1",
+  "public_browser": {
+    "schema_version": 1,
+    "url": "https://jill-vekariya.github.io/agent-reliability-harness/",
+    "captured_at": "2026-10-18T18:20:02.736Z",
+    "four_case_controls": "passed",
+    "displayed_test_count": 148,
+    "evidence_release": "v0.3.1",
+    "desktop_capture_scroll_y": 0,
+    "supported_result": "passed",
+    "schema_failure": "passed",
+    "blocked_query": "passed",
+    "scripted_recovery": "passed",
+    "mobile_width": 375,
+    "horizontal_overflow": false,
+    "browser_exceptions": [],
+    "screenshot": "reports/screenshots/public-demo.png"
+  },
+  "local_browser": {
+    "title": "Agent Reliability Lab",
+    "browser_regression_button": "passed",
+    "engineering_release": "0.3.1",
+    "render_settled": "passed",
+    "screenshots": [
+      "trace-explorer.png",
+      "offline-checks.png"
+    ]
+  },
+  "viewer": {
+    "read_only": true,
+    "ports": {
+      "8501/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "8501"
+        }
+      ]
+    },
+    "memory_bytes": 805306368,
+    "captured_at": "2026-10-18T18:18:35.9714390Z",
+    "user": "10001:10001",
+    "nano_cpus": 2000000000,
+    "health": "healthy",
+    "security_options": [
+      "no-new-privileges:true"
+    ],
+    "image_id": "sha256:4254993a830a5b827300f5c415fcbad4a1aaa4176c0a08130ff55cf02b8004da",
+    "cap_drop": [
+      "ALL"
+    ],
+    "health_http": 200,
+    "image": "ghcr.io/jill-vekariya/agent-reliability-harness:0.3.1@sha256:4254993a830a5b827300f5c415fcbad4a1aaa4176c0a08130ff55cf02b8004da",
+    "pids_limit": 64
+  },
+  "public_counter_deployment": {
+    "conclusion": "success",
+    "created_at": "2026-10-18T18:17:08Z",
+    "event": "push",
+    "head_branch": "main",
+    "head_sha": "0faef7e43806ea9e9c8491df9218ee8f8ee665f8",
+    "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39153456023",
+    "id": 39153456023,
+    "status": "completed",
+    "updated_at": "2026-10-18T18:19:21Z"
+  },
+  "protected_references_unchanged_from": "d3eb1e002afe99638df1cce60bda76a25148c7fa",
+  "baseline_sha256": "34fb612ad121349e14ce0d30a79a113a1f4cfee4b662eb7e7086263547a7e248",
+  "limitations": "Engineering checks and synthetic traces are not live-model performance. Actual human review and an unexposed benchmark remain pending.",
+  "artifacts_sha256": {
+    "browser-local.json": "62dbacb886da118fe0235c8e45ea2132ce92c8357c780c9c0129eb753fa3a7d4",
+    "browser-public.json": "8154a55db8b56f9b4587ac277f79a4ceab62393add4c3841a4981525b8f239ae",
+    "ci-workflows.json": "c1d9000bdb02d78a003a8374398575ff22dd9fd6d8f3ea1e958f26e0536237f5",
+    "counter-deployment.json": "065fc7dfdfc7bb045630fa97d375447dd8c79aa0c7a79f2026abe55dc90e9272",
+    "engineering.json": "f12537f99b9a0ce917376969a581b555582e7cab5af7282b25e6283dc642ed86",
+    "offline-checks.png": "d645177a2c7ffbb011bd1f4e2b018819beedf6e0d8e689ca86a7b12247e42f0b",
+    "public-demo.png": "c5f4e8f620de4a0e4f0d0722eabaa57b771cc49efd7649e792c9244795808968",
+    "published-image.json": "9a241c200f2611aeb1cd123c7107f7f0c485c9b4e65352faa1b67d92cf675783",
+    "runtime-probe.json": "f0510b742249e7d38aeb21d91fbfb6116fb291d52994f5728b12d15617068a0a",
+    "trace-explorer.png": "2be22cc4ec60eabe1cc4568b55299439eee055b54d1be19c1ac712077c3b3d93",
+    "viewer.json": "cb0038a3b8aaada2e3aa3783cadab3484cfb19c218afd6d6838dc69142f612fc"
+  }
+}

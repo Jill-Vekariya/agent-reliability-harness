@@ -1,6 +1,16 @@
 # Verified public delivery
 
-## Current verified delivery: v0.3.0
+## Current verified delivery: v0.3.1
+
+Patch PR #11 fixed stale demo labels and incomplete screenshot captures. The viewer derives its label from package metadata; the public counter uses a checksum-bound release record and displays its release. Tampered paths/hashes and invalid Boolean counts are tested. The current public page shows **148 tests (v0.3.1)**; fresh screenshots were checked after rendering settled and scrolling reached the hero.
+
+Release source: `394f42c2674d1d2135adaf0606f9fc789fef967c`. Hosted PR/main/tag checks passed. The anonymously downloaded image passed **148 tests in 61.93 seconds**, all 37 offline cases passed their gate (29/30 ordinary scripted matches; no regressions/incompatibilities), and installed-source/resource/budget probes passed. Public desktop/mobile controls and the local 0.3.1 viewer regression button passed. Image: `ghcr.io/jill-vekariya/agent-reliability-harness:0.3.1@sha256:4254993a830a5b827300f5c415fcbad4a1aaa4176c0a08130ff55cf02b8004da`.
+
+Evidence, commands, probes, browser checks, screenshots, and checksums are in `reports/releases/0.3.1/`. The [publication receipt](../reports/releases/0.3.1-receipt.json) records actual uploaded asset identities/digests. Earlier release/audit evidence is retained with its original version and scope. Human reviews, genuine held-out tasks, real model attempts, and paid API spend remain zero.
+
+Current hosted evidence: [patch PR](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152580419), [patch main/Pages](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152751839), [patch tag/container](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152759313), and [public evidence deployment](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39153456023). The tagged source selects 0.3.1; verified main pins its actual digest.
+
+## Historical delivery: v0.3.0
 
 The audit is now published through merged PR #9. Hosted PR, main/Pages, and tag/container workflows succeeded at release revision `2e0d20e36a5c507f951d2de1b63cab62d7e6007f`. The actual GHCR image passed 145 tests in 67.64 seconds, the 37-case offline gate (29/30 ordinary scripted matches), an anonymous inspection/pull, installed-source/checksum checks, and the documented non-root/read-only/network/resource probes. SPDX SBOM and SLSA provenance predicates are present.
 
