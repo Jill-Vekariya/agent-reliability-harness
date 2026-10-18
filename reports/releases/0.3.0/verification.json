@@ -1,0 +1,174 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-18T17:49:40.390Z",
+  "release": "v0.3.0",
+  "repository": "https://github.com/Jill-Vekariya/agent-reliability-harness",
+  "release_source_revision": "2e0d20e36a5c507f951d2de1b63cab62d7e6007f",
+  "release_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/tag/v0.3.0",
+  "image": {
+    "reference": "ghcr.io/jill-vekariya/agent-reliability-harness:0.3.0",
+    "digest": "sha256:15b7c4c6ea5c73cdb38eab5a06c3aa82d8bb13e3dfb3ae86bceafcfb7bf15e5d",
+    "pinned_reference": "ghcr.io/jill-vekariya/agent-reliability-harness:0.3.0@sha256:15b7c4c6ea5c73cdb38eab5a06c3aa82d8bb13e3dfb3ae86bceafcfb7bf15e5d",
+    "anonymous_inspection": "passed (empty Docker credentials config; built-in manifest command)",
+    "anonymous_pull": "passed",
+    "predicate_types": [
+      "https://spdx.dev/Document",
+      "https://slsa.dev/provenance/v1"
+    ],
+    "labels": {
+      "org.opencontainers.image.licenses": "MIT",
+      "org.opencontainers.image.revision": "2e0d20e36a5c507f951d2de1b63cab62d7e6007f",
+      "org.opencontainers.image.source": "https://github.com/Jill-Vekariya/agent-reliability-harness",
+      "org.opencontainers.image.version": "v0.3.0"
+    }
+  },
+  "published_image_tests": {
+    "passed": 145,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 67.64,
+    "offline_all_gate_passed": true,
+    "ordinary_scripted_matches": 29,
+    "ordinary_scripted_tasks": 30,
+    "regressions": [],
+    "incompatible": []
+  },
+  "installed_source_matches_checkout": true,
+  "runtime_source_hash": "95f625dc154a39a7540c2cd1baaf82fa8dc331c6f4707e533e9e019a29a627a2",
+  "windows_launcher": "145 tests and fixed 20-task gate passed; see windows-launcher.json",
+  "hosted_workflows": [
+    {
+      "name": "release_pull_request",
+      "conclusion": "success",
+      "created_at": "2026-10-18T17:26:08Z",
+      "event": "pull_request",
+      "head_branch": "release/0.3.0",
+      "head_sha": "5119e22b0b558c875c661859cad8abd67b2be62c",
+      "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39149568475",
+      "id": 39149568475,
+      "status": "completed",
+      "updated_at": "2026-10-18T17:28:04Z"
+    },
+    {
+      "name": "release_main",
+      "conclusion": "success",
+      "created_at": "2026-10-18T17:28:17Z",
+      "event": "push",
+      "head_branch": "main",
+      "head_sha": "2e0d20e36a5c507f951d2de1b63cab62d7e6007f",
+      "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39149726886",
+      "id": 39149726886,
+      "status": "completed",
+      "updated_at": "2026-10-18T17:30:39Z"
+    },
+    {
+      "name": "release_tag",
+      "conclusion": "success",
+      "created_at": "2026-10-18T17:28:21Z",
+      "event": "push",
+      "head_branch": "v0.3.0",
+      "head_sha": "2e0d20e36a5c507f951d2de1b63cab62d7e6007f",
+      "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39149733068",
+      "id": 39149733068,
+      "status": "completed",
+      "updated_at": "2026-10-18T17:31:13Z"
+    },
+    {
+      "name": "maintenance_pull_request",
+      "conclusion": "success",
+      "created_at": "2026-10-18T17:32:49Z",
+      "event": "pull_request",
+      "head_branch": "maintenance/ci-runtime",
+      "head_sha": "0b9e3edc0fdc2c68204c07dd1892fa681e0ce5bd",
+      "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39150087120",
+      "id": 39150087120,
+      "status": "completed",
+      "updated_at": "2026-10-18T17:34:55Z"
+    },
+    {
+      "name": "maintenance_main",
+      "conclusion": "success",
+      "created_at": "2026-10-18T17:37:16Z",
+      "event": "push",
+      "head_branch": "main",
+      "head_sha": "d00e5e9c251002b7ddaf7a179b75a369f499d816",
+      "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39150428931",
+      "id": 39150428931,
+      "status": "completed",
+      "updated_at": "2026-10-18T17:38:59Z"
+    }
+  ],
+  "public_browser": {
+    "schema_version": 1,
+    "url": "https://jill-vekariya.github.io/agent-reliability-harness/",
+    "captured_at": "2026-10-18T17:39:06.132Z",
+    "four_case_controls": "passed",
+    "supported_result": "passed",
+    "schema_failure": "passed",
+    "blocked_query": "passed",
+    "scripted_recovery": "passed",
+    "mobile_width": 375,
+    "horizontal_overflow": false,
+    "browser_exceptions": [],
+    "screenshot": "reports/screenshots/public-demo.png"
+  },
+  "local_browser": {
+    "title": "Agent Reliability Lab",
+    "browser_regression_button": "passed",
+    "screenshots": [
+      "trace-explorer.png",
+      "offline-checks.png"
+    ]
+  },
+  "viewer": {
+    "read_only": true,
+    "ports": {
+      "8501/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "8501"
+        }
+      ]
+    },
+    "memory_bytes": 805306368,
+    "api_budget_usd": [
+      "API_BUDGET_USD=0"
+    ],
+    "captured_at": "2026-10-18T17:46:15.8828664Z",
+    "user": "10001:10001",
+    "nano_cpus": 2000000000,
+    "health": "healthy",
+    "security_options": [
+      "no-new-privileges:true"
+    ],
+    "image_id": "sha256:15b7c4c6ea5c73cdb38eab5a06c3aa82d8bb13e3dfb3ae86bceafcfb7bf15e5d",
+    "cap_drop": [
+      "ALL"
+    ],
+    "health_http": 200,
+    "image": "ghcr.io/jill-vekariya/agent-reliability-harness:0.3.0@sha256:15b7c4c6ea5c73cdb38eab5a06c3aa82d8bb13e3dfb3ae86bceafcfb7bf15e5d",
+    "pids_limit": 64
+  },
+  "protected_reference_files_unchanged": {
+    "base": "d3eb1e002afe99638df1cce60bda76a25148c7fa",
+    "count": 46,
+    "baseline_sha256": "34fb612ad121349e14ce0d30a79a113a1f4cfee4b662eb7e7086263547a7e248"
+  },
+  "fresh_real_provider_attempts": 0,
+  "paid_api_spend_usd": "0",
+  "human_reviews": 0,
+  "genuine_heldout_tasks": 0,
+  "limitations": "Synthetic engineering checks are not model performance. Actual human review, an unexposed benchmark, and scoped paid-model approval remain required.",
+  "artifacts_sha256": {
+    "browser-local.json": "496d329a183c95d0641b486a254ebc36103baae23407e7163250eff01b6fb4a7",
+    "browser-public.json": "bbf0214c851e66711a978181f24dc817c9fc6e4fa6c5912984e1cc8c32db7cd8",
+    "ci-workflows.json": "834db14796c37090aba0967a3f65be332a0b694b627cfe44992b7992a5e7fd4f",
+    "offline-checks.png": "dabc65bd579f85c1b95b17843f147d6d0b83ca4f48a5b85c79688d1ac0df42d0",
+    "public-demo.png": "ee51112dfd47bfee6865133f540e1764df1937ab02b6e2a017ebe32f1f4176ad",
+    "published-image.json": "f1af6cd824fc56043d99cee68e4eb2a45bb94182c7edbdf5bc5ebaabc9dd7456",
+    "runtime-probe.json": "595d47f9247be15cbd399de47a597845973b6139a68281d20fc9bbfa4ca48087",
+    "trace-explorer.png": "3bc73fb93cb3ab4252e59c94866107c476e77fb446e0c409d782a8153cd36ea9",
+    "viewer.json": "3a9467ba0c2dd9b126a5c2582bea296c6a61c1bba27e233f6404ed8deec79fc7",
+    "windows-launcher.json": "77487cb012ee52129ac85515e7f66396163fac358665d89e76738ed5104ce39a"
+  }
+}

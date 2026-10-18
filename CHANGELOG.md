@@ -7,7 +7,7 @@
 * Atomic JSON snapshots, bounded/schema-checked trusted replay, and resumed regression/provenance checks without changing reference recordings.
 * Blank human-review/adjudication packet, deterministic family/near-duplicate proposals, public-development exposure protection, and stronger test freezes.
 * Declared campaign coverage, interruption checkpoints, explicit denominators, per-configuration statistics, and playback/stale-report corrections.
-* Digest-pinned v0.2.1 Compose path, auditable offline/Docker evidence, and updated interview/documentation materials. Hosted publication is recorded separately after execution; no live-model experiment or human review is claimed.
+* Digest-pinned published-image path, auditable offline/Docker evidence, and updated interview/documentation materials. Published GHCR/Pages verification, image/control probes, and artifact checksums are recorded separately; no live-model experiment or human review is claimed.
 
 ## 0.2.1 — Windows packaging correction
 

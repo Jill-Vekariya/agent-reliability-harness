@@ -1,7 +1,7 @@
-# Versioned 0.3.0 release; verified main pins the digest after publication.
+# Verified v0.3.0 OCI index; source revision and verification are recorded in release evidence.
 services:
   viewer:
-    image: ghcr.io/jill-vekariya/agent-reliability-harness:0.3.0
+    image: ghcr.io/jill-vekariya/agent-reliability-harness:0.3.0@sha256:15b7c4c6ea5c73cdb38eab5a06c3aa82d8bb13e3dfb3ae86bceafcfb7bf15e5d
     ports: ["127.0.0.1:8501:8501"]
     read_only: true
     user: "10001:10001"
