@@ -8,7 +8,7 @@
 
 A Python SQL-agent harness over pinned Chinook SQLite, with isolated query execution, deterministic answer grading, trace recording, strict replay, current-tool regression, cost controls, and a no-key Streamlit demo.
 
-![Working localhost trace explorer](reports/screenshots/trace-explorer.png)
+![Public trace walkthrough](reports/screenshots/public-demo.png)
 
 Current delivery is **R0: offline engineering**. All bundled provider responses are **synthetic**. Live model accuracy/cost/safety tradeoffs and human review are **not yet measured**. The reviewed 150-task benchmark is a later evidence gate. The browser walkthrough displays saved examples; Docker executes the actual SQL worker and regression.
 
@@ -27,7 +27,7 @@ make demo
 
 Use `docker compose up --build -d` for the container path. The host port binds only to localhost. API_BUDGET_USD defaults to zero. No API key is needed.
 
-After the versioned container release is published, run the prebuilt image with:
+Run the verified prebuilt image with:
 
 ```bash
 docker compose -f compose.release.yaml up -d
@@ -82,7 +82,7 @@ The gold boundary is logical data separation, not a claim that arbitrary malicio
 | Pass@1, pass@5, flakiness, Pareto chart | Not yet measured |
 | Live ablations and safety outcomes | Not yet measured |
 | Human classifier agreement | Not yet measured |
-| Public delivery | GitHub source; static Pages walkthrough and GHCR image are tracked in Actions/releases |
+| Public delivery | GitHub source, verified static Pages walkthrough, and published GHCR image; [evidence](docs/PUBLICATION.md) |
 
 The target study is seven configurations using two models, with five fresh attempts on 60 test tasks: **2,100 planned agent attempts**, not API calls or completed measurements. Four leave-one-out ablations retain all mandatory protections. Never use synthetic fixture matches as a model success axis.
 

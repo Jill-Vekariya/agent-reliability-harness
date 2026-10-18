@@ -1,7 +1,7 @@
-# Use only after the versioned GHCR image is publicly available.
+# Verified public OCI index; the digest fixes the exact published image.
 services:
   viewer:
-    image: ghcr.io/jill-vekariya/agent-reliability-harness:0.2.0
+    image: ghcr.io/jill-vekariya/agent-reliability-harness:0.2.0@sha256:730eddd981aa3b658f51ab331bbd0b2f967be61a7fa5c2a0541e86a5dbcccc7d
     ports: ["127.0.0.1:8501:8501"]
     read_only: true
     user: "10001:10001"

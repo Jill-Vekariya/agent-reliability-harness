@@ -24,7 +24,7 @@ Screenshots are taken from the working application when available and stored und
 
 The static walkthrough is built by `make public-demo` from q001, q002, s001, and the separate recovery script. It accepts synthetic origins only, verifies recording hashes, excludes full provider requests and evaluator gold, escapes JSON embedded in HTML, and renders trace content through DOM text nodes. It has no SQL execution, API key, model endpoint, analytics, or external asset dependency. GitHub Pages deployment and tagged GHCR publication depend on the required verification job. Consult actual Actions/release outcomes before describing a publication as successful.
 
-Use `docker compose -f compose.release.yaml up -d` after the 0.2.0 GHCR release becomes public. It uses the bundled pinned data and a dedicated reports volume. It exposes only localhost. To stop it, use the same Compose file with `down`.
+Use `docker compose -f compose.release.yaml up -d` to run the public 0.2.0 GHCR image pinned by digest. It uses the bundled pinned data and a dedicated reports volume. It exposes only localhost. To stop it, use the same Compose file with `down`. Actual publication and browser verification are documented in `PUBLICATION.md`.
 
 The image is Linux AMD64. Source builds remain available for other Docker platforms. Build provenance and SBOM generation are configured on the tagged publishing job; the published digest and actual job result are the evidence.
 
