@@ -31,7 +31,11 @@ const send = (method, params = {}) => new Promise((resolve, reject) => {
   pending.set(id, {resolve, reject});
   ws.send(JSON.stringify({id, method, params}));
 });
-const evaluate = async expression => (await send('Runtime.evaluate', {expression, returnByValue: true})).result.value;
+const evaluate = async expression => {
+  const response = await send('Runtime.evaluate', {expression, returnByValue: true});
+  if (response.exceptionDetails) throw new Error(JSON.stringify(response.exceptionDetails));
+  return response.result.value;
+};
 const waitText = async text => {
   for (let i = 0; i < 80; i++) {
     if (await evaluate(`document.body.innerText.includes(${JSON.stringify(text)})`)) return;
@@ -40,7 +44,13 @@ const waitText = async text => {
   throw new Error('Expected demo state missing: ' + text);
 };
 const clickText = async (selector, text) => {
-  const point = await evaluate(`(() => {const e=Array.from(document.querySelectorAll(${JSON.stringify(selector)})).find(x=>x.innerText.includes(${JSON.stringify(text)})); if(!e) throw new Error('Missing control'); e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return {x:r.x+r.width/2,y:r.y+r.height/2};})()`);
+  let point;
+  for (let i = 0; i < 80; i++) {
+    point = await evaluate(`(() => {const e=Array.from(document.querySelectorAll(${JSON.stringify(selector)})).find(x=>x.innerText.includes(${JSON.stringify(text)})); if(!e || e.disabled) return null; e.scrollIntoView({behavior:'instant',block:'center'}); const r=e.getBoundingClientRect(); return r.width && r.height ? {x:r.x+r.width/2,y:r.y+r.height/2} : null;})()`);
+    if (point) break;
+    await new Promise(resolve => setTimeout(resolve, 250));
+  }
+  if (!point) throw new Error('Renderable demo control missing: ' + text);
   await send('Input.dispatchMouseEvent', {type:'mousePressed',button:'left',clickCount:1,...point});
   await send('Input.dispatchMouseEvent', {type:'mouseReleased',button:'left',clickCount:1,...point});
 };
@@ -55,7 +65,7 @@ const capture = async name => {
   const result = await send('Page.captureScreenshot', {format: 'png', captureBeyondViewport: false});
   fs.writeFileSync(path.join(directory, name), Buffer.from(result.data, 'base64'));
 };
-await evaluate('window.scrollTo(0,0)');
+await evaluate('window.scrollTo({top:0,behavior:"instant"})');
 await capture('trace-explorer.png');
 await clickText('[role=tab]', 'Study & checks');
 await waitText('Evidence before claims');
