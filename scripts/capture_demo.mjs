@@ -54,11 +54,19 @@ const clickText = async (selector, text) => {
   await send('Input.dispatchMouseEvent', {type:'mousePressed',button:'left',clickCount:1,...point});
   await send('Input.dispatchMouseEvent', {type:'mouseReleased',button:'left',clickCount:1,...point});
 };
+const waitSettled = async () => {
+  for (let i=0;i<120;i++) {
+    if (await evaluate('document.querySelectorAll("[data-testid=stMetricValue]").length >= 4 && document.querySelectorAll("[data-testid=stSkeleton]").length === 0 && !Array.from(document.querySelectorAll("button")).some(b => b.innerText.trim() === "Stop" && b.offsetParent !== null)')) return;
+    await new Promise(resolve=>setTimeout(resolve,250));
+  }
+  throw new Error("Viewer did not finish rendering");
+};
 await send('Page.enable');
 await send('Emulation.setDeviceMetricsOverride', {width: 1440, height: 1100, deviceScaleFactor: 1, mobile: false});
 await waitText('Make agent behavior inspectable.');
 await clickText('[role=tab]', 'Trace explorer');
 await waitText('How many artists are in the database?');
+await waitSettled();
 const directory = path.resolve('reports/screenshots');
 fs.mkdirSync(directory, {recursive: true});
 const capture = async name => {
@@ -71,6 +79,7 @@ await clickText('[role=tab]', 'Study & checks');
 await waitText('Evidence before claims');
 await clickText('button', 'Run the 20-task offline regression');
 await waitText('Engineering regression gate passed.');
+await waitSettled();
 await capture('offline-checks.png');
 console.log(JSON.stringify({title: await evaluate('document.title'), browser_regression_button: 'passed', screenshots: ['trace-explorer.png', 'offline-checks.png']}));
 // This Browser.close targets only the dedicated headless instance on port 9239.

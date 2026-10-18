@@ -1,7 +1,7 @@
 services:
   viewer:
     build: .
-    image: agent-reliability-harness:0.3.0
+    image: agent-reliability-harness:0.3.1
     ports:
       - "127.0.0.1:8501:8501"
     read_only: true
