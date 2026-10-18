@@ -4,9 +4,11 @@ from pathlib import Path
 
 import streamlit as st
 
+from agent_reliability import __version__
 from agent_reliability.cli import project_root
 from agent_reliability.evaluation.tasks import load_tasks
 from agent_reliability.models import Trace
+from agent_reliability.reporting.public_demo import published_verification
 from agent_reliability.runner import run_offline
 from agent_reliability.tracing.recording import load_trace
 
@@ -66,7 +68,7 @@ def show_trace(trace: Trace, *, compact: bool = False) -> None:
             )
 
 
-st.caption("AGENT RELIABILITY HARNESS / ENGINEERING RELEASE 0.2")
+st.caption(f"AGENT RELIABILITY HARNESS / ENGINEERING RELEASE {__version__}")
 st.title("Make agent behavior inspectable.")
 st.markdown("Follow the SQL, inspect a failure, and check the boundary that stopped it.")
 st.info(
@@ -196,9 +198,8 @@ with status:
                 "Regression gate failed; inspect incompatible traces and per-task regressions."
             )
         st.json({k: v for k, v in result.items() if k != "rows"}, expanded=False)
-    with st.expander("Recorded release evidence"):
-        evidence = ROOT / "reports/release-evidence.json"
-        if evidence.exists():
-            st.json(json.loads(evidence.read_text()), expanded=False)
-        else:
-            st.info("Release evidence is still being collected.")
+    with st.expander("Published release evidence"):
+        st.json(published_verification(ROOT), expanded=False)
+        st.markdown(
+            f"[Release {__version__} details](https://github.com/Jill-Vekariya/agent-reliability-harness/releases/tag/v{__version__})"
+        )

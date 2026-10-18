@@ -7,6 +7,7 @@ from conftest import ROOT
 
 from agent_reliability.reporting.public_demo import build, public_payload, safe_json
 from agent_reliability.tracing.recording import RecordingMismatch, load_trace, save_trace
+from agent_reliability.util import file_hash
 
 
 def test_public_export_omits_provider_requests_gold_and_live_measurements(tmp_path):
@@ -21,6 +22,8 @@ def test_public_export_omits_provider_requests_gold_and_live_measurements(tmp_pa
     assert "Content-Security-Policy" in html
     assert "innerHTML" not in html
     assert payload["reviewed_tasks"] == 0
+    assert payload["verification"]["test_counts"]["passed"] > 64
+    assert payload["verification"]["release"].startswith("v")
 
 
 def copy_export_inputs(destination: Path) -> None:
@@ -51,11 +54,40 @@ def test_script_closing_and_html_payload_are_inert_json():
 
 def test_export_reports_incomplete_verification_without_inventing_test_count(tmp_path):
     copy_export_inputs(tmp_path)
-    evidence = tmp_path / "reports/release-evidence.json"
+    index_path = tmp_path / "reports/public-evidence.json"
+    index = json.loads(index_path.read_text())
+    evidence = tmp_path / "reports" / index["source"]
     record = json.loads(evidence.read_text())
-    record["commands"] = []
-    record["all_checks_passed"] = False
+    record["published_image_tests"] = {}
     evidence.write_text(json.dumps(record))
+    index["sha256"] = file_hash(evidence)
+    index_path.write_text(json.dumps(index))
     payload = public_payload(tmp_path)
     assert payload["verification"]["test_counts"] is None
     assert payload["verification"]["all_checks_passed"] is False
+
+
+@pytest.mark.parametrize("fault", ["escaped_path", "changed_hash"])
+def test_public_release_evidence_rejects_invalid_reference(tmp_path, fault):
+    copy_export_inputs(tmp_path)
+    path = tmp_path / "reports/public-evidence.json"
+    record = json.loads(path.read_text())
+    record["source" if fault == "escaped_path" else "sha256"] = (
+        "../outside.json" if fault == "escaped_path" else "0" * 64
+    )
+    path.write_text(json.dumps(record))
+    with pytest.raises(ValueError, match="evidence"):
+        public_payload(tmp_path)
+
+
+def test_public_release_count_cannot_be_boolean(tmp_path):
+    copy_export_inputs(tmp_path)
+    path = tmp_path / "reports/public-evidence.json"
+    index = json.loads(path.read_text())
+    source = tmp_path / "reports" / index["source"]
+    record = json.loads(source.read_text())
+    record["published_image_tests"]["passed"] = True
+    source.write_text(json.dumps(record))
+    index["sha256"] = file_hash(source)
+    path.write_text(json.dumps(index))
+    assert public_payload(tmp_path)["verification"]["test_counts"] is None

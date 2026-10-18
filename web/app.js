@@ -69,6 +69,7 @@ function selectCase(id, updateHash = true) {
   if (updateHash) history.replaceState(null, "", `#case=${item.id}`);
 }
 byId("test-count").textContent = data.verification.test_counts?.passed ?? "—";
+byId("test-evidence-label").textContent = `engineering tests (${data.verification.release || "legacy evidence"})`;
 byId("candidate-count").textContent = data.candidate_tasks;
 byId("review-count").textContent = data.reviewed_tasks;
 byId("verification").textContent = data.verification.all_checks_passed ? `Required checks passed · ${data.verification.captured_at.slice(0, 10)}` : "Release checks need attention; inspect repository evidence";
