@@ -4,7 +4,7 @@ SQL agents can return plausible answers after a bad query, an unsafe proposal, o
 
 Its contribution is an offline-first harness combining a protected SQL worker, typed result grading, exact trace replay, current-tool regression, and conservative spending controls. **It has not yet established a live-model reliability or cost improvement.**
 
-[Browser walkthrough](https://jill-vekariya.github.io/agent-reliability-harness/) · [Published v0.2.1](https://github.com/Jill-Vekariya/agent-reliability-harness/releases/tag/v0.2.1) · [Audit findings](docs/AUDIT.md) · [Evidence and remaining work](docs/STATUS.md)
+[Browser walkthrough](https://jill-vekariya.github.io/agent-reliability-harness/) · [Releases](https://github.com/Jill-Vekariya/agent-reliability-harness/releases) · [Audit findings](docs/AUDIT.md) · [Evidence and remaining work](docs/STATUS.md)
 
 ## Architecture
 
@@ -41,7 +41,7 @@ Python 3.12.14, dependencies, and database checksums are pinned. No API key is n
 docker compose -f compose.release.yaml up -d
 ```
 
-The release configuration pins the verified **v0.2.1 digest**. It runs that published artifact; the changes on `audit/hardening-review` remain unpublished. The image targets Linux AMD64; other architectures can build from source.
+The release configuration currently pins the verified **v0.2.1 digest** while v0.3.0 is prepared. Build the checkout to use the audited source. The pin is updated after actual publication. The image targets Linux AMD64; other architectures can build from source.
 
 ## Demo
 
@@ -63,7 +63,7 @@ The [public walkthrough](https://jill-vekariya.github.io/agent-reliability-harne
 | Repeated-sample statistics and reporting | Synthetic coverage tests; incomplete plans suppress headline metrics |
 | Viewer, Docker, CI, static delivery, OTel export | Existing released checks plus separate local audit evidence |
 
-The audit's [local command results](reports/audit-evidence.json), [Docker results](reports/audit-desktop.json), and [external checks](reports/audit-external.json) have different scopes. Hosted v0.2.1 success does **not** verify unpublished audit changes. [STATUS.md](docs/STATUS.md) records exact counts, commands, and blockers.
+The audit's [local command results](reports/audit-evidence.json), [Docker results](reports/audit-desktop.json), and [external checks](reports/audit-external.json) have different scopes. The audit passed **145 tests natively and in Docker**. Hosted v0.2.1 success does **not** verify later code; the v0.3.0 release is checked separately. [STATUS.md](docs/STATUS.md) records exact counts, commands, and blockers.
 
 ## Benchmark and experiment status
 

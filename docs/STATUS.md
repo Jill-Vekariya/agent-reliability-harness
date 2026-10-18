@@ -41,7 +41,7 @@ Fresh real provider attempts: **0**. Paid API spend: **USD 0**. Human task revie
 1. Actual reviewers must verify SQL/results, ambiguity, difficulty, safety, and provenance using `reviews/benchmark-candidates.json`. Validation checks attestations, not identities.
 2. All 37 tasks are development-exposed; a clean holdout needs genuinely new families. The target 150-task corpus, 20 sourced Spider adaptations, licenses/review, and final grouping remain incomplete.
 3. Exact models, official prices/context bounds, credentials, scoped user approval, and a nonzero cap are required before a pilot. No active approval/freeze was fabricated.
-4. Publishing the audit requires explicit authorization under the supplied mission. Local commits/checks do not authorize a push, deployment, or release.
+4. The user subsequently authorized completing GitHub/container publication. The v0.3.0 follow-up is tracked separately; hosted success is recorded only after execution. This does not authorize paid-model spending or substitute for human review.
 5. Personal ownership exercises and actual held-out failure labels remain uncompleted.
 
 ## F. Remaining risks

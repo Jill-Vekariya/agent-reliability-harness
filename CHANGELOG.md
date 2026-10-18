@@ -1,13 +1,13 @@
 # Changelog
 
-## Unreleased — audit hardening
+## 0.3.0 — audit hardening
 
 * Exact authorization/exposure rounding, conservative malformed-usage/interrupt accounting, request-time scope checks, and visible overruns.
 * Nonblocking worker input/output under the parent deadline; broader SQL, lifecycle, cleanup, and trace-integrity tests.
 * Atomic JSON snapshots, bounded/schema-checked trusted replay, and resumed regression/provenance checks without changing reference recordings.
 * Blank human-review/adjudication packet, deterministic family/near-duplicate proposals, public-development exposure protection, and stronger test freezes.
 * Declared campaign coverage, interruption checkpoints, explicit denominators, per-configuration statistics, and playback/stale-report corrections.
-* Digest-pinned v0.2.1 Compose path, auditable offline/Docker evidence, and updated interview/documentation materials. Audit changes remain unpublished; no live-model experiment or human review is claimed.
+* Digest-pinned v0.2.1 Compose path, auditable offline/Docker evidence, and updated interview/documentation materials. Hosted publication is recorded separately after execution; no live-model experiment or human review is claimed.
 
 ## 0.2.1 — Windows packaging correction
 
