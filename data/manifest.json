@@ -1,0 +1,23 @@
+{
+  "dataset_id": "chinook-v1.4.5",
+  "source_url": "https://github.com/lerocha/chinook-database/releases/download/v1.4.5/Chinook_Sqlite.sqlite",
+  "release": "v1.4.5",
+  "download_sha256": "bdf635be69850bd3be09c9a2dbeef7ddfb80036bd3ef3381383cd03b61e4a61a",
+  "database_sha256": "bdf635be69850bd3be09c9a2dbeef7ddfb80036bd3ef3381383cd03b61e4a61a",
+  "schema_sha256": "be40019060fd3dac8334ff3acb40a13016cb18583ffa6501ed79e15ab22f467e",
+  "sqlite_version_observed": "3.53.1",
+  "row_counts": {
+    "Album": 347,
+    "Artist": 275,
+    "Customer": 59,
+    "Employee": 8,
+    "Genre": 25,
+    "Invoice": 412,
+    "InvoiceLine": 2240,
+    "MediaType": 5,
+    "Playlist": 18,
+    "PlaylistTrack": 8715,
+    "Track": 3503
+  },
+  "license": "MIT (upstream LICENSE.md; retained under data/LICENSE.chinook.md)"
+}
