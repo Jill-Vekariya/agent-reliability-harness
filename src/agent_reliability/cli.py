@@ -50,6 +50,22 @@ def main() -> None:
         required=True,
         help="JSON list of dev traces used to design classifier",
     )
+    review_export = sub.add_parser(
+        "review-export", help="Export a blank, provenance-bound benchmark review packet"
+    )
+    review_export.add_argument("--output", type=Path, required=True)
+    review_check = sub.add_parser(
+        "review-check", help="Validate review attestations without modifying task metadata"
+    )
+    review_check.add_argument("--packet", type=Path, required=True)
+    review_check.add_argument("--require-complete", action="store_true")
+    split_plan = sub.add_parser(
+        "split-plan", help="Draft groups while preserving development exposure history"
+    )
+    split_plan.add_argument("--output", type=Path, required=True)
+    split_plan.add_argument("--seed", type=int, default=20261018)
+    split_check = sub.add_parser("split-check")
+    split_check.add_argument("--manifest", type=Path, required=True)
     args = parser.parse_args()
     root = project_root()
     try:
@@ -123,18 +139,54 @@ def main() -> None:
             excluded = set(json.loads(args.exclude.read_text()))
             count = blinded_export(rows, args.output, excluded)
             print(f"Exported {count}/50 eligible genuine dev failures. Human labels pending.")
+        elif args.command == "review-export":
+            from .evaluation.review import export_review
+
+            export_review(root, args.output)
+            print(f"Blank candidate review packet: {args.output}. No tasks marked reviewed.")
+        elif args.command == "review-check":
+            from .evaluation.review import check_reviews
+
+            result = check_reviews(root, json.loads(args.packet.read_text()))
+            print(json.dumps(result, indent=2))
+            if result["errors"] or (
+                args.require_complete and not result["ready_for_metadata_review"]
+            ):
+                sys.exit(1)
+        elif args.command == "split-plan":
+            from .evaluation.review import grouped_split
+            from .util import write_json
+
+            if args.output.exists():
+                raise ValueError("Split proposal already exists; preserve prior review")
+            result = grouped_split(root, seed=args.seed)
+            write_json(args.output, result)
+            print(
+                json.dumps(
+                    {
+                        key: result[key]
+                        for key in ("status", "target_test_count", "actual_test_count", "blockers")
+                    },
+                    indent=2,
+                )
+            )
+        elif args.command == "split-check":
+            from .evaluation.review import check_grouped_split
+
+            errors = check_grouped_split(root, json.loads(args.manifest.read_text()))
+            print(json.dumps({"errors": errors, "human_review_implied": False}, indent=2))
+            if errors:
+                sys.exit(1)
         elif args.command == "eval-live":
             from .live import run_live
 
             config = yaml.safe_load(args.config.read_text())
-            print(
-                json.dumps(
-                    run_live(
-                        root, config, args.approval, args.split, args.repetitions, args.resume
-                    ),
-                    indent=2,
-                )
+            result = run_live(
+                root, config, args.approval, args.split, args.repetitions, args.resume
             )
+            print(json.dumps(result, indent=2))
+            if not result["complete"]:
+                sys.exit(1)
     except Exception as exc:
         print(f"{type(exc).__name__}: {exc}", file=sys.stderr)
         sys.exit(1)

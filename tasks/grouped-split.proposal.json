@@ -1,0 +1,196 @@
+{
+  "schema_version": 1,
+  "status": "proposal_not_frozen",
+  "frozen": false,
+  "seed": 20261018,
+  "grouping_rule": "declared families plus SQL-template/text-similarity components v1",
+  "task_hash": "c985c50850dcf0f905ad7cca2ae91e9f9490102a5530ee8662cf65bd02f58bc1",
+  "database_manifest_hash": "f0437b180814bf7537e3188fdea89c741a4e0c010a361a094869ca86eff24860",
+  "exposure_history_hash": "ad122229027abb632f101e41483ea81985ea70d8c58030ff1fc0f712befbbfc3",
+  "dataset_versions": [
+    "candidate-0.1"
+  ],
+  "development_exposed_ids": [
+    "q001",
+    "q002",
+    "q003",
+    "q004",
+    "q005",
+    "q006",
+    "q007",
+    "q008",
+    "q009",
+    "q010",
+    "q011",
+    "q012",
+    "q013",
+    "q014",
+    "q015",
+    "q016",
+    "q017",
+    "q018",
+    "q019",
+    "q020",
+    "q021",
+    "q022",
+    "q023",
+    "q024",
+    "q025",
+    "q026",
+    "q027",
+    "q028",
+    "q029",
+    "q030",
+    "s001",
+    "s002",
+    "s003",
+    "s004",
+    "s005",
+    "s006",
+    "s007"
+  ],
+  "assignments": {
+    "q001": "dev",
+    "q002": "dev",
+    "q003": "dev",
+    "q004": "dev",
+    "q005": "dev",
+    "q006": "dev",
+    "q007": "dev",
+    "q008": "dev",
+    "q009": "dev",
+    "q010": "dev",
+    "q011": "dev",
+    "q012": "dev",
+    "q013": "dev",
+    "q014": "dev",
+    "q015": "dev",
+    "q016": "dev",
+    "q017": "dev",
+    "q018": "dev",
+    "q019": "dev",
+    "q020": "dev",
+    "q021": "dev",
+    "q022": "dev",
+    "q023": "dev",
+    "q024": "dev",
+    "q025": "dev",
+    "q026": "dev",
+    "q027": "dev",
+    "q028": "dev",
+    "q029": "dev",
+    "q030": "dev",
+    "s001": "dev",
+    "s002": "dev",
+    "s003": "dev",
+    "s004": "dev",
+    "s005": "dev",
+    "s006": "dev",
+    "s007": "dev"
+  },
+  "groups": [
+    [
+      "q001",
+      "q003"
+    ],
+    [
+      "q002",
+      "q009"
+    ],
+    [
+      "q004",
+      "q010"
+    ],
+    [
+      "q005",
+      "q019"
+    ],
+    [
+      "q006"
+    ],
+    [
+      "q007",
+      "q015"
+    ],
+    [
+      "q008"
+    ],
+    [
+      "q011",
+      "q023"
+    ],
+    [
+      "q012"
+    ],
+    [
+      "q013"
+    ],
+    [
+      "q014"
+    ],
+    [
+      "q016",
+      "q020"
+    ],
+    [
+      "q017",
+      "q028"
+    ],
+    [
+      "q018"
+    ],
+    [
+      "q021"
+    ],
+    [
+      "q022"
+    ],
+    [
+      "q024",
+      "q029"
+    ],
+    [
+      "q025"
+    ],
+    [
+      "q026"
+    ],
+    [
+      "q027"
+    ],
+    [
+      "q030"
+    ],
+    [
+      "s001",
+      "s002"
+    ],
+    [
+      "s003",
+      "s004"
+    ],
+    [
+      "s005",
+      "s006"
+    ],
+    [
+      "s007"
+    ]
+  ],
+  "near_duplicate_candidates": [
+    {
+      "left": "q005",
+      "right": "q019",
+      "reason": "similar_question",
+      "text_similarity": 0.9
+    }
+  ],
+  "requested_test_fraction": 0.4,
+  "target_test_count": 14,
+  "actual_test_count": 0,
+  "eligible_for_headline": false,
+  "blockers": [
+    "Human review, maintainer split review, and a separately frozen experiment remain required",
+    "No unexposed task family is available for test; add genuinely new families"
+  ]
+}

@@ -1,7 +1,7 @@
-# Versioned patch release; the publishing job records its immutable digest.
+# Verified v0.2.1 OCI index; audit changes require a separate future release.
 services:
   viewer:
-    image: ghcr.io/jill-vekariya/agent-reliability-harness:0.2.1
+    image: ghcr.io/jill-vekariya/agent-reliability-harness:0.2.1@sha256:f9eb1a7412e5830fea9ec46c88f33de2410f4953f4ba1bf3bfe88858cda835f8
     ports: ["127.0.0.1:8501:8501"]
     read_only: true
     user: "10001:10001"
