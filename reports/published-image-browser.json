@@ -1,0 +1,24 @@
+{
+    "schema_version":  1,
+    "captured_at":  "2026-10-18T12:53:04.4139703Z",
+    "image":  "ghcr.io/jill-vekariya/agent-reliability-harness:0.2.0@sha256:730eddd981aa3b658f51ab331bbd0b2f967be61a7fa5c2a0541e86a5dbcccc7d",
+    "health_status":  "healthy",
+    "http_status":  200,
+    "browser_regression_button":  "passed",
+    "browser_title":  "Agent Reliability Lab",
+    "verification_script":  "scripts/capture_demo.mjs",
+    "verification_script_sha256":  "b4fa32911850b08f844b00a377dfb4de04c51bd082746dc4999e812037315715",
+    "root_read_only":  true,
+    "user":  "10001:10001",
+    "memory_bytes":  805306368,
+    "nano_cpus":  2000000000,
+    "pids_limit":  64,
+    "cap_drop":  [
+                     "ALL"
+                 ],
+    "security_opt":  [
+                         "no-new-privileges:true"
+                     ],
+    "origin":  "synthetic",
+    "paid_api_spend_usd":  "0"
+}
