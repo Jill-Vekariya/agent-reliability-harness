@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-18T18:17:02.508Z",
+  "release": "v0.3.1",
+  "release_source_revision": "394f42c2674d1d2135adaf0606f9fc789fef967c",
+  "image": {
+    "reference": "ghcr.io/jill-vekariya/agent-reliability-harness:0.3.1",
+    "digest": "sha256:4254993a830a5b827300f5c415fcbad4a1aaa4176c0a08130ff55cf02b8004da",
+    "pinned_reference": "ghcr.io/jill-vekariya/agent-reliability-harness:0.3.1@sha256:4254993a830a5b827300f5c415fcbad4a1aaa4176c0a08130ff55cf02b8004da",
+    "predicate_types": [
+      "https://spdx.dev/Document",
+      "https://slsa.dev/provenance/v1"
+    ],
+    "labels": {
+      "org.opencontainers.image.licenses": "MIT",
+      "org.opencontainers.image.revision": "394f42c2674d1d2135adaf0606f9fc789fef967c",
+      "org.opencontainers.image.source": "https://github.com/Jill-Vekariya/agent-reliability-harness",
+      "org.opencontainers.image.version": "v0.3.1"
+    }
+  },
+  "published_image_tests": {
+    "passed": 148,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 61.93,
+    "offline_all_gate_passed": true,
+    "ordinary_scripted_matches": 29,
+    "ordinary_scripted_tasks": 30,
+    "regressions": [],
+    "incompatible": []
+  },
+  "installed_source_matches_checkout": true,
+  "runtime_source_hash": "1a2f54ce76ed4bd4d6416c12b33d844eb99dccc065ac6eb13e53c3a6b8b60253",
+  "hosted_workflows": [
+    {
+      "name": "patch_pull_request",
+      "conclusion": "success",
+      "created_at": "2026-10-18T18:05:44Z",
+      "event": "pull_request",
+      "head_branch": "fix/demo-evidence",
+      "head_sha": "4f94ff7bc9f5e9dee35618a4db1cd8622d533233",
+      "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152580419",
+      "id": 39152580419,
+      "status": "completed",
+      "updated_at": "2026-10-18T18:07:46Z"
+    },
+    {
+      "name": "patch_main",
+      "conclusion": "success",
+      "created_at": "2026-10-18T18:08:01Z",
+      "event": "push",
+      "head_branch": "main",
+      "head_sha": "394f42c2674d1d2135adaf0606f9fc789fef967c",
+      "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152751839",
+      "id": 39152751839,
+      "status": "completed",
+      "updated_at": "2026-10-18T18:10:33Z"
+    },
+    {
+      "name": "patch_tag",
+      "conclusion": "success",
+      "created_at": "2026-10-18T18:08:06Z",
+      "event": "push",
+      "head_branch": "v0.3.1",
+      "head_sha": "394f42c2674d1d2135adaf0606f9fc789fef967c",
+      "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152759313",
+      "id": 39152759313,
+      "status": "completed",
+      "updated_at": "2026-10-18T18:11:27Z"
+    }
+  ],
+  "fresh_real_provider_attempts": 0,
+  "paid_api_spend_usd": "0",
+  "human_reviews": 0,
+  "genuine_heldout_tasks": 0
+}
