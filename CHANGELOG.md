@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased — audit hardening
+
+* Exact authorization/exposure rounding, conservative malformed-usage/interrupt accounting, request-time scope checks, and visible overruns.
+* Nonblocking worker input/output under the parent deadline; broader SQL, lifecycle, cleanup, and trace-integrity tests.
+* Atomic JSON snapshots, bounded/schema-checked trusted replay, and resumed regression/provenance checks without changing reference recordings.
+* Blank human-review/adjudication packet, deterministic family/near-duplicate proposals, public-development exposure protection, and stronger test freezes.
+* Declared campaign coverage, interruption checkpoints, explicit denominators, per-configuration statistics, and playback/stale-report corrections.
+* Digest-pinned v0.2.1 Compose path, auditable offline/Docker evidence, and updated interview/documentation materials. Audit changes remain unpublished; no live-model experiment or human review is claimed.
+
 ## 0.2.1 — Windows packaging correction
 
 * The Windows test launcher resolves its image from Compose instead of a stale hardcoded 0.1.0 tag. It also propagates regression failure and applies the PID limit to both test commands.

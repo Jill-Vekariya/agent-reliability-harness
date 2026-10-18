@@ -1,5 +1,8 @@
 {
   "status": "not yet measured",
   "fresh_ordinary_attempts": 0,
+  "planned_ordinary_attempts": null,
+  "missing_expected_attempts": null,
+  "coverage_verified": false,
   "by_configuration": {}
 }

@@ -15,3 +15,11 @@ Generation uses fixed local seed 20261018 where sampling is needed. Live manifes
 Platform limits and SQLite versions can change observable output. An exact request mismatch fails clearly; never silently substitute another recording. If a reviewed request truly changes, collect new authorized recordings as a separate versioned change. Ordinary numeric grading has explicit tolerances; recording lookup does not silently apply tolerant matching.
 
 Run `make report` to rebuild the available report from the bundled synthetic demo. Headline empirical plots/results remain pending rather than being synthesized. Release evidence records exactly which checks ran in each environment.
+
+## Audit reproduction
+
+`make ci` now also validates the committed blank gold-review packet and draft split. `uv run --no-sync python scripts/collect_evidence.py --audit --output reports/audit-evidence.json` captures the full offline audit without replacing historical release evidence. Its expected nonzero review-completion check is recorded as exit 1, not misreported as completed review. `reports/audit-desktop.json` records a separate local Docker build/check; `reports/audit-external.json` is read-only evidence about already published v0.2.1.
+
+Offline resumes additionally bind baseline, database-manifest, and split hashes; selected database bytes are checked even when no worker is reopened. Cached regression compatibility is recomputed, and cached replay is compared against its trusted reference. Trace files are limited to 16 MiB and checked for duplicate keys, exact version/fields, contiguous indices, and payload types; trusted file hashing and parsing use the same bounded snapshot. Recording timestamps/usage remain historical. Atomic JSON replacement prevents partial updates but is not a full power-loss durability guarantee.
+
+Live summaries include a complete attempt plan even after interruption. Resume validates database/split/approval/source/config scope and trace identity. No interrupted sample is silently replaced. Reports require planned coverage for headline estimates and stratify configuration/model/split. Synthetic test fixtures with a fake live-origin transport are isolated in pytest temporary directories; they are pipeline tests, never included as empirical model evidence.
