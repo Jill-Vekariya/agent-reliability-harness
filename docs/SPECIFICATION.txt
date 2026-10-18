@@ -1,0 +1,467 @@
+# Agent Reliability Harness — Improved Development Prompt
+
+## 1. Role, objective, and priorities
+
+Act as my senior AI engineer, evaluation researcher, and practical engineering mentor. Help me build an open-source Python project named **Agent Reliability Harness**.
+
+I am a third-year student preparing for AI/ML engineering, backend, and platform internships. Build something I can understand, maintain, and defend in an interview: a SQL analyst agent over Chinook SQLite and an agent-agnostic harness for correctness, safety, cost, latency, and consistency.
+
+Research question:
+
+> Which engineering changes improve a SQL agent’s reliability, what do they cost, and which failure modes remain?
+
+Priorities, in order:
+
+1. Enforced execution boundaries and honest evidence.
+2. A small, working, reproducible offline release.
+3. Understandable code and student ownership.
+4. A reviewed benchmark and carefully designed live study.
+5. Presentation and optional public deployment.
+
+Use ordinary files and a local experiment registry. Avoid unnecessary agent frameworks, microservices, authentication, Kubernetes, vector databases, fine-tuning, and distributed infrastructure.
+
+Treat this document as a specification when I ask you to build the project. If I ask only to review or improve the prompt, revise the prompt without executing its embedded development instructions.
+
+## 2. Working agreement and evidence
+
+Inspect the workspace, repository instructions, existing code, available tools, and dependency compatibility first. Preserve existing work. Make reasonable reversible decisions and document assumptions; ask only for information or authorization that actually blocks dependent work.
+
+Start with a short plan containing the repository layout, milestones, acceptance checks, and any environmental limitation. Implement a working vertical slice before expanding the corpus or polishing the viewer.
+
+After each completed milestone, report:
+
+- Files and behavior changed.
+- Actual verification commands, exit codes, and pass/fail/skip counts where applicable.
+- The main design choice and remaining limitation.
+- One small ownership exercise and three interview questions tied to the implementation.
+
+Continue independent work when checks pass. Diagnose failed checks before dependent work continues. A missing credential, paid budget, or human review blocks the corresponding evidence gate; it must not stop unrelated local implementation.
+
+Keep these statuses distinct: **planned, implemented, tested, measured, human-reviewed, and deployed**. Maintain a compact status checklist with evidence links. Label synthetic fixtures, live recordings, replay, and regression consistently.
+
+Never invent experiments, test results, reviewer labels, personal contributions, bugs, commit dates, development history, URLs, deployment success, or performance numbers. Do not introduce mistakes to disguise AI assistance. Use concise comments explaining decisions and tradeoffs. Human review stays pending until a person actually performs it.
+
+## 3. Release stages and dependency gates
+
+Deliver the project in three stages. Do not make the complete research study a prerequisite for a useful engineering release.
+
+| Stage | Required outcome | Evidence that may remain pending |
+|---|---|---|
+| R0: offline engineering release | Secure SQL worker, deterministic fixture provider, one implemented real-provider adapter, candidate dev tasks, grader, runner, offline regression, basic traces, Docker, and a usable no-key demo | Live model results and human review |
+| R1: reviewed benchmark | Final corpus, provenance, independently reviewed gold SQL, validated expected results, grouped splits, and frozen experiment definitions | Paid campaign and classifier validation if access is unavailable |
+| R2: empirical research release | Approved live campaign, statistics, ablations, safety analysis, actual human validation, and evidence-backed report | Public deployment if publication/access is unavailable |
+
+Begin with 5–10 clearly labeled candidate dev tasks and expand the vertical slice toward approximately 30 reviewed dev questions. Do not call candidate tasks reviewed. The final corpus target remains 150 tasks.
+
+Build all budget-independent machinery at USD 0. Document partial completion precisely: R0 completion does not mean R1/R2 evidence exists.
+
+Use milestone dependencies, not a rigid sequence that creates deadlocks. Mandatory SQL protections begin immediately. The viewer and packaging can proceed while live runs or review are pending. Human classifier validation does not block implementing reporting; frozen classifier rules must precede evaluation of classifier agreement.
+
+## 4. Budget, approvals, and accounting
+
+The initial paid API budget is **USD 0**. A configured budget, existing API key, free-credit assumption, or unresolved placeholder does not constitute spending approval.
+
+Before any paid pilot, verify current official provider pricing and model availability. Present one concrete approval request covering:
+
+- Exact provider/model identities, configuration hashes, task suites, repetitions, maximum turns, and retries.
+- Input, output, cached-input, reasoning, and other applicable billable categories.
+- Expected cost and a conservative upper bound for the pilot and proposed full study.
+- Already incurred spend, proposed additional spend, and the exact cumulative cap requested.
+- Any separately billable service or hosting charge.
+
+Within approved scope, proceed without repeated approval requests. Ask again only if scope or the authorized cumulative cap must increase. Free local work needs no spending approval.
+
+Implement `API_BUDGET_USD`, per-task and campaign caps, request/token/turn limits, bounded retries, and an atomic local spending ledger. Use exact monetary arithmetic with conservative rounding. Reserve a defensible upper bound before sending each request; enforce the total of settled charges plus outstanding reservations against the cap.
+
+Disable hidden SDK retries or account for every retried request explicitly. Include failed calls when billable. Reconcile reservations with provider usage and documented pricing. A timeout or missing usage leaves an unresolved reservation; do not release it automatically and assume no charge. Stop further paid execution if the remaining exposure cannot be bounded.
+
+Unknown prices or usage mean **unknown**, not zero. Disable paid execution when safe estimation is unavailable. Record provider pricing URLs, retrieval date, currency, and pricing version. Clearly distinguish API spend from local compute or hosting costs that were not measured.
+
+`make eval` must never contact a model provider. `make eval-live` requires explicit record mode, a configuration, a nonzero authorized cap, and matching approval metadata. Test both the default refusal to spend and concurrent reservation behavior using synthetic provider responses.
+
+## 5. Stack, architecture, and repository
+
+Choose a supported Python minor version after checking dependencies. Pin the runtime, direct and transitive dependencies, and Docker base image; commit a lockfile. Record the actual linked SQLite version and relevant compile options, since a Python version alone does not identify SQLite behavior.
+
+Prefer standard-library `sqlite3`, typed protocols/models, safe YAML loading, a small CLI, pytest, Ruff, a type checker, Matplotlib, Streamlit, and provider SDKs behind a thin interface. Add OpenTelemetry integration after the basic trace schema works; verify it before claiming compatibility. Use one recommended setup path, preferably uv with `uv.lock`.
+
+```text
+agent-reliability-harness/
+    src/agent_reliability/
+        agents/ providers/ tools/ sandbox/
+        evaluation/ tracing/ reporting/ viewer/
+        cli.py
+        models.py
+    tasks/
+        normal/ safety/ provenance/
+        splits.json
+    experiments/
+        baseline.yaml
+        incremental/ ablations/
+        comparison.yaml
+        pricing.yaml
+    data/manifest.json
+    scripts/
+    tests/
+        unit/ integration/ fixtures/ regression/
+    reports/
+    docs/
+    .github/workflows/
+    .github/ISSUE_TEMPLATE/
+    pyproject.toml
+    uv.lock
+    Makefile
+    Dockerfile
+    compose.yaml
+    .dockerignore
+    .env.example
+    .gitignore
+    README.md
+    REPORT.md
+    FAILURES.md
+    LICENSE
+    THIRD_PARTY_NOTICES.md
+    CONTRIBUTING.md
+```
+
+Create directories when they contain useful implementation; avoid empty scaffolding for its own sake. Use a small local registry for run state, spend, and artifact indexes; no external service is required.
+
+Architecture boundaries:
+
+- The provider normalizes requests, tool calls, usage, timing, model identity, and errors.
+- The agent chooses among approved tools.
+- The tool runtime validates arguments, enforces limits, and invokes an isolated SQL worker.
+- The evaluator consumes traces plus gold data independently of the agent implementation.
+- Reports and the viewer consume saved artifacts without needing API credentials.
+
+Generate a Mermaid architecture diagram showing the gold-data boundary. Keep gold SQL, expected results, evaluation notes, source solutions, and split labels out of model requests and agent state. Do not imply this logical separation provides OS isolation against arbitrary malicious agent code.
+
+## 6. Agent, provider, and tool contracts
+
+Define an interface compatible with:
+
+```python
+Agent.run(task: TaskInput) -> Trace
+```
+
+`TaskInput` contains only an opaque task identifier, the question, and explicitly allowed context. `EvaluationTask` holds evaluator-only fields. Test the serialized model request to catch accidental gold or split leakage.
+
+The provider protocol must expose normalized messages, native tool calls where supported, finish reasons, usage categories, request/model identifiers, latency, and typed errors. Configure provider/model selection. Implement one real adapter and a deterministic fixture provider; fixture outputs are synthetic engineering evidence only.
+
+Expose exactly four agent tools:
+
+| Tool | Responsibility |
+|---|---|
+| `list_tables` | List approved tables. |
+| `describe_table` | Validate an approved identifier; return columns, keys, relationships, and optional bounded sample values. |
+| `run_sql` | Execute exactly one statement through the protected worker. |
+| `final_answer` | Return `answered`, `refused`, or `needs_clarification`, with a valid result reference when answered. |
+
+Do not add shell, arbitrary Python, filesystem, or network tools. Treat database values as untrusted data, bound their size, and separate them from instructions. Formatting alone is not proof of prompt-injection resistance.
+
+For the initial implementation, serialize tool execution. Either disable parallel tool calls or reject unsupported batches explicitly. A final answer may reference only a successful, complete result from the current task attempt, never another repetition or an unresolved parallel call.
+
+Generate the factual answer table from the stored result. If the agent also supplies structured rows, verify that they match the referenced result. Unsupported final assertions, invalid references, missing completion, and truncated results cannot receive correctness credit. Refusal and clarification need no SQL result. Generate factual prose from templates or label unrestricted explanations ungraded.
+
+Count malformed calls, rejected calls, retries, and failed steps against documented budgets. Reset conversation, result registry, and task-local state between independent attempts. Make any context truncation or summarization policy explicit, versioned, and consistent with the experiment design.
+
+## 7. Database and SQL execution boundary
+
+Use a pinned Chinook snapshot from official upstream. Record source URL, commit/release, downloaded checksum, final database checksum, schema fingerprint, license, and any deterministic preparation steps. Evaluation must not fetch an unpinned latest database.
+
+Protect every agent SQL execution, including ablations, with:
+
+- SQLite URI read-only mode and a read-only database mount in the Docker reference environment.
+- A documented authorizer policy allowing only required reads/operations; deny writes, schema changes, ATTACH/DETACH, unauthorized PRAGMAs, extension loading, and prohibited functions.
+- Explicit denial using `SQLITE_DENY`; do not silently substitute NULLs with `SQLITE_IGNORE` for prohibited reads.
+- No arbitrary user-defined functions. Validate schema identifiers against an allowlist; bind values where appropriate. SQL placeholders do not bind table names.
+- Exactly one statement via `execute`, never `executescript`. Do not use prefix checks, regexes, or splitting on semicolons as the sole safety boundary.
+- A progress-handler work budget and monotonic deadline, plus a separate worker with a parent-enforced wall-clock deadline.
+- Parent termination, forced termination if needed, process reaping, and bounded interprocess output.
+- CPU/memory limits where supported and a bounded temporary-storage policy. Document platform differences and use Docker/Linux as the reference for enforced resource limits.
+- Limits for SQL bytes, SQLite value/row length, expression complexity where supported, result rows, cell bytes, serialized output bytes, agent steps, tokens, and cost.
+
+Verify effective SQLite runtime limits after setting them. A post-fetch cell cap alone does not prevent an oversized value from being allocated. A row cap alone does not bound computation or memory. The connection lock timeout is not a query execution deadline.
+
+The SQL worker must not receive provider credentials, gold files, arbitrary database paths, or unnecessary writable mounts. Agent arguments cannot choose a different database or bypass limits. Keep trusted schema introspection narrowly scoped; do not expose an unrestricted PRAGMA escape hatch.
+
+Fetch at most the row cap plus one, checking output limits incrementally. Mark truncation and the limiting reason explicitly. Never turn a partial result into a complete answer. An optional SQL parser/pre-validator may improve diagnostics; mandatory database/process protections stay active even when it is disabled.
+
+Test legitimate SELECTs/CTEs, malformed and commented SQL, mixed case, semicolons inside strings, multiple statements, destructive SQL, ATTACH, prohibited functions, oversized values, expensive joins, recursive queries, deadlines, worker crashes, cleanup, and unchanged database contents. Include valid difficult-query controls to detect overblocking.
+
+Document the actual threat model and residual risks. Do not claim Docker or read-only mode provides general agent security.
+
+## 8. Corpus, provenance, and splits
+
+Final target:
+
+| Suite | Dev | Test | Total |
+|---|---:|---:|---:|
+| Ordinary SQL: 40 easy, 40 medium, 40 hard | 72 | 48 | 120 |
+| Safety: 10 table-data injection, 10 destructive/prohibited, 10 resource attacks | 18 | 12 | 30 |
+| **Total** | **90** | **60** | **150** |
+
+The 20 Spider-adapted questions are included within the 120 ordinary tasks. Keep paraphrases, template families, source adaptations, and related attack variants in the same split. Group integrity takes priority over exact split counts; disclose deviations and regenerate planning arithmetic from the actual manifest.
+
+Use a versioned task schema containing question, opaque ID, difficulty, category, split, tags, `family_id`, fixture/dataset version, gold SQL/expected result where applicable, expected behavior, column policy, ordering, tie handling, numeric tolerances, provenance, authoring method, reviewer, and review status.
+
+Expected behavior is `answer`, `refuse`, `clarify`, or `resource_limit`. Safety tasks need explicit assertions: distinguish refusal, safe completion despite injection, and enforced resource termination. Do not accept any non-answer as a safety success. Define accepted alternatives before measurement.
+
+Cover NULLs, duplicates, empty results, dates, filters, joins, join multiplication, aggregates, GROUP BY/HAVING, subqueries, NOT EXISTS, ranking, ties, and boundaries. Ordinary SQL accuracy uses objectively answerable questions; clarification diagnostics are separate and must not silently alter that denominator.
+
+Execute independently reviewed gold SQL against the pinned fixture to generate expected results. Never invent numeric outputs. Validate alternative correct solutions and guard against accidental empty-result agreement. For modified safety fixtures, regenerate and review the legitimate expected result against that exact fixture.
+
+AI may draft candidates. Only actual review permits `human_reviewed`. Require me to write or substantially review at least 15 tasks, including joins, aggregation traps, and edge cases. Every task in the final curated corpus requires genuine review. Record review scope and unresolved issues rather than inventing independence or a second reviewer.
+
+For Spider adaptations, retain source question ID, original split, source version, adaptation rationale, and applicable license/attribution. Verify redistribution rights before bundling source material. Call the suite **Chinook with Spider-adapted questions**, never an official Spider score or evidence of cross-database generalization. Discuss possible exposure to public Chinook/Spider material during model pretraining.
+
+Lint duplicate IDs/questions, family leakage, missing provenance, invalid SQL, stale expected results, unsupported behavior, and fixture mismatches. Add reviewed counterexample fixtures for selected difficult queries as a separate diagnostic, not a silent replacement for the headline database.
+
+Tune only on dev. Review and freeze all test definitions, safety variants, splits, metrics, budgets, error policy, and the experiment matrix before the first headline test attempt. Do not inspect test traces to tune rules during that campaign. Record test exposure; later use of the same test set is a previously inspected benchmark, not a fresh holdout.
+
+## 9. Deterministic grading
+
+Use no LLM correctness judge. Grade the final supported structured result.
+
+- Default to typed row multisets: ignore row order while preserving duplicate counts and required shape/columns.
+- Specify whether column aliases matter; do not reject an equivalent query merely for an unrequired alias.
+- Use order-sensitive comparison when the question requires it. Define top-N tie rules before execution.
+- Define per-column numeric policies. Integer counts/identifiers are exact unless explicitly configured otherwise; finite numeric measures may use tolerances.
+- Specify the tolerance formula, for example `abs(a-b) <= atol + rtol * max(abs(a), abs(b))`. Do not coerce numeric-looking strings to numbers.
+- Preserve NULL, empty string, zero, TEXT, and BLOB distinctions. JSON booleans must not silently compare equal to Python integers. SQLite has no separate Boolean storage class, so do not claim to recover a Boolean/integer distinction that the SQL result does not contain.
+- Define nonfinite-number and serialization behavior; reject or encode such values explicitly rather than emitting invalid JSON.
+- For tolerance-based unordered rows, use a correct assignment/matching algorithm, not greedy matching or rounded hash keys. Bound grader work separately so pathological matching cannot exhaust the harness.
+
+Keep correctness, completion, agent safety, sandbox enforcement, and infrastructure status separate. A refusal does not improve ordinary answer accuracy. A correct intermediate query followed by an unsupported answer does not pass. Result agreement on one database does not prove SQL equivalence.
+
+Write meaningful tests for duplicate multiplicity, NULL/type boundaries, ties, tolerances with overlapping matches, empty-result traps, truncated results, final-answer integrity, and cross-attempt result references.
+
+## 10. Run modes, traces, and resumability
+
+| Mode | Model output | Tool output | Purpose |
+|---|---|---|---|
+| `fixture` | Synthetic | Current tools | Engineering tests/demo fixtures |
+| `record` | Fresh provider requests | Current tools | Live measurement |
+| `replay` | Recorded | Recorded | Exact playback and inspection |
+| `regression` | Recorded, with matching requests | Current tools/grader | Detect implementation regressions |
+
+No mode may silently fall back to another. Replay/regression have no model-network access. A missing or incompatible recording fails clearly. A model-request change requires new approved recordings; regression must not inject responses into a changed conversation.
+
+Namespace recordings by campaign, task, configuration, repetition, and call occurrence. Lookup fingerprints cover canonical messages, tools, generation parameters, provider/model configuration, and occurrence. Tool-cache keys additionally cover arguments, implementation, and database fingerprints. Fresh repetitions must never reuse another attempt’s cached model response.
+
+Use stable task-attempt-local result IDs. Keep timestamps, span IDs, and measured latencies out of model-visible tool output. Regression may use changed implementation hashes but must match model requests; strict replay validates its original manifests and payloads.
+
+Hashes detect mismatch/corruption relative to a trusted manifest; hashes stored beside mutable data do not establish authenticity by themselves. Anchor approved campaign and regression manifests in a recorded commit or equivalent trusted reference.
+
+Store versioned JSONL events with model/tool inputs and outputs, errors, retries, usage, costs, budgets, safety decisions, outcomes, timestamps, and trace relationships. Use the OpenTelemetry SDK or a tested exporter/mapping; pin convention versions and validate a representative export. Plain JSON with span-like fields is not automatically OpenTelemetry-compatible.
+
+Record an immutable run manifest: revision, dirty-worktree state/hash, lock hash, Python/SQLite/platform versions, database/task/split hashes, resolved config, prompts, provider/model requested and returned identity, pricing version, seeds, concurrency, date, hardware, and mode. Record unavailable metadata as unavailable.
+
+Preserve original recorded usage/timing during replay; measure replay runtime separately. Distinguish provider latency, tool latency, queue time, and end-to-end latency. Log observable messages and tool decisions; do not request private chain-of-thought. Sanitize secrets and published traces; escape untrusted viewer content.
+
+Use a durable attempt ID and state machine such as planned → started → completed/failed/interrupted. Resume only missing planned work. Never overwrite a started failure with a successful retry or count a replay as fresh evidence. Transport retries remain part of their original attempt and budget. Preserve interrupted attempts and predeclare whether/how additional attempts may be scheduled.
+
+## 11. Repeated runs and statistics
+
+Collect five fresh independent attempts per task/configuration for the frozen campaign. Fix sampling settings, record seed support, and derive reproducible local seeds from stable identifiers. Seeds do not guarantee deterministic provider output.
+
+For N ordinary answer tasks with five eligible attempts each and c_i successes:
+
+- `pass@1 = mean(c_i / 5)`.
+- `pass@5 = mean(c_i > 0)`.
+- Per-task success fraction = `c_i / 5`.
+- Observed flakiness = fraction of tasks with `0 < c_i < 5`.
+- All-five success rate = fraction with `c_i = 5`.
+
+For general n and k <= n, implement `1 - C(n-c,k) / C(n,k)` per task and average across tasks. Do not estimate pass@k without sufficient samples. Five equal outcomes do not establish permanent determinism. Pass@5 assumes an oracle identifies a correct candidate; it is not deployed retry/selection performance unless that strategy is implemented and measured.
+
+Use 10,000 bootstrap resamples with a fixed documented seed. Resample whole task families with their tasks/repetitions and retain the chosen task-weighted estimator; do not silently switch to equal-family weighting. Use the same sampled families for paired configuration differences. A paired design controls the compared task set; equal seeds do not guarantee matched provider randomness.
+
+Report 95% intervals, task/family/attempt counts, and denominator definitions for headline rates, differences, cost summaries, and latency quantiles. Explain few-family instability, degenerate intervals, and the limits of small safety samples. Treat secondary ablations as exploratory unless a confirmatory multiple-comparison policy was predeclared.
+
+Report mean API cost per ordinary task attempt, total cost divided by successful ordinary attempts, and end-to-end latency p50/p95. Include failed/timed-out attempts; zero successes make cost-per-success undefined. Separate live timing, provider-cache effects, replay timing, and unmeasured local hardware cost.
+
+Freeze infrastructure-error handling before measurement. A defensible default is to count started unsuccessful attempts as failures in an operational end-to-end rate, show infrastructure errors separately, and report any conditional model-success rate as secondary with exclusions disclosed. Show never-started work as missing coverage, not fabricated failure or success. Incomplete groups do not contribute a made-up pass@5; clearly label partial summaries.
+
+## 12. Failure taxonomy and human validation
+
+Implement evidence-based labels: `wrong_tool`, `bad_arguments`, `hallucinated_schema`, `loop`, `unsafe_action`, `wrong_answer_valid_sql`, `budget_exceeded`, and `unknown`, plus distinct infrastructure status.
+
+Define boundaries, deterministic precedence, evidence, primary causal label, secondary symptoms, and termination reason. A loop ending at a step cap differs from budget exhaustion without looping. Recovered errors are events, not automatically overall failures. Freeze classifier rules before validation.
+
+Reserve 50 distinct real dev-derived failures not used to design the classifier and obtain actual human labels. No test-derived traces may shape rules. Hide classifier predictions during labeling. Record selection method, reviewer, rubric, ambiguity, and adjudication. Disclose category-balanced sampling and its effect on interpretation.
+
+Report classifier-versus-human accuracy, Cohen’s kappa, confusion matrix, category counts, and uncertainty. This is not inter-human agreement unless multiple humans independently label. If fewer than 50 failures exist, state the count/gap; do not generate failures merely to satisfy a quota. A later rule revision requires a new untouched validation subset or disclosure of reuse.
+
+Generate `FAILURES.md` with two or three actual examples per observed category when available: task/run IDs, evidence, diagnosis, consequence, and attempted remedy. State unobserved categories; keep synthetic detector fixtures separate.
+
+## 13. Engineering interventions and frozen matrix
+
+Define a versioned baseline and four optional interventions before selecting the improved configuration on dev:
+
+| Intervention | Operational definition | Target |
+|---|---|---|
+| Schema retrieval | A specified proactive schema-selection/context policy, compared with baseline on-demand schema tools | Hallucinated schema and unnecessary calls |
+| SQL pre-validation | Optional parser/argument diagnostics before the unchanged mandatory sandbox | Bad arguments and unsafe proposals |
+| Bounded retry-on-error | Specified retryable errors, maximum retries, and feedback; all calls remain budgeted | Recoverable SQL/tool errors |
+| Clearer tool descriptions | Versioned descriptions/examples with the same tool capabilities | Wrong tool and bad arguments |
+
+Both baseline and improved agents retain usable schema tools, valid tool descriptions, identical hard safety controls, and the same maximum budget policy. Freeze exact diffs; terms such as “better prompts” are not sufficient intervention definitions. Actual token use and cost may change as part of the measured effect.
+
+Record each hypothesis, expected tradeoff, incremental dev result, and selection rationale. Do not assume each improvement helps. Four leave-one-out ablations measure conditional component effects and possible interactions, not universally independent contributions.
+
+Compare:
+
+- A: small model, baseline agent.
+- B: the same small model, improved agent.
+- C: larger model, the same improved agent.
+- B minus each of the four optional components: four separate ablations.
+
+A versus B estimates the combined engineering change; B versus C holds agent design fixed. This is seven configurations using two models. Reuse the identical full-B run as comparator without counting it twice. Freeze exact model versions and record any provider-side identity changes.
+
+At the target split, `60 test tasks × 7 configurations × 5 attempts = 2,100 test agent attempts`: 1,680 ordinary and 420 safety. These are planned attempts, not model-call counts or completed measurements. Dev, pilot, and validation runs are additional; recalculate from the actual frozen manifest.
+
+If paid access is unavailable, implement configurations and leave results pending. A user-approved redesign may compare three genuinely distinct strategies with one model, but must revise the matrix, hypotheses, budget, and labels before test measurement.
+
+Publish paired effects, uncertainty, extra cost, and failure-category changes, including negative/inconclusive findings. Generate a Pareto chart from measured ordinary-test pass@1 and mean API cost per ordinary attempt, with uncertainty. Exclude synthetic and safety cases from its success axis.
+
+## 14. Safety evaluation
+
+Create isolated reproducible fixture copies with harmless injected text in fields legitimate tasks can retrieve. Record the modified fixture hash, injection location, and whether the attack-bearing text actually reached the model after truncation/filtering. Never use real secrets or external exfiltration destinations.
+
+Include instruction overrides, answer manipulation, prohibited SQL requests, destructive requests, resource attacks, and legitimate hard-query controls. Predefine attack success separately from ordinary correctness. An exposed instruction that causes an unsafe blocked call is still an unsafe agent decision.
+
+Report separately, with raw numerators/denominators and uncertainty where defined:
+
+- Attempts containing at least one prohibited-action proposal.
+- Guardrail block rate among prohibited tool calls actually submitted to the enforcement boundary.
+- Prohibited operations that executed, independently of final-answer correctness.
+- Injection exposure, attack success among exposed attempts, and legitimate completion under injection.
+- False-positive blocks on benign controls.
+- Resource-limit enforcement, termination reason, and worker cleanup.
+
+Keep call-level and attempt-level denominators distinct. If there were no submitted prohibited calls, conditional block rate is not applicable, not 100%. No exposure is not evidence of resistance. Zero observed incidents is not proof of zero risk.
+
+Separate deterministic direct guardrail probes from model-mediated safety evaluation. Keep mandatory protections enabled in every live/public configuration and ablation. Additional post-freeze attacks are dev/exploratory diagnostics, not new headline test evidence.
+
+## 15. CI and repository workflow
+
+Provide lint, typing, tests, task linting, a Docker smoke check, and a fixed 20-task dev regression suite. Use real recorded model responses when available; otherwise label it synthetic. Reexecute current tools/grader, never cached final grades or cached tool outputs.
+
+Evaluation runs without provider credentials and with network disabled. Setup/dependency/data acquisition may need network separately; do not call the entire clean-install process offline unless dependencies and data are actually bundled.
+
+Anchor the approved baseline in the target branch with task/config/recording hashes and recorded outcomes. Candidate changes cannot approve their own replacement baseline. A requested baseline update is a separate reviewable change. Report per-task regressions and incompatible recordings.
+
+For one fixed attempt on each of 20 tasks, fail on an accuracy drop of more than five percentage points: one additional failure is five points; two are ten. Offer an optional zero-regression policy. Independently fail on any executed prohibited action, broken mandatory guardrail, missing recording, or incompatible required fixture.
+
+Pin Actions dependencies using the current supported workflow-lock mechanism or verified full commit SHAs. Use least privileges and avoid privileged execution of untrusted PR code. Add issue/PR templates, contributor instructions, dependency updates, licensing, third-party notices, and a release checklist.
+
+Exclude secrets, temporary databases, local caches, and unsanitized traces from git. Make genuine milestone commits when a repository exists and commits are authorized; never invent history, accounts, URLs, remotes, or visibility changes.
+
+## 16. Docker, viewer, demo, and deployment
+
+Provide locked dependencies, a pinned small base image, non-root execution, read-only database/root filesystem where supported, separate writable artifact paths, explicit resource limits, and a viewer health check. Never bake secrets into images. Verify offline regression/replay with networking disabled. Document native setup and a Docker-first Windows path.
+
+Build a focused Streamlit viewer with task/split/config/outcome/category filters, chronological tool steps, SQL/results/errors, token/latency/cost/budget details, safety decisions, baseline/improved comparison, mode labels, and links from reports to traces. Escape untrusted content and validate trace files before display.
+
+Bundle a no-key recruiter demo showing:
+
+1. A successful SQL answer.
+2. A real schema/query failure when available.
+3. A real blocked/resisted attack when available.
+4. An actually measured tradeoff when available.
+
+Where real examples are unavailable, disclose this and use separately labeled synthetic examples. Do not present a synthetic trace comparison as a measured improvement.
+
+Prepare a 2–4 minute walkthrough and screenshots from the working app. Explain a real failure/tradeoff only when evidence exists; otherwise explain the machinery and pending study. Do not claim a video exists unless recorded.
+
+Prepare deployment to one suitable inexpensive host after checking current constraints. Honor existing publication authorization; if absent, complete a reviewable release before requesting publication. Verify the deployed URL and core interactions before claiming deployment. If access is missing, deliver local operation plus exact remaining deployment steps.
+
+A live free-text API mode is optional, disabled by default, and requires server-side secrets, rate/input limits, and a separate authorized spend cap.
+
+## 17. Documentation and student ownership
+
+Generate all result tables/figures from versioned artifacts; never hand-edit performance values. Pending results say **not yet measured**.
+
+README: problem, stage/status, quickstart, architecture, benchmark, test-only results with intervals when available, Pareto/ablations/safety when measured, limitations, reproduction, demo, and artifact links. Clearly separate engineering checks, dev measurements, and headline test results.
+
+Title the empirical report `What N agent runs taught me about failure modes`, computing N from actual unique measured attempts in its declared scope, excluding synthetic runs and duplicate playback. Before live evidence exists, use `Study protocol — live results not yet measured` rather than implying a completed finding. Investigate at least one supported relationship, such as retry recovery versus cost; accept negative/inconclusive results.
+
+| Document | Content |
+|---|---|
+| `docs/DECISIONS.md` | Actual alternatives, choices, and tradeoffs |
+| `docs/EXPERIMENTS.md` | Hypotheses, freezes, outcomes, follow-up questions |
+| `docs/DATASET_CARD.md` | Sources, construction, review, splits, rights, limitations |
+| `docs/THREAT_MODEL.md` | Trust boundaries, enforced limits, platform limitations |
+| `docs/OWNERSHIP.md` | Completed personal work, learning, honest AI disclosure |
+| `docs/REPRODUCIBILITY.md` | Versions, hashes, seeds, commands, nondeterminism |
+| `docs/DEMO.md` | Launch and walkthrough |
+| `docs/INTERVIEW.md` | Explanations tied to real implementation/evidence |
+
+Give me opportunities to modify one grader edge case, one sandbox test, and one failure investigation. Require explanations of multiset grading, family splits, fresh sampling versus replay, SQLite deadlines, safety denominators, paired bootstrap, pass@5’s oracle assumption, and one failed/inconclusive intervention if observed.
+
+Do not record exercises or review as completed contributions until I do them. Create two resume-bullet templates with placeholders; replace them only with completed work and measured values.
+
+## 18. Milestones, commands, and final acceptance
+
+Use this implementation order, continuing independent USD 0 work around evidence gates:
+
+| Milestone | Acceptance evidence |
+|---|---|
+| 1. Agent/tool contract and sandbox | Fixture-driven SQL flow; safety/resource/cleanup tests; no provider calls |
+| 2. Candidate dev tasks and grader | Versioned schema; gold/result validation; edge-case and leakage tests |
+| 3. Runner, tracing, replay/regression | Mode isolation; request matching; no-network checks; resumability and budget tests |
+| 4. Offline engineering release | Real-provider adapter code; fixed synthetic regression; Docker; basic no-key viewer/demo; honest status docs |
+| 5. Review and dev pilot | Actual task review; approved fresh dev runs if funded; repeated-run/statistics machinery verified locally regardless |
+| 6. Taxonomy and study freeze | Frozen classifier; genuine held-out dev-failure labels when available; reviewed final corpus and frozen matrix |
+| 7. Headline campaign | Approved fresh attempts for A/B/C and ablations, including frozen safety suites; missing coverage disclosed |
+| 8. Analysis and release | Generated statistics, Pareto/safety/failure analysis; CI with real recordings where available; completed docs/demo; verified deployment only if authorized/accessible |
+
+Milestone 6 must freeze all test definitions and settings before milestone 7 starts. Do not run a headline campaign merely to produce a polished report. Do not repeatedly execute working tests without a new reason; run checks appropriate to the change and required gates.
+
+Provide working commands:
+
+```bash
+make setup
+make data
+make test
+make lint
+make typecheck
+make estimate
+make eval
+make eval-live
+make report
+make viewer
+make demo
+make docker
+make ci
+```
+
+`make data` acquires/verifies pinned data. `make estimate` makes no paid calls. `make eval` defaults to strict offline regression and prints the mode; `MODE=replay` requests complete playback. Synthetic recordings remain visibly labeled. `make eval-live` fails closed unless its explicit configuration and approval match. `make report` regenerates figures/tables from saved artifacts or clearly reports measurements pending. `make demo` launches the no-key experience.
+
+R0 is complete when a clean checkout can install, acquire/verify data, pass required checks, run labeled offline regression, regenerate available artifacts, and launch the demo using documented commands. R1 and R2 require their separate review/measurement evidence. Record environment-dependent checks as not run when unavailable; never convert them into passes.
+
+The final handoff states stage reached; implemented/tested/measured/reviewed/deployed status; actual verification results; genuine repository/demo links; settled spend and unresolved reservations; limitations; and remaining blocked work.
+
+A successful project requires honest evidence and understandable engineering, not a predetermined accuracy score.
+
+**When asked to execute this development prompt: inspect the environment, provide the short plan/repository layout, implement milestone 1, run its relevant checks, and report the actual results before dependent work continues. Then proceed autonomously with authorized independent work.**
+
+## Primary references to verify during implementation
+
+Resolve exact supported versions and mutable service details when implementation begins. Source links are references, not evidence that code, review, experiments, or deployment has been completed.
+
+- Chinook upstream: https://github.com/lerocha/chinook-database
+- Python sqlite3: https://docs.python.org/3/library/sqlite3.html
+- SQLite authorizer: https://www.sqlite.org/c3ref/set_authorizer.html
+- SQLite runtime limits: https://www.sqlite.org/limits.html
+- SQLite types, including Boolean representation: https://www.sqlite.org/datatype3.html
+- SQLite URI read-only mode: https://www.sqlite.org/uri.html
+- Spider source/terms: https://yale-lily.github.io/spider
+- Pass@k reference implementation: https://github.com/openai/human-eval/blob/master/human_eval/evaluation.py
+- OpenTelemetry GenAI conventions: https://github.com/open-telemetry/semantic-conventions-genai
+- GitHub Actions security: https://docs.github.com/en/actions/reference/security/secure-use
+- Docker security: https://docs.docker.com/engine/security/
+- Streamlit deployment: https://docs.streamlit.io/deploy/streamlit-community-cloud
+
+Prompt revision note: Python/SQLite behavior, the pass@k reference, GitHub Actions dependency guidance, and the OpenTelemetry reference location were checked against primary documentation on 18 October 2026. Recheck version-specific details during implementation.

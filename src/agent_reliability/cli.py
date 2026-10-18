@@ -117,7 +117,7 @@ def main() -> None:
             summary_path = args.summary or root / "demo/summary.json"
             summary = json.loads(summary_path.read_text())
             destination = args.output or root / "reports/generated"
-            print(build_report(summary, destination))
+            print(build_report(summary, destination, trace_base=summary_path.parent))
         elif args.command == "label-export":
             rows = json.loads(args.summary.read_text())["rows"]
             excluded = set(json.loads(args.exclude.read_text()))

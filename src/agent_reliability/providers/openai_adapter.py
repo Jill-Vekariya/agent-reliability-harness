@@ -36,6 +36,12 @@ def validate_approval(approval: dict[str, Any], config: dict[str, Any], tasks_ha
             raise BudgetExceeded("Unknown or invalid pricing")
     if int(approval.get("provider_context_window_tokens", 0)) <= 0:
         raise BudgetExceeded("A verified full provider context-window upper bound is required")
+    if Decimal(str(approval["cached_input_usd_per_million"])) > Decimal(
+        str(approval["input_usd_per_million"])
+    ):
+        raise BudgetExceeded(
+            "Reservation assumes cached-input price does not exceed full input price"
+        )
 
 
 class OpenAIProvider:
