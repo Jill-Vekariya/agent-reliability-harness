@@ -1,6 +1,6 @@
 UV ?= uv
 MODE ?= regression
-.PHONY: setup data test lint typecheck estimate eval eval-live report viewer demo docker ci
+.PHONY: setup data test lint typecheck estimate eval eval-live report viewer demo public-demo docker ci
 setup:
 	$(UV) sync --locked
 data:
@@ -24,6 +24,8 @@ report:
 viewer:
 	$(UV) run --no-sync streamlit run src/agent_reliability/viewer/app.py --server.address 127.0.0.1
 demo: viewer
+public-demo:
+	$(UV) run --no-sync python scripts/build_public_demo.py
 docker:
 	docker compose up --build -d
 ci: data lint typecheck test

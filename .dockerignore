@@ -8,6 +8,7 @@ __pycache__
 artifacts
 dist
 build
+site
 *.egg-info
 source-transfer*
 update-transfer*

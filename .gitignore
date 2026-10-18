@@ -11,4 +11,5 @@ artifacts/
 *.sqlite-shm
 dist/
 build/
+site/
 *.egg-info/

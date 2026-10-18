@@ -6,7 +6,7 @@
 - [x] Local viewer health and core interactions verified.
 - [x] Actual verification outputs saved in release evidence.
 - [x] No secrets/private traces in archive or image.
-- [ ] Synthetic/provider/replay labels remain visible.
+- [x] Synthetic/provider/replay labels remain visible.
 - [ ] User reviews at least 15 tasks; every final curated task reviewed.
 - [ ] Final 150-task corpus, 20 sourced adaptations, grouped split and experiment freeze complete.
 - [ ] Scoped paid pilot approval and safe pricing bounds before any live requests.
