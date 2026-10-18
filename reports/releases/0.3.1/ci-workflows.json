@@ -1,0 +1,558 @@
+{
+  "schema_version": 1,
+  "all_selected_workflows_successful": true,
+  "captured_at": "2026-10-18T18:13:27.9314591Z",
+  "workflows": [
+    {
+      "run": {
+        "conclusion": "success",
+        "created_at": "2026-10-18T18:05:44Z",
+        "event": "pull_request",
+        "head_branch": "fix/demo-evidence",
+        "head_sha": "4f94ff7bc9f5e9dee35618a4db1cd8622d533233",
+        "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152580419",
+        "id": 39152580419,
+        "status": "completed",
+        "updated_at": "2026-10-18T18:07:46Z"
+      },
+      "name": "patch_pull_request",
+      "jobs": [
+        {
+          "completed_at": "2026-10-18T18:07:45Z",
+          "conclusion": "success",
+          "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152580419/job/117749065276",
+          "id": 117749065276,
+          "labels": [
+            "ubuntu-24.04"
+          ],
+          "name": "verify",
+          "started_at": "2026-10-18T18:05:46Z",
+          "status": "completed",
+          "steps": [
+            {
+              "completed_at": "2026-10-18T18:05:47Z",
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "started_at": "2026-10-18T18:05:47Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:05:48Z",
+              "conclusion": "success",
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "number": 2,
+              "started_at": "2026-10-18T18:05:47Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:05:55Z",
+              "conclusion": "success",
+              "name": "Install pinned tool and runtime",
+              "number": 3,
+              "started_at": "2026-10-18T18:05:48Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:06:42Z",
+              "conclusion": "success",
+              "name": "Verify current implementation",
+              "number": 4,
+              "started_at": "2026-10-18T18:05:55Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:06:43Z",
+              "conclusion": "success",
+              "name": "Compare against target-branch baseline on PRs",
+              "number": 5,
+              "started_at": "2026-10-18T18:06:42Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:07:42Z",
+              "conclusion": "success",
+              "name": "Docker regression without networking",
+              "number": 6,
+              "started_at": "2026-10-18T18:06:43Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:07:43Z",
+              "conclusion": "success",
+              "name": "Build static walkthrough from validated synthetic traces",
+              "number": 7,
+              "started_at": "2026-10-18T18:07:42Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:07:43Z",
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "number": 14,
+              "started_at": "2026-10-18T18:07:43Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:07:43Z",
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 15,
+              "started_at": "2026-10-18T18:07:43Z",
+              "status": "completed"
+            }
+          ]
+        },
+        {
+          "completed_at": "2026-10-18T18:07:45Z",
+          "conclusion": "skipped",
+          "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152580419/job/117749516641",
+          "id": 117749516641,
+          "labels": [
+            "ubuntu-24.04"
+          ],
+          "name": "pages",
+          "started_at": "2026-10-18T18:07:46Z",
+          "status": "completed",
+          "steps": []
+        },
+        {
+          "completed_at": "2026-10-18T18:07:45Z",
+          "conclusion": "skipped",
+          "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152580419/job/117749516733",
+          "id": 117749516733,
+          "labels": [
+            "ubuntu-24.04"
+          ],
+          "name": "container",
+          "started_at": "2026-10-18T18:07:46Z",
+          "status": "completed",
+          "steps": []
+        }
+      ],
+      "observed_log_lines": [
+        "verify\tVerify current implementation\t2026-10-18T18:06:39.2707459Z ============================= 148 passed in 18.40s =============================",
+        "verify\tVerify current implementation\t2026-10-18T18:06:42.5605591Z   \"gate_passed\": true,",
+        "verify\tCompare against target-branch baseline on PRs\t2026-10-18T18:06:43.6911824Z   \"gate_passed\": true,",
+        "verify\tDocker regression without networking\t2026-10-18T18:07:38.9720784Z ======================= 148 passed, 1 warning in 38.03s ========================",
+        "verify\tDocker regression without networking\t2026-10-18T18:07:42.8977809Z   \"gate_passed\": true,"
+      ]
+    },
+    {
+      "run": {
+        "conclusion": "success",
+        "created_at": "2026-10-18T18:08:01Z",
+        "event": "push",
+        "head_branch": "main",
+        "head_sha": "394f42c2674d1d2135adaf0606f9fc789fef967c",
+        "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152751839",
+        "id": 39152751839,
+        "status": "completed",
+        "updated_at": "2026-10-18T18:10:33Z"
+      },
+      "name": "patch_main",
+      "jobs": [
+        {
+          "completed_at": "2026-10-18T18:10:08Z",
+          "conclusion": "success",
+          "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152751839/job/117749575607",
+          "id": 117749575607,
+          "labels": [
+            "ubuntu-24.04"
+          ],
+          "name": "verify",
+          "started_at": "2026-10-18T18:08:03Z",
+          "status": "completed",
+          "steps": [
+            {
+              "completed_at": "2026-10-18T18:08:04Z",
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "started_at": "2026-10-18T18:08:04Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:08:06Z",
+              "conclusion": "success",
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "number": 2,
+              "started_at": "2026-10-18T18:08:04Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:08:12Z",
+              "conclusion": "success",
+              "name": "Install pinned tool and runtime",
+              "number": 3,
+              "started_at": "2026-10-18T18:08:06Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:09:03Z",
+              "conclusion": "success",
+              "name": "Verify current implementation",
+              "number": 4,
+              "started_at": "2026-10-18T18:08:12Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:09:03Z",
+              "conclusion": "skipped",
+              "name": "Compare against target-branch baseline on PRs",
+              "number": 5,
+              "started_at": "2026-10-18T18:09:03Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:10:06Z",
+              "conclusion": "success",
+              "name": "Docker regression without networking",
+              "number": 6,
+              "started_at": "2026-10-18T18:09:03Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:10:06Z",
+              "conclusion": "success",
+              "name": "Build static walkthrough from validated synthetic traces",
+              "number": 7,
+              "started_at": "2026-10-18T18:10:06Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:10:06Z",
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "number": 14,
+              "started_at": "2026-10-18T18:10:06Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:10:07Z",
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 15,
+              "started_at": "2026-10-18T18:10:06Z",
+              "status": "completed"
+            }
+          ]
+        },
+        {
+          "completed_at": "2026-10-18T18:10:32Z",
+          "conclusion": "success",
+          "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152751839/job/117750047563",
+          "id": 117750047563,
+          "labels": [
+            "ubuntu-24.04"
+          ],
+          "name": "pages",
+          "started_at": "2026-10-18T18:10:12Z",
+          "status": "completed",
+          "steps": [
+            {
+              "completed_at": "2026-10-18T18:10:14Z",
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "started_at": "2026-10-18T18:10:12Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:10:15Z",
+              "conclusion": "success",
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "number": 2,
+              "started_at": "2026-10-18T18:10:14Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:10:21Z",
+              "conclusion": "success",
+              "name": "Build the public walkthrough",
+              "number": 3,
+              "started_at": "2026-10-18T18:10:15Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:10:22Z",
+              "conclusion": "success",
+              "name": "Run actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9",
+              "number": 4,
+              "started_at": "2026-10-18T18:10:21Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:10:30Z",
+              "conclusion": "success",
+              "name": "Run actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346",
+              "number": 5,
+              "started_at": "2026-10-18T18:10:22Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:10:30Z",
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "number": 10,
+              "started_at": "2026-10-18T18:10:30Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:10:30Z",
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 11,
+              "started_at": "2026-10-18T18:10:30Z",
+              "status": "completed"
+            }
+          ]
+        },
+        {
+          "completed_at": "2026-10-18T18:10:08Z",
+          "conclusion": "skipped",
+          "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152751839/job/117750048773",
+          "id": 117750048773,
+          "labels": [
+            "ubuntu-24.04"
+          ],
+          "name": "container",
+          "started_at": "2026-10-18T18:10:08Z",
+          "status": "completed",
+          "steps": []
+        }
+      ],
+      "observed_log_lines": [
+        "verify\tVerify current implementation\t2026-10-18T18:09:00.0303865Z ============================= 148 passed in 19.35s =============================",
+        "verify\tVerify current implementation\t2026-10-18T18:09:03.6108800Z   \"gate_passed\": true,",
+        "verify\tDocker regression without networking\t2026-10-18T18:10:02.0731555Z ======================= 148 passed, 1 warning in 41.87s ========================",
+        "verify\tDocker regression without networking\t2026-10-18T18:10:06.4022456Z   \"gate_passed\": true,"
+      ]
+    },
+    {
+      "run": {
+        "conclusion": "success",
+        "created_at": "2026-10-18T18:08:06Z",
+        "event": "push",
+        "head_branch": "v0.3.1",
+        "head_sha": "394f42c2674d1d2135adaf0606f9fc789fef967c",
+        "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152759313",
+        "id": 39152759313,
+        "status": "completed",
+        "updated_at": "2026-10-18T18:11:27Z"
+      },
+      "name": "patch_tag",
+      "jobs": [
+        {
+          "completed_at": "2026-10-18T18:10:14Z",
+          "conclusion": "success",
+          "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152759313/job/117749596103",
+          "id": 117749596103,
+          "labels": [
+            "ubuntu-24.04"
+          ],
+          "name": "verify",
+          "started_at": "2026-10-18T18:08:09Z",
+          "status": "completed",
+          "steps": [
+            {
+              "completed_at": "2026-10-18T18:08:10Z",
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "started_at": "2026-10-18T18:08:10Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:08:11Z",
+              "conclusion": "success",
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "number": 2,
+              "started_at": "2026-10-18T18:08:10Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:08:16Z",
+              "conclusion": "success",
+              "name": "Install pinned tool and runtime",
+              "number": 3,
+              "started_at": "2026-10-18T18:08:11Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:09:08Z",
+              "conclusion": "success",
+              "name": "Verify current implementation",
+              "number": 4,
+              "started_at": "2026-10-18T18:08:16Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:09:08Z",
+              "conclusion": "skipped",
+              "name": "Compare against target-branch baseline on PRs",
+              "number": 5,
+              "started_at": "2026-10-18T18:09:08Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:10:11Z",
+              "conclusion": "success",
+              "name": "Docker regression without networking",
+              "number": 6,
+              "started_at": "2026-10-18T18:09:08Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:10:11Z",
+              "conclusion": "success",
+              "name": "Build static walkthrough from validated synthetic traces",
+              "number": 7,
+              "started_at": "2026-10-18T18:10:11Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:10:11Z",
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "number": 14,
+              "started_at": "2026-10-18T18:10:11Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:10:11Z",
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 15,
+              "started_at": "2026-10-18T18:10:11Z",
+              "status": "completed"
+            }
+          ]
+        },
+        {
+          "completed_at": "2026-10-18T18:11:26Z",
+          "conclusion": "success",
+          "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152759313/job/117750070704",
+          "id": 117750070704,
+          "labels": [
+            "ubuntu-24.04"
+          ],
+          "name": "container",
+          "started_at": "2026-10-18T18:10:16Z",
+          "status": "completed",
+          "steps": [
+            {
+              "completed_at": "2026-10-18T18:10:19Z",
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "started_at": "2026-10-18T18:10:17Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:10:21Z",
+              "conclusion": "success",
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "number": 2,
+              "started_at": "2026-10-18T18:10:19Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:10:33Z",
+              "conclusion": "success",
+              "name": "Run docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f",
+              "number": 3,
+              "started_at": "2026-10-18T18:10:21Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:10:33Z",
+              "conclusion": "success",
+              "name": "Set image reference",
+              "number": 4,
+              "started_at": "2026-10-18T18:10:33Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:10:33Z",
+              "conclusion": "success",
+              "name": "Authenticate to GitHub Container Registry",
+              "number": 5,
+              "started_at": "2026-10-18T18:10:33Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:11:20Z",
+              "conclusion": "success",
+              "name": "Run docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8",
+              "number": 6,
+              "started_at": "2026-10-18T18:10:33Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:11:20Z",
+              "conclusion": "success",
+              "name": "Record immutable image digest",
+              "number": 7,
+              "started_at": "2026-10-18T18:11:20Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:11:21Z",
+              "conclusion": "success",
+              "name": "Post Run docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8",
+              "number": 12,
+              "started_at": "2026-10-18T18:11:20Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:11:24Z",
+              "conclusion": "success",
+              "name": "Post Run docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f",
+              "number": 13,
+              "started_at": "2026-10-18T18:11:21Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:11:24Z",
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "number": 14,
+              "started_at": "2026-10-18T18:11:24Z",
+              "status": "completed"
+            },
+            {
+              "completed_at": "2026-10-18T18:11:24Z",
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 15,
+              "started_at": "2026-10-18T18:11:24Z",
+              "status": "completed"
+            }
+          ]
+        },
+        {
+          "completed_at": "2026-10-18T18:10:14Z",
+          "conclusion": "skipped",
+          "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152759313/job/117750071670",
+          "id": 117750071670,
+          "labels": [
+            "ubuntu-24.04"
+          ],
+          "name": "pages",
+          "started_at": "2026-10-18T18:10:14Z",
+          "status": "completed",
+          "steps": []
+        }
+      ],
+      "observed_log_lines": [
+        "verify\tVerify current implementation\t2026-10-18T18:09:05.2155460Z ============================= 148 passed in 19.66s =============================",
+        "verify\tVerify current implementation\t2026-10-18T18:09:08.8239420Z   \"gate_passed\": true,",
+        "verify\tDocker regression without networking\t2026-10-18T18:10:06.5461931Z ======================= 148 passed, 1 warning in 43.80s ========================",
+        "verify\tDocker regression without networking\t2026-10-18T18:10:11.0738911Z   \"gate_passed\": true,",
+        "container\tComplete job\t2026-10-18T18:11:24.8895771Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8, docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/"
+      ]
+    }
+  ],
+  "repository": "https://github.com/Jill-Vekariya/agent-reliability-harness"
+}
