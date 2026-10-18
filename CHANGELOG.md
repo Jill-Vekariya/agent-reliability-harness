@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.1 - consistent demo evidence
+
+* Derive the viewer release label from package metadata.
+* Select checksum-bound published evidence for the public test count and display its release identifier. Invalid references or non-integer counts cannot become claims.
+* Wait for complete viewer rendering and instantaneous scrolling before browser screenshots. Historical release assets stay unchanged.
+
 ## 0.3.0 — audit hardening
 
 * Exact authorization/exposure rounding, conservative malformed-usage/interrupt accounting, request-time scope checks, and visible overruns.

@@ -22,6 +22,72 @@ CASES = (
 )
 
 
+def published_verification(root: Path) -> dict[str, Any]:
+    """Publish a count only from the explicitly selected, checksum-bound release."""
+    reports = root / "reports"
+    index_path = reports / "public-evidence.json"
+    if not index_path.exists():
+        evidence = json.loads((reports / "release-evidence.json").read_text())
+        return {
+            "captured_at": evidence["captured_at"],
+            "all_checks_passed": evidence["all_checks_passed"],
+            "test_counts": next(
+                (
+                    r.get("test_counts")
+                    for r in evidence["commands"]
+                    if r["command"] == ["make", "test"]
+                ),
+                None,
+            ),
+        }
+    index = json.loads(index_path.read_text())
+    if (
+        not isinstance(index, dict)
+        or set(index) != {"schema_version", "source", "sha256"}
+        or type(index.get("schema_version")) is not int
+        or index["schema_version"] != 1
+        or not isinstance(index.get("source"), str)
+    ):
+        raise ValueError("Invalid public evidence index")
+    source = reports / index["source"]
+    if Path(index["source"]).is_absolute() or not source.resolve().is_relative_to(
+        reports.resolve()
+    ):
+        raise ValueError("Public evidence path escapes reports")
+    if file_hash(source) != index["sha256"]:
+        raise ValueError("Public evidence checksum mismatch")
+    record = json.loads(source.read_text())
+    if not isinstance(record, dict):
+        raise ValueError("Public evidence must be an object")
+    counts, workflows = record.get("published_image_tests", {}), record.get("hosted_workflows", [])
+    valid = (
+        isinstance(counts, dict)
+        and all(
+            type(counts.get(k)) is int and counts[k] >= 0 for k in ("passed", "failed", "skipped")
+        )
+        and counts["passed"] > 0
+        and counts["failed"] == 0
+        and record.get("installed_source_matches_checkout") is True
+        and isinstance(workflows, list)
+        and bool(workflows)
+        and all(
+            isinstance(w, dict)
+            and w.get("status") == "completed"
+            and w.get("conclusion") == "success"
+            for w in workflows
+        )
+        and isinstance(record.get("release"), str)
+    )
+    return {
+        "captured_at": record.get("captured_at", "unavailable"),
+        "release": record.get("release"),
+        "source": index["source"],
+        "source_sha256": index["sha256"],
+        "all_checks_passed": bool(valid),
+        "test_counts": {k: counts[k] for k in ("passed", "failed", "skipped")} if valid else None,
+    }
+
+
 def public_payload(root: Path) -> dict[str, Any]:
     tasks = {task.id: task for task in load_tasks(root)}
     cases = []
@@ -55,24 +121,12 @@ def public_payload(root: Path) -> dict[str, Any]:
                 "source_sha256": file_hash(path),
             }
         )
-    evidence = json.loads((root / "reports/release-evidence.json").read_text())
     return {
         "schema_version": 1,
         "mode": "static synthetic walkthrough; no SQL or model execution",
         "candidate_tasks": len(tasks),
         "reviewed_tasks": sum(task.review_status == "human_reviewed" for task in tasks.values()),
-        "verification": {
-            "captured_at": evidence["captured_at"],
-            "all_checks_passed": evidence["all_checks_passed"],
-            "test_counts": next(
-                (
-                    record.get("test_counts")
-                    for record in evidence["commands"]
-                    if record["command"] == ["make", "test"]
-                ),
-                None,
-            ),
-        },
+        "verification": published_verification(root),
         "cases": cases,
     }
 
