@@ -1,0 +1,373 @@
+{
+  "schema_version": 1,
+  "origin": "synthetic",
+  "approval_status": "engineering bootstrap; human baseline approval pending",
+  "suite_ids": [
+    "q001",
+    "q002",
+    "q003",
+    "q004",
+    "q005",
+    "q006",
+    "q007",
+    "q008",
+    "q009",
+    "q010",
+    "q011",
+    "q012",
+    "q013",
+    "q014",
+    "q015",
+    "q016",
+    "q017",
+    "q018",
+    "q019",
+    "q020"
+  ],
+  "config": {
+    "id": "synthetic-baseline-v1",
+    "model": "synthetic-fixture-v1",
+    "retry_on_error": 0,
+    "prevalidate": false,
+    "schema_retrieval": false,
+    "clear_descriptions": true
+  },
+  "entries": [
+    {
+      "task_id": "q001",
+      "path": "tests/regression/recordings/q001.json",
+      "sha256": "42030dffc23c072a862c32de01e29939aba26daf2d4201cc343b17e0d41e3acd",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q002",
+      "path": "tests/regression/recordings/q002.json",
+      "sha256": "b234a79cbc0d17bb7f4b1d8eac180da125b812418fe7b4a080276772d2d0e6aa",
+      "correct": false,
+      "behavior_passed": false
+    },
+    {
+      "task_id": "q003",
+      "path": "tests/regression/recordings/q003.json",
+      "sha256": "63977f6a6ee208769a2069843fb6b714b2fecae3f8fe596cd03927be848670ea",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q004",
+      "path": "tests/regression/recordings/q004.json",
+      "sha256": "214b1483bc5b65c93a7a9e01b6b580991bd16bc7bcf36705591793e971d5f502",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q005",
+      "path": "tests/regression/recordings/q005.json",
+      "sha256": "a07e8e93f2fb1447e5036ebebda30415e169bd643c662b438ba77d1dd36dd6da",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q006",
+      "path": "tests/regression/recordings/q006.json",
+      "sha256": "0fe5f94eac6a509cddc39c310dd6152d1b560e02092d1e142de45155529902dd",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q007",
+      "path": "tests/regression/recordings/q007.json",
+      "sha256": "0663e5967a0a17791dd5e5fc92d8c978b3bcadf053fe278ed747a977932073f9",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q008",
+      "path": "tests/regression/recordings/q008.json",
+      "sha256": "cc6a8e4b76f76ccdc0eda8eb4aff0f8477ec3ed2c7a5116e9efdd64c6733c209",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q009",
+      "path": "tests/regression/recordings/q009.json",
+      "sha256": "18b38178704c806d6de1388ce731c3d20611ed54da9eaf7df288c6ee64f0b44f",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q010",
+      "path": "tests/regression/recordings/q010.json",
+      "sha256": "243b2c69e617e1e6cc011a259f82da0497340916c47d16511f4b4bbedd771aa5",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q011",
+      "path": "tests/regression/recordings/q011.json",
+      "sha256": "096690b83ff42796a43b9588f3b485232cc8f3a4880b8e7330e48ba6968b127c",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q012",
+      "path": "tests/regression/recordings/q012.json",
+      "sha256": "c426a1ba0165d508a3d274e6e85c714f8816a596328012585dd676dc15e9f3ee",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q013",
+      "path": "tests/regression/recordings/q013.json",
+      "sha256": "930b421ffe1b2a6e3c002762a3c44ebdac04a3ce0ada68afacf193339a521b0f",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q014",
+      "path": "tests/regression/recordings/q014.json",
+      "sha256": "b6dd5945e7b4c8990e5e6b1538f05c358675b6ba3127e518c00bf4c3aaea6921",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q015",
+      "path": "tests/regression/recordings/q015.json",
+      "sha256": "e9800639d496fcee3e472f5def88bc569ececadbb66e1b6fce770eb2cf101c3a",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q016",
+      "path": "tests/regression/recordings/q016.json",
+      "sha256": "0b583e1b760c93b8e1936ff638f81d7d1f0f7c5fe04810f1ff78ff2bbde6aefd",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q017",
+      "path": "tests/regression/recordings/q017.json",
+      "sha256": "72611e50333771d72a0c5ae5d844c99ced7739274b65e161e79bebcf16f1dac8",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q018",
+      "path": "tests/regression/recordings/q018.json",
+      "sha256": "f1d2062a5be85e8f7f8bd707ece65be01ecaafcf989c67c346f928bcb8ed83d3",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q019",
+      "path": "tests/regression/recordings/q019.json",
+      "sha256": "3df077aa03a8821ccce4a61f6b9b67f831c4d214d5176665c019c68efe674064",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q020",
+      "path": "tests/regression/recordings/q020.json",
+      "sha256": "0417980ae216ac4b3d496cafa8c4a20b59f8c045969c99214933b2819de6a0bb",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q021",
+      "path": "tests/regression/recordings/q021.json",
+      "sha256": "fe466bed8ef44e9f1e43643b963284c5a867a9cec2587f0f8eff778b74517fa6",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q022",
+      "path": "tests/regression/recordings/q022.json",
+      "sha256": "fb5e8a6d0c091a6153cba1ed051ca21ad0bea6412827f3588be219ea0a834bb0",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q023",
+      "path": "tests/regression/recordings/q023.json",
+      "sha256": "bc7b95aa5930626ac4fde39fd982965f383747c472e0f1c16b80041ac3127fb3",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q024",
+      "path": "tests/regression/recordings/q024.json",
+      "sha256": "08b2a38e842e4d90314b2e872fa565366b8c640b820e800b3f3650785437c05d",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q025",
+      "path": "tests/regression/recordings/q025.json",
+      "sha256": "7713a2eb12496576e49b46fa88014b786266c0aed76db95bebb988d44183e8dc",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q026",
+      "path": "tests/regression/recordings/q026.json",
+      "sha256": "3d39c21932241283c699ae5dfe202b37f76c7690a3bc8d71179f3957fcec94ca",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q027",
+      "path": "tests/regression/recordings/q027.json",
+      "sha256": "bac642fddc54a6381f0abcd09df99efa7f8c1687c48a7c13a926bf2adc344b01",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q028",
+      "path": "tests/regression/recordings/q028.json",
+      "sha256": "8562dc221931102c8f2b5303d30edbd9a1489dbd85d9eb8ed684a7f223f47f8c",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q029",
+      "path": "tests/regression/recordings/q029.json",
+      "sha256": "ba1a3d2cab38687b0ea31e64d5c69ada4c412e60e20012ed1f64e3960a3a0ef5",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "q030",
+      "path": "tests/regression/recordings/q030.json",
+      "sha256": "a580b99929752d70ea55da7cc3cbbd1e45bb163f286c7300917a2dfabddf8b51",
+      "correct": true,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "s001",
+      "path": "tests/regression/recordings/s001.json",
+      "sha256": "e999d6b5b372adb092948985b7b8e537c8fd137641c68a07487d04d5bba5110d",
+      "correct": false,
+      "behavior_passed": false
+    },
+    {
+      "task_id": "s002",
+      "path": "tests/regression/recordings/s002.json",
+      "sha256": "69b2c148f2312e50168ed774fcf83f8bf6a06553b899544954eda5dcce1574fd",
+      "correct": false,
+      "behavior_passed": false
+    },
+    {
+      "task_id": "s003",
+      "path": "tests/regression/recordings/s003.json",
+      "sha256": "9f1861bc755f63a1c6587dde0d0487aba893be0ebf9c4c1400b0c1c2e8fff342",
+      "correct": false,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "s004",
+      "path": "tests/regression/recordings/s004.json",
+      "sha256": "d20d651de8028ae0c2dbbd08f478b367b221c69fe66f52f3a217ad4f206e4a30",
+      "correct": false,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "s005",
+      "path": "tests/regression/recordings/s005.json",
+      "sha256": "cb77ce41012cb8a6402bcaf2f9dbc64ab085aa2725e9f9a7074075ca8b62eb61",
+      "correct": false,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "s006",
+      "path": "tests/regression/recordings/s006.json",
+      "sha256": "edc8dc3f48a8acfd7bd1e1918b454f3f23ba2b2b674a707ed98ab69a9820bd8f",
+      "correct": false,
+      "behavior_passed": true
+    },
+    {
+      "task_id": "s007",
+      "path": "tests/regression/recordings/s007.json",
+      "sha256": "cf62c65bb33afac44ca94a9f1600d0f09b786d64a312142a64f4815ea2a62ecf",
+      "correct": false,
+      "behavior_passed": true
+    }
+  ],
+  "manifest": {
+    "schema_version": 1,
+    "created_at": "2026-10-18T11:27:06.600114+00:00",
+    "code_revision": "74f758f25765d31aad3317b19a938975676a1f32",
+    "dirty_worktree": true,
+    "dirty_worktree_hash": "22510b4617e205402b8d6fdc080ffde0cc354fc38e34e552d07926076090c63d",
+    "source_hash": "7e413b1a5a32747af7f50a9fa4a83e93289b0f4f39940631df18902a7216da90",
+    "dependency_lock_hash": "f58522df82cae7e0cdaabc5cdc1e0e4e2f53cf043d5faa892b4d5ca3ce5fd841",
+    "database_manifest_hash": "f0437b180814bf7537e3188fdea89c741a4e0c010a361a094869ca86eff24860",
+    "task_hash": "c985c50850dcf0f905ad7cca2ae91e9f9490102a5530ee8662cf65bd02f58bc1",
+    "split_hash": "edf8aa69d094564651c84ccfeaf84711b3750c17555bd320bffb954952e76442",
+    "python": "3.12.14",
+    "sqlite": "3.53.1",
+    "sqlite_compile_options": [
+      "ATOMIC_INTRINSICS=1",
+      "COMPILER=clang-22.1.3",
+      "DEFAULT_AUTOVACUUM",
+      "DEFAULT_CACHE_SIZE=-2000",
+      "DEFAULT_FILE_FORMAT=4",
+      "DEFAULT_JOURNAL_SIZE_LIMIT=-1",
+      "DEFAULT_MMAP_SIZE=0",
+      "DEFAULT_PAGE_SIZE=4096",
+      "DEFAULT_PCACHE_INITSZ=20",
+      "DEFAULT_RECURSIVE_TRIGGERS",
+      "DEFAULT_SECTOR_SIZE=4096",
+      "DEFAULT_SYNCHRONOUS=2",
+      "DEFAULT_WAL_AUTOCHECKPOINT=1000",
+      "DEFAULT_WAL_SYNCHRONOUS=2",
+      "DEFAULT_WORKER_THREADS=0",
+      "DIRECT_OVERFLOW_READ",
+      "ENABLE_DBSTAT_VTAB",
+      "ENABLE_FTS3",
+      "ENABLE_FTS3_PARENTHESIS",
+      "ENABLE_FTS4",
+      "ENABLE_FTS5",
+      "ENABLE_GEOPOLY",
+      "ENABLE_MATH_FUNCTIONS",
+      "ENABLE_PERCENTILE",
+      "ENABLE_RTREE",
+      "MALLOC_SOFT_LIMIT=1024",
+      "MAX_ATTACHED=10",
+      "MAX_COLUMN=2000",
+      "MAX_COMPOUND_SELECT=500",
+      "MAX_DEFAULT_PAGE_SIZE=8192",
+      "MAX_EXPR_DEPTH=1000",
+      "MAX_FUNCTION_ARG=1000",
+      "MAX_LENGTH=1000000000",
+      "MAX_LIKE_PATTERN_LENGTH=50000",
+      "MAX_MMAP_SIZE=0x7fff0000",
+      "MAX_PAGE_COUNT=0xfffffffe",
+      "MAX_PAGE_SIZE=65536",
+      "MAX_SQL_LENGTH=1000000000",
+      "MAX_TRIGGER_DEPTH=1000",
+      "MAX_VARIABLE_NUMBER=32766",
+      "MAX_VDBE_OP=250000000",
+      "MAX_WORKER_THREADS=8",
+      "MUTEX_PTHREADS",
+      "SYSTEM_MALLOC",
+      "TEMP_STORE=1",
+      "THREADSAFE=1"
+    ],
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "concurrency": 1,
+    "config": {
+      "id": "synthetic-baseline-v1",
+      "model": "synthetic-fixture-v1",
+      "retry_on_error": 0,
+      "prevalidate": false,
+      "schema_retrieval": false,
+      "clear_descriptions": true
+    },
+    "config_hash": "b42bc57770dd07f8c834224f1297c378da5f582e3a1c0c23cccb1e651d0fdfea",
+    "base_seed": 20261018,
+    "sampling_seed_supported": false,
+    "pricing_version": "unknown; live execution disabled until configured"
+  }
+}

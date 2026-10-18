@@ -51,7 +51,9 @@ def execute(req: dict[str, Any]) -> dict[str, Any]:
             if conn.getlimit(category) > value:
                 raise RuntimeError("SQLite runtime limit was not applied")
 
-        def authorize(code: int, a: str | None, b: str | None, db: str | None, _: str | None) -> int:
+        def authorize(
+            code: int, a: str | None, b: str | None, db: str | None, _: str | None
+        ) -> int:
             nonlocal blocked
             allow = code in (sqlite3.SQLITE_SELECT, sqlite3.SQLITE_RECURSIVE)
             if code == sqlite3.SQLITE_READ:
@@ -75,7 +77,12 @@ def execute(req: dict[str, Any]) -> dict[str, Any]:
         conn.set_progress_handler(progress, 100)
         cursor = conn.execute(req["sql"])
         if cursor.description is None:
-            return {"ok": False, "blocked": True, "error": "Read query required", "error_kind": "policy"}
+            return {
+                "ok": False,
+                "blocked": True,
+                "error": "Read query required",
+                "error_kind": "policy",
+            }
         columns = [str(c[0]) for c in cursor.description]
         rows: list[list[Any]] = []
         used = len(json.dumps(columns).encode())
@@ -89,7 +96,11 @@ def execute(req: dict[str, Any]) -> dict[str, Any]:
                 if isinstance(value, bytes):
                     value = {"$blob": value.hex()}
                 if isinstance(value, float) and not math.isfinite(value):
-                    return {"ok": False, "error": "Nonfinite numeric result", "error_kind": "nonfinite"}
+                    return {
+                        "ok": False,
+                        "error": "Nonfinite numeric result",
+                        "error_kind": "nonfinite",
+                    }
                 if len(json.dumps(value, ensure_ascii=False).encode()) > limits["max_cell_bytes"]:
                     truncated = True
                     break
@@ -107,7 +118,9 @@ def execute(req: dict[str, Any]) -> dict[str, Any]:
         message = str(exc)
         resource_hit = exhausted or "too big" in message or "too large" in message
         return {
-            "ok": False, "error": message[:500], "blocked": blocked,
+            "ok": False,
+            "error": message[:500],
+            "blocked": blocked,
             "resource_limited": resource_hit,
             "error_kind": "policy" if blocked else "resource" if resource_hit else "sql",
         }
