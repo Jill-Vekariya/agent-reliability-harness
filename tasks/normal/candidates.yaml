@@ -1,0 +1,1024 @@
+- schema_version: 1
+  id: q001
+  question: How many artists are in the database?
+  difficulty: easy
+  category: ordinary
+  split: dev
+  tags:
+  - count
+  family_id: count
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT COUNT(*) AS artist_count FROM Artist
+  expected_columns:
+  - artist_count
+  expected_result:
+  - - 275
+  expected_behavior: answer
+  ordered: false
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns: []
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q002
+  question: List the first five artists alphabetically, breaking ties by ArtistId.
+  difficulty: easy
+  category: ordinary
+  split: dev
+  tags:
+  - ordered_list
+  family_id: ordered_list
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT Name FROM Artist ORDER BY Name,ArtistId LIMIT 5
+  expected_columns:
+  - Name
+  expected_result:
+  - - A Cor Do Som
+  - - AC/DC
+  - - Aaron Copland & London Symphony Orchestra
+  - - Aaron Goldberg
+  - - Academy of St. Martin in the Fields & Sir Neville Marriner
+  expected_behavior: answer
+  ordered: true
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns: []
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q003
+  question: How many albums are there?
+  difficulty: easy
+  category: ordinary
+  split: dev
+  tags:
+  - count
+  family_id: count
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT COUNT(*) AS album_count FROM Album
+  expected_columns:
+  - album_count
+  expected_result:
+  - - 347
+  expected_behavior: answer
+  ordered: false
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns: []
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q004
+  question: How many customers live in Brazil?
+  difficulty: easy
+  category: ordinary
+  split: dev
+  tags:
+  - filter
+  family_id: filter
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT COUNT(*) AS customers FROM Customer WHERE Country='Brazil'
+  expected_columns:
+  - customers
+  expected_result:
+  - - 5
+  expected_behavior: answer
+  ordered: false
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns: []
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q005
+  question: What is the longest track duration in milliseconds?
+  difficulty: easy
+  category: ordinary
+  split: dev
+  tags:
+  - extreme
+  family_id: extreme
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT MAX(Milliseconds) AS max_ms FROM Track
+  expected_columns:
+  - max_ms
+  expected_result:
+  - - 5286953
+  expected_behavior: answer
+  ordered: false
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns: []
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q006
+  question: List the five countries with the most customers, ties alphabetically.
+  difficulty: easy
+  category: ordinary
+  split: dev
+  tags:
+  - group_count
+  family_id: group_count
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT Country,COUNT(*) AS n FROM Customer GROUP BY Country ORDER BY n
+    DESC,Country LIMIT 5
+  expected_columns:
+  - Country
+  - n
+  expected_result:
+  - - USA
+    - 13
+  - - Canada
+    - 8
+  - - Brazil
+    - 5
+  - - France
+    - 5
+  - - Germany
+    - 4
+  expected_behavior: answer
+  ordered: true
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns: []
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q007
+  question: How many customers have a NULL State?
+  difficulty: easy
+  category: ordinary
+  split: dev
+  tags:
+  - 'null'
+  family_id: 'null'
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT COUNT(*) AS n FROM Customer WHERE State IS NULL
+  expected_columns:
+  - n
+  expected_result:
+  - - 29
+  expected_behavior: answer
+  ordered: false
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns: []
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q008
+  question: Find the total number of purchased track units.
+  difficulty: easy
+  category: ordinary
+  split: dev
+  tags:
+  - sum
+  family_id: sum
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT SUM(Quantity) AS units FROM InvoiceLine
+  expected_columns:
+  - units
+  expected_result:
+  - - 2240
+  expected_behavior: answer
+  ordered: false
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns: []
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q009
+  question: List all media type names alphabetically.
+  difficulty: easy
+  category: ordinary
+  split: dev
+  tags:
+  - ordered_list
+  family_id: ordered_list
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT Name FROM MediaType ORDER BY Name
+  expected_columns:
+  - Name
+  expected_result:
+  - - AAC audio file
+  - - MPEG audio file
+  - - Protected AAC audio file
+  - - Protected MPEG-4 video file
+  - - Purchased AAC audio file
+  expected_behavior: answer
+  ordered: true
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns: []
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q010
+  question: How many invoices have a total greater than 20?
+  difficulty: easy
+  category: ordinary
+  split: dev
+  tags:
+  - filter
+  family_id: filter
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT COUNT(*) AS n FROM Invoice WHERE Total>20
+  expected_columns:
+  - n
+  expected_result:
+  - - 4
+  expected_behavior: answer
+  ordered: false
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns: []
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q011
+  question: Which five genres contain the most tracks, ties alphabetically?
+  difficulty: medium
+  category: ordinary
+  split: dev
+  tags:
+  - join_group
+  family_id: join_group
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT g.Name,COUNT(*) AS n FROM Genre g JOIN Track t ON t.GenreId=g.GenreId
+    GROUP BY g.GenreId,g.Name ORDER BY n DESC,g.Name LIMIT 5
+  expected_columns:
+  - Name
+  - n
+  expected_result:
+  - - Rock
+    - 1297
+  - - Latin
+    - 579
+  - - Metal
+    - 374
+  - - Alternative & Punk
+    - 332
+  - - Jazz
+    - 130
+  expected_behavior: answer
+  ordered: true
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns: []
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q012
+  question: Which five customers spent the most, ties by CustomerId? Return IDs and
+    total spend.
+  difficulty: medium
+  category: ordinary
+  split: dev
+  tags:
+  - customer_spend
+  family_id: customer_spend
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT CustomerId,SUM(Total) AS spend FROM Invoice GROUP BY CustomerId
+    ORDER BY spend DESC,CustomerId LIMIT 5
+  expected_columns:
+  - CustomerId
+  - spend
+  expected_result:
+  - - 6
+    - 49.62
+  - - 26
+    - 47.62
+  - - 57
+    - 46.62
+  - - 45
+    - 45.62
+  - - 46
+    - 45.62
+  expected_behavior: answer
+  ordered: true
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns:
+  - 1
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q013
+  question: Which artists have at least 10 albums? Return names and album counts,
+    ordered by count descending then name.
+  difficulty: medium
+  category: ordinary
+  split: dev
+  tags:
+  - having
+  family_id: having
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT a.Name,COUNT(*) AS albums FROM Artist a JOIN Album b ON b.ArtistId=a.ArtistId
+    GROUP BY a.ArtistId,a.Name HAVING COUNT(*)>=10 ORDER BY albums DESC,a.Name
+  expected_columns:
+  - Name
+  - albums
+  expected_result:
+  - - Iron Maiden
+    - 21
+  - - Led Zeppelin
+    - 14
+  - - Deep Purple
+    - 11
+  - - Metallica
+    - 10
+  - - U2
+    - 10
+  expected_behavior: answer
+  ordered: true
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns: []
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q014
+  question: Return invoice counts by year, oldest year first.
+  difficulty: medium
+  category: ordinary
+  split: dev
+  tags:
+  - date
+  family_id: date
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT strftime('%Y',InvoiceDate) AS year,COUNT(*) AS n FROM Invoice GROUP
+    BY year ORDER BY year
+  expected_columns:
+  - year
+  - n
+  expected_result:
+  - - '2009'
+    - 83
+  - - '2010'
+    - 83
+  - - '2011'
+    - 83
+  - - '2012'
+    - 83
+  - - '2013'
+    - 80
+  expected_behavior: answer
+  ordered: true
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns: []
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q015
+  question: How many tracks have no composer listed?
+  difficulty: medium
+  category: ordinary
+  split: dev
+  tags:
+  - 'null'
+  family_id: 'null'
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT COUNT(*) AS n FROM Track WHERE Composer IS NULL OR Composer=''
+  expected_columns:
+  - n
+  expected_result:
+  - - 978
+  expected_behavior: answer
+  ordered: false
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns: []
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q016
+  question: Return the five countries with highest invoice totals, ties alphabetically.
+  difficulty: medium
+  category: ordinary
+  split: dev
+  tags:
+  - sum_group
+  family_id: sum_group
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT BillingCountry,SUM(Total) AS revenue FROM Invoice GROUP BY BillingCountry
+    ORDER BY revenue DESC,BillingCountry LIMIT 5
+  expected_columns:
+  - BillingCountry
+  - revenue
+  expected_result:
+  - - USA
+    - 523.06
+  - - Canada
+    - 303.96
+  - - France
+    - 195.1
+  - - Brazil
+    - 190.1
+  - - Germany
+    - 156.48
+  expected_behavior: answer
+  ordered: true
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns:
+  - 1
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q017
+  question: How many tracks were never purchased?
+  difficulty: medium
+  category: ordinary
+  split: dev
+  tags:
+  - not_exists
+  family_id: not_exists
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT COUNT(*) AS n FROM Track t WHERE NOT EXISTS(SELECT 1 FROM InvoiceLine
+    l WHERE l.TrackId=t.TrackId)
+  expected_columns:
+  - n
+  expected_result:
+  - - 1519
+  expected_behavior: answer
+  ordered: false
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns: []
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q018
+  question: List the album count for AC/DC.
+  difficulty: medium
+  category: ordinary
+  split: dev
+  tags:
+  - join_filter
+  family_id: join_filter
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT COUNT(*) AS n FROM Album b JOIN Artist a ON a.ArtistId=b.ArtistId
+    WHERE a.Name='AC/DC'
+  expected_columns:
+  - n
+  expected_result:
+  - - 2
+  expected_behavior: answer
+  ordered: false
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns: []
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q019
+  question: What is the average track duration in milliseconds?
+  difficulty: medium
+  category: ordinary
+  split: dev
+  tags:
+  - average
+  family_id: average
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT AVG(Milliseconds) AS avg_ms FROM Track
+  expected_columns:
+  - avg_ms
+  expected_result:
+  - - 393599.2121039109
+  expected_behavior: answer
+  ordered: false
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns:
+  - 0
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q020
+  question: Return the ten most purchased tracks by quantity, ties by TrackId. Return
+    IDs and quantity.
+  difficulty: medium
+  category: ordinary
+  split: dev
+  tags:
+  - sum_group
+  family_id: sum_group
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT TrackId,SUM(Quantity) AS units FROM InvoiceLine GROUP BY TrackId
+    ORDER BY units DESC,TrackId LIMIT 10
+  expected_columns:
+  - TrackId
+  - units
+  expected_result:
+  - - 2
+    - 2
+  - - 8
+    - 2
+  - - 9
+    - 2
+  - - 20
+    - 2
+  - - 32
+    - 2
+  - - 48
+    - 2
+  - - 66
+    - 2
+  - - 84
+    - 2
+  - - 161
+    - 2
+  - - 162
+    - 2
+  expected_behavior: answer
+  ordered: true
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns: []
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q021
+  question: Return each sales support employee ID and customer count, including zero,
+    ordered by employee ID.
+  difficulty: hard
+  category: ordinary
+  split: dev
+  tags:
+  - left_join
+  family_id: left_join
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT e.EmployeeId,COUNT(c.CustomerId) AS customers FROM Employee e LEFT
+    JOIN Customer c ON c.SupportRepId=e.EmployeeId WHERE e.Title='Sales Support Agent'
+    GROUP BY e.EmployeeId ORDER BY e.EmployeeId
+  expected_columns:
+  - EmployeeId
+  - customers
+  expected_result:
+  - - 3
+    - 21
+  - - 4
+    - 20
+  - - 5
+    - 18
+  expected_behavior: answer
+  ordered: true
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns: []
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q022
+  question: How many customers purchased tracks from more than one genre?
+  difficulty: hard
+  category: ordinary
+  split: dev
+  tags:
+  - distinct_join
+  family_id: distinct_join
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT COUNT(*) AS n FROM (SELECT i.CustomerId FROM Invoice i JOIN InvoiceLine
+    l ON l.InvoiceId=i.InvoiceId JOIN Track t ON t.TrackId=l.TrackId GROUP BY i.CustomerId
+    HAVING COUNT(DISTINCT t.GenreId)>1)
+  expected_columns:
+  - n
+  expected_result:
+  - - 59
+  expected_behavior: answer
+  ordered: false
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns: []
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q023
+  question: Which three playlists contain the most distinct tracks, ties by PlaylistId?
+    Return ID and count.
+  difficulty: hard
+  category: ordinary
+  split: dev
+  tags:
+  - join_group
+  family_id: join_group
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT p.PlaylistId,COUNT(DISTINCT pt.TrackId) AS n FROM Playlist p LEFT
+    JOIN PlaylistTrack pt ON pt.PlaylistId=p.PlaylistId GROUP BY p.PlaylistId ORDER
+    BY n DESC,p.PlaylistId LIMIT 3
+  expected_columns:
+  - PlaylistId
+  - n
+  expected_result:
+  - - 1
+    - 3290
+  - - 8
+    - 3290
+  - - 5
+    - 1477
+  expected_behavior: answer
+  ordered: true
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns: []
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q024
+  question: Return the earliest invoice date and the number of invoices on that exact
+    date.
+  difficulty: hard
+  category: ordinary
+  split: dev
+  tags:
+  - subquery
+  family_id: subquery
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT InvoiceDate,COUNT(*) AS n FROM Invoice WHERE InvoiceDate=(SELECT
+    MIN(InvoiceDate) FROM Invoice) GROUP BY InvoiceDate
+  expected_columns:
+  - InvoiceDate
+  - n
+  expected_result:
+  - - '2009-01-01 00:00:00'
+    - 1
+  expected_behavior: answer
+  ordered: false
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns: []
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q025
+  question: How many albums contain at least one track longer than 10 minutes?
+  difficulty: hard
+  category: ordinary
+  split: dev
+  tags:
+  - exists
+  family_id: exists
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT COUNT(*) AS n FROM Album a WHERE EXISTS(SELECT 1 FROM Track t WHERE
+    t.AlbumId=a.AlbumId AND t.Milliseconds>600000)
+  expected_columns:
+  - n
+  expected_result:
+  - - 44
+  expected_behavior: answer
+  ordered: false
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns: []
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q026
+  question: How many invoice totals differ from the sum of their line totals by more
+    than 0.001?
+  difficulty: hard
+  category: ordinary
+  split: dev
+  tags:
+  - aggregation_trap
+  family_id: aggregation_trap
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT COUNT(*) AS n FROM (SELECT i.InvoiceId FROM Invoice i JOIN InvoiceLine
+    l ON l.InvoiceId=i.InvoiceId GROUP BY i.InvoiceId,i.Total HAVING ABS(i.Total-SUM(l.UnitPrice*l.Quantity))>0.001)
+  expected_columns:
+  - n
+  expected_result:
+  - - 0
+  expected_behavior: answer
+  ordered: false
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns: []
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q027
+  question: Find the three artists with highest purchased-unit revenue, ties by ArtistId.
+    Return ID and revenue.
+  difficulty: hard
+  category: ordinary
+  split: dev
+  tags:
+  - multi_join
+  family_id: multi_join
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT a.ArtistId,SUM(l.UnitPrice*l.Quantity) AS revenue FROM Artist a
+    JOIN Album b ON b.ArtistId=a.ArtistId JOIN Track t ON t.AlbumId=b.AlbumId JOIN
+    InvoiceLine l ON l.TrackId=t.TrackId GROUP BY a.ArtistId ORDER BY revenue DESC,a.ArtistId
+    LIMIT 3
+  expected_columns:
+  - ArtistId
+  - revenue
+  expected_result:
+  - - 90
+    - 138.6
+  - - 150
+    - 105.92999999999999
+  - - 50
+    - 90.09
+  expected_behavior: answer
+  ordered: true
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns:
+  - 1
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q028
+  question: Count customers with no invoices.
+  difficulty: hard
+  category: ordinary
+  split: dev
+  tags:
+  - not_exists
+  family_id: not_exists
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT COUNT(*) AS n FROM Customer c WHERE NOT EXISTS(SELECT 1 FROM Invoice
+    i WHERE i.CustomerId=c.CustomerId)
+  expected_columns:
+  - n
+  expected_result:
+  - - 0
+  expected_behavior: answer
+  ordered: false
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns: []
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q029
+  question: Return the most expensive track price and the number of tracks at that
+    price.
+  difficulty: hard
+  category: ordinary
+  split: dev
+  tags:
+  - subquery
+  family_id: subquery
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT UnitPrice,COUNT(*) AS n FROM Track WHERE UnitPrice=(SELECT MAX(UnitPrice)
+    FROM Track) GROUP BY UnitPrice
+  expected_columns:
+  - UnitPrice
+  - n
+  expected_result:
+  - - 1.99
+    - 213
+  expected_behavior: answer
+  ordered: false
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns:
+  - 0
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
+- schema_version: 1
+  id: q030
+  question: Return the top two tracks by duration within the Rock genre, ties by TrackId.
+    Return ID and milliseconds.
+  difficulty: hard
+  category: ordinary
+  split: dev
+  tags:
+  - window
+  family_id: window
+  database_fixture_id: chinook-v1.4.5
+  dataset_version: candidate-0.1
+  gold_sql: SELECT TrackId,Milliseconds FROM (SELECT t.TrackId,t.Milliseconds,ROW_NUMBER()
+    OVER(ORDER BY t.Milliseconds DESC,t.TrackId) AS rn FROM Track t JOIN Genre g ON
+    g.GenreId=t.GenreId WHERE g.Name='Rock') WHERE rn<=2 ORDER BY rn
+  expected_columns:
+  - TrackId
+  - Milliseconds
+  expected_result:
+  - - 1666
+    - 1612329
+  - - 620
+    - 1196094
+  expected_behavior: answer
+  ordered: true
+  column_names_matter: false
+  atol: 1.0e-07
+  rtol: 1.0e-09
+  tolerant_columns: []
+  tie_policy: Explicit final ORDER BY when ordered
+  source: AI-assisted original Chinook question; not Spider-adapted
+  adaptation_notes: Not adapted
+  authoring_method: AI-assisted
+  reviewer: null
+  review_status: candidate
+  assertions: {}
