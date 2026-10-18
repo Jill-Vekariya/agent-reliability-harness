@@ -37,9 +37,14 @@ const evaluate = async expression => {
 };
 const assert = (condition, message) => { if (!condition) throw new Error(message); };
 const click = async id => {
-  const point = await evaluate(`(() => { const e=document.querySelector('[data-case="${id}"]'); e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return {x:r.x+r.width/2,y:r.y+r.height/2}; })()`);
+  const point = await evaluate(`(() => { const e=document.querySelector('[data-case="${id}"]'); e.scrollIntoView({behavior:'instant',block:'center'}); const r=e.getBoundingClientRect(); return {x:r.x+r.width/2,y:r.y+r.height/2}; })()`);
   await send('Input.dispatchMouseEvent', {type:'mousePressed',button:'left',clickCount:1,...point});
   await send('Input.dispatchMouseEvent', {type:'mouseReleased',button:'left',clickCount:1,...point});
+  for (let i = 0; i < 40; i++) {
+    if (await evaluate(`document.querySelector('[data-case="${id}"]').getAttribute('aria-pressed') === 'true'`)) return;
+    await new Promise(resolve => setTimeout(resolve, 100));
+  }
+  throw new Error('Case selection did not settle: ' + id);
 };
 await send('Page.enable'); await send('Runtime.enable');
 for (let i = 0; i < 60; i++) {

@@ -13,6 +13,6 @@
 - [ ] Five fresh attempts per frozen task/config; missing coverage disclosed.
 - [ ] Actual held-out human labels obtained; no manufactured agreement score.
 - [ ] Headline statistics/Pareto/ablations/safety regenerated from actual live artifacts.
-- [ ] Public repository/host authorized and verified before publication claims.
+- [x] Public repository, static Pages walkthrough, and GHCR publication authorized and verified; see `PUBLICATION.md`.
 
 Pending R1/R2 items do not imply the offline engineering release is unusable. Executed checks are recorded authoritatively in `reports/release-evidence.json`, not inferred from these unchecked boxes.

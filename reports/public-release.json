@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "verified_at": "2026-10-18T12:48:06.179827+00:00",
+  "repository": "https://github.com/Jill-Vekariya/agent-reliability-harness",
+  "release_commit": "5e86778dd799fa67c86cf6ade44634af147d3e66",
+  "main_workflow": {
+    "url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39127910554",
+    "verify": "success",
+    "pages": "success"
+  },
+  "tag_workflow": {
+    "url": "https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39128143092",
+    "verify": "success",
+    "container": "success"
+  },
+  "image": {
+    "reference": "ghcr.io/jill-vekariya/agent-reliability-harness:0.2.0",
+    "digest": "sha256:730eddd981aa3b658f51ab331bbd0b2f967be61a7fa5c2a0541e86a5dbcccc7d",
+    "runtime_manifest": "sha256:f67d9a0b801001e67ddb26df451fb019a45afd6f5d8b30d40217fd5178ee69a2",
+    "platform": "linux/amd64",
+    "anonymous_manifest_exit_code": 0,
+    "anonymous_pull_exit_code": 0,
+    "published_image_offline_regression": {
+      "exit_code": 0,
+      "gate_passed": true,
+      "synthetic_matches": 19,
+      "attempts": 20,
+      "regressions": [],
+      "incompatible": []
+    }
+  },
+  "desktop_docker_tests": {
+    "passed": 64,
+    "failed": 0,
+    "skipped": 0,
+    "warnings": 1,
+    "seconds": 30.63,
+    "network": "none",
+    "read_only": true
+  },
+  "static_demo": {
+    "url": "https://jill-vekariya.github.io/agent-reliability-harness/",
+    "http_status": 200,
+    "browser_evidence": "reports/public-demo-browser.json"
+  },
+  "paid_api_spend_usd": "0",
+  "unresolved_reservations_usd": "0",
+  "fresh_live_attempts": 0,
+  "human_reviews": 0
+}
