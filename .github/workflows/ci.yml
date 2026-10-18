@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # verified v4 ref, 2026-10-18
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # verified v4 ref, 2026-10-18
         with:
           fetch-depth: 0
       - name: Install pinned tool and runtime
@@ -48,7 +48,7 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # verified v3, 2026-10-18
       - name: Set image reference
         id: image
@@ -95,7 +95,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - name: Build the public walkthrough
         run: |
           python3 -m pip install uv==0.12.23
