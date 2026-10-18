@@ -41,7 +41,7 @@ Python 3.12.14, dependencies, and database checksums are pinned. No API key is n
 docker compose -f compose.release.yaml up -d
 ```
 
-The release configuration currently pins the verified **v0.2.1 digest** while v0.3.0 is prepared. Build the checkout to use the audited source. The pin is updated after actual publication. The image targets Linux AMD64; other architectures can build from source.
+The release configuration selects **v0.3.0**. Publication is verified before the main checkout is pinned to its immutable image digest; see the release evidence. Build the checkout to run from source. The image targets Linux AMD64; other architectures can build from source.
 
 ## Demo
 
