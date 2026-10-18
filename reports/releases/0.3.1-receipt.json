@@ -1,0 +1,100 @@
+{
+  "assets": [
+    {
+      "browser_download_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/download/v0.3.1/browser-local.json",
+      "digest": "sha256:62dbacb886da118fe0235c8e45ea2132ce92c8357c780c9c0129eb753fa3a7d4",
+      "id": 654162322,
+      "name": "browser-local.json",
+      "size": 219
+    },
+    {
+      "browser_download_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/download/v0.3.1/browser-public.json",
+      "digest": "sha256:8154a55db8b56f9b4587ac277f79a4ceab62393add4c3841a4981525b8f239ae",
+      "id": 654162332,
+      "name": "browser-public.json",
+      "size": 534
+    },
+    {
+      "browser_download_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/download/v0.3.1/ci-workflows.json",
+      "digest": "sha256:c1d9000bdb02d78a003a8374398575ff22dd9fd6d8f3ea1e958f26e0536237f5",
+      "id": 654162320,
+      "name": "ci-workflows.json",
+      "size": 21918
+    },
+    {
+      "browser_download_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/download/v0.3.1/counter-deployment.json",
+      "digest": "sha256:065fc7dfdfc7bb045630fa97d375447dd8c79aa0c7a79f2026abe55dc90e9272",
+      "id": 654162312,
+      "name": "counter-deployment.json",
+      "size": 359
+    },
+    {
+      "browser_download_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/download/v0.3.1/engineering.json",
+      "digest": "sha256:f12537f99b9a0ce917376969a581b555582e7cab5af7282b25e6283dc642ed86",
+      "id": 654162313,
+      "name": "engineering.json",
+      "size": 2795
+    },
+    {
+      "browser_download_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/download/v0.3.1/offline-checks.png",
+      "digest": "sha256:d645177a2c7ffbb011bd1f4e2b018819beedf6e0d8e689ca86a7b12247e42f0b",
+      "id": 654162434,
+      "name": "offline-checks.png",
+      "size": 121102
+    },
+    {
+      "browser_download_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/download/v0.3.1/public-demo.png",
+      "digest": "sha256:c5f4e8f620de4a0e4f0d0722eabaa57b771cc49efd7649e792c9244795808968",
+      "id": 654162352,
+      "name": "public-demo.png",
+      "size": 78346
+    },
+    {
+      "browser_download_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/download/v0.3.1/published-image.json",
+      "digest": "sha256:9a241c200f2611aeb1cd123c7107f7f0c485c9b4e65352faa1b67d92cf675783",
+      "id": 654162377,
+      "name": "published-image.json",
+      "size": 7343
+    },
+    {
+      "browser_download_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/download/v0.3.1/runtime-probe.json",
+      "digest": "sha256:f0510b742249e7d38aeb21d91fbfb6116fb291d52994f5728b12d15617068a0a",
+      "id": 654162484,
+      "name": "runtime-probe.json",
+      "size": 3590
+    },
+    {
+      "browser_download_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/download/v0.3.1/SHA256SUMS",
+      "digest": "sha256:037336f5beab2b6029da496f8792adba83d1b6c0b1ba13b2fa0df6ac1ffc1668",
+      "id": 654162485,
+      "name": "SHA256SUMS",
+      "size": 1014
+    },
+    {
+      "browser_download_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/download/v0.3.1/trace-explorer.png",
+      "digest": "sha256:2be22cc4ec60eabe1cc4568b55299439eee055b54d1be19c1ac712077c3b3d93",
+      "id": 654162487,
+      "name": "trace-explorer.png",
+      "size": 102046
+    },
+    {
+      "browser_download_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/download/v0.3.1/verification.json",
+      "digest": "sha256:33c4e6490ad09b70fc6f66f77a823daab576536407f0c47787dd8c0bdcf601aa",
+      "id": 654162511,
+      "name": "verification.json",
+      "size": 6329
+    },
+    {
+      "browser_download_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/download/v0.3.1/viewer.json",
+      "digest": "sha256:cb0038a3b8aaada2e3aa3783cadab3484cfb19c218afd6d6838dc69142f612fc",
+      "id": 654162513,
+      "name": "viewer.json",
+      "size": 653
+    }
+  ],
+  "html_url": "https://github.com/Jill-Vekariya/agent-reliability-harness/releases/tag/v0.3.1",
+  "id": 416622415,
+  "published_at": "2026-10-18T18:25:17Z",
+  "tag_name": "v0.3.1",
+  "target_commitish": "main"
+}

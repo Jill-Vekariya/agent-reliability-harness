@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "url": "https://jill-vekariya.github.io/agent-reliability-harness/",
+  "captured_at": "2026-10-18T18:20:02.736Z",
+  "four_case_controls": "passed",
+  "displayed_test_count": 148,
+  "evidence_release": "v0.3.1",
+  "desktop_capture_scroll_y": 0,
+  "supported_result": "passed",
+  "schema_failure": "passed",
+  "blocked_query": "passed",
+  "scripted_recovery": "passed",
+  "mobile_width": 375,
+  "horizontal_overflow": false,
+  "browser_exceptions": [],
+  "screenshot": "reports/screenshots/public-demo.png"
+}

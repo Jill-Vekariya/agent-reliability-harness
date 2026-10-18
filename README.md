@@ -4,7 +4,7 @@ SQL agents can return plausible answers after a bad query, an unsafe proposal, o
 
 Its contribution is an offline-first harness combining a protected SQL worker, typed result grading, exact trace replay, current-tool regression, and conservative spending controls. **It has not yet established a live-model reliability or cost improvement.**
 
-[Browser walkthrough](https://jill-vekariya.github.io/agent-reliability-harness/) · [v0.3.0 release](https://github.com/Jill-Vekariya/agent-reliability-harness/releases/tag/v0.3.0) · [Audit findings](docs/AUDIT.md) · [Evidence and remaining work](docs/STATUS.md)
+[Browser walkthrough](https://jill-vekariya.github.io/agent-reliability-harness/) · [v0.3.1 release](https://github.com/Jill-Vekariya/agent-reliability-harness/releases/tag/v0.3.1) · [Audit findings](docs/AUDIT.md) · [Evidence and remaining work](docs/STATUS.md)
 
 ## Architecture
 
@@ -41,7 +41,7 @@ Python 3.12.14, dependencies, and database checksums are pinned. No API key is n
 docker compose -f compose.release.yaml up -d
 ```
 
-The release configuration pins the verified **v0.3.0 image digest**. The downloaded image passed 145 tests, all 37 offline cases, and runtime-control/source-integrity probes. Build the checkout to run from source. The image targets Linux AMD64; other architectures can build from source.
+The release configuration pins the verified **v0.3.1 image digest**. The downloaded image passed 148 tests, all 37 offline cases, and runtime-control/source-integrity probes. Build the checkout to run from source. The image targets Linux AMD64; other architectures can build from source.
 
 ## Demo
 
@@ -49,7 +49,7 @@ The Streamlit viewer explores saved traces and executes offline regression. Foll
 
 The [public walkthrough](https://jill-vekariya.github.io/agent-reliability-harness/) displays four saved synthetic examples without a SQL/model backend. Docker runs the actual worker. These demonstrations establish engineering behavior, not model accuracy or a measured retry benefit.
 
-![Public synthetic trace walkthrough](reports/releases/0.3.0/public-demo.png)
+![Public synthetic trace walkthrough](reports/releases/0.3.1/public-demo.png)
 
 ## Implementation and evidence
 
@@ -63,7 +63,7 @@ The [public walkthrough](https://jill-vekariya.github.io/agent-reliability-harne
 | Repeated-sample statistics and reporting | Synthetic coverage tests; incomplete plans suppress headline metrics |
 | Viewer, Docker, CI, static delivery, OTel export | Existing released checks plus separate local audit evidence |
 
-The audit's [local command results](reports/audit-evidence.json), [Docker results](reports/audit-desktop.json), and [external checks](reports/audit-external.json) have different scopes. The audit passed **145 tests natively and in Docker**. The [v0.3.0 verification](reports/releases/0.3.0/verification.json) separately records successful hosted workflows, the actual published-image tests, and browser checks. [STATUS.md](docs/STATUS.md) records exact counts, commands, and blockers.
+The audit's [local command results](reports/audit-evidence.json), [Docker results](reports/audit-desktop.json), and [external checks](reports/audit-external.json) have different scopes. The audit passed **145 tests natively and in Docker**. The [v0.3.1 verification](reports/releases/0.3.1/verification.json) separately records successful hosted workflows, the actual published-image tests, and browser checks. [STATUS.md](docs/STATUS.md) records exact counts, commands, and blockers.
 
 ## Benchmark and experiment status
 
@@ -106,13 +106,13 @@ Do not regenerate the baseline to hide a regression. The [reproduction guide](do
 
 ## Verified release
 
-[v0.3.0](https://github.com/Jill-Vekariya/agent-reliability-harness/releases/tag/v0.3.0) was built from `2e0d20e`. Its [pull-request checks](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39149568475), [main/Pages workflow](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39149726886), and [tag/container workflow](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39149733068) succeeded. The published image passed **145 tests** after anonymous download, with network disabled and the documented resource controls. SBOM and SLSA provenance predicates are present.
+[v0.3.1](https://github.com/Jill-Vekariya/agent-reliability-harness/releases/tag/v0.3.1) was built from `394f42c`. Its [pull-request checks](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152580419), [main/Pages workflow](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152751839), and [tag/container workflow](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152759313) succeeded. The published image passed **148 tests** after anonymous download, with network disabled and the documented resource controls. SPDX SBOM and SLSA provenance v1 predicates are present.
 
 ```text
-ghcr.io/jill-vekariya/agent-reliability-harness:0.3.0@sha256:15b7c4c6ea5c73cdb38eab5a06c3aa82d8bb13e3dfb3ae86bceafcfb7bf15e5d
+ghcr.io/jill-vekariya/agent-reliability-harness:0.3.1@sha256:4254993a830a5b827300f5c415fcbad4a1aaa4176c0a08130ff55cf02b8004da
 ```
 
-[Release verification](reports/releases/0.3.0/verification.json), [artifact checksums](reports/releases/0.3.0/SHA256SUMS), and [publication details](docs/PUBLICATION.md) distinguish current results from historical releases. A follow-up [CI maintenance workflow](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39150428931) verified Ubuntu 24.04 and Node 24 checkout/Pages pins.
+[Release verification](reports/releases/0.3.1/verification.json), [checksums](reports/releases/0.3.1/SHA256SUMS), and [publication details](docs/PUBLICATION.md) distinguish current results from historical releases. Public test counts select a checksum-bound published record and display its release. CI uses Ubuntu 24.04 and Node 24 checkout/Pages pins; the [evidence-selection deployment](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39153456023) passed.
 
 ## Known failures and contribution
 
