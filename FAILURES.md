@@ -13,3 +13,5 @@ Synthetic detector demonstrations, not real model incidents:
 The other categories have no real observed examples. Synthetic unit fixtures test classification mechanics and are not evidence of real category prevalence. Recoverable errors and expected resource termination must not automatically be counted as overall task failures.
 
 Actual implementation bugs and their fixes are recorded separately in `docs/DECISIONS.md`.
+
+The subsequent engineering audit reproduced spending-rounding, malformed-trace, and resumed-regression failures and added worker/interruption and missing-coverage tests. See `docs/AUDIT.md` for repository evidence, fixes, and finite-test limits. These implementation failures are not live-model incidents, human labels, or measured model failure prevalence.

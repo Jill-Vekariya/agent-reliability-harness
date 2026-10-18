@@ -18,3 +18,16 @@ Resume templates:
 * Evaluated [actual N] fresh agent attempts across [actual configurations], finding [supported result with uncertainty] at [measured cost]; investigated [actual failure evidence].
 
 No values should replace these placeholders until the corresponding work is actually complete.
+
+## Audit exercises — still pending personal work
+
+The assistant implemented the audit changes and expanded tests; this does not complete the user's exercises. In a separate branch, explain and extend one of these cases yourself:
+
+* Reproduce sub-microdollar authorization versus exposure rounding and explain why unknown usage cannot be refunded automatically.
+* Trace the blocked-input worker test through selector readiness, the deadline, termination, and cleanup; explain which host failures it cannot handle.
+* Review the existing q002 resume regression and show how a cached incompatible recording used to turn the gate green.
+* Personally verify a task's gold/result and fill a copied review form with your real/approved reviewer ID and reasoning. Never use the `SYNTHETIC_TEST_ONLY` test identities as reviews.
+* Show why the public 37-task set yields zero honest held-out tasks, then propose a genuinely new family with documented source/rights and leakage review.
+* Explain the missing-entire-cohort statistical test and why its apparent observed success rate is not a headline campaign estimate.
+
+Record date, your actual commit/review, commands/results, and what changed in your understanding. The completed automated checks and remaining human work are separated in `STATUS.md`.
