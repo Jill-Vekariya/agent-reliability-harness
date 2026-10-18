@@ -20,7 +20,15 @@ No API key is needed. No public deployment or hosting service is required. The v
 
 Screenshots are taken from the working application when available and stored under `reports/screenshots/`. No video has been recorded.
 
-## Optional public deployment — pending
+## Public browser walkthrough and container delivery
+
+The static walkthrough is built by `make public-demo` from q001, q002, s001, and the separate recovery script. It accepts synthetic origins only, verifies recording hashes, excludes full provider requests and evaluator gold, escapes JSON embedded in HTML, and renders trace content through DOM text nodes. It has no SQL execution, API key, model endpoint, analytics, or external asset dependency. GitHub Pages deployment and tagged GHCR publication depend on the required verification job. Consult actual Actions/release outcomes before describing a publication as successful.
+
+Use `docker compose -f compose.release.yaml up -d` after the 0.2.0 GHCR release becomes public. It uses the bundled pinned data and a dedicated reports volume. It exposes only localhost. To stop it, use the same Compose file with `down`.
+
+The image is Linux AMD64. Source builds remain available for other Docker platforms. Build provenance and SBOM generation are configured on the tagged publishing job; the published digest and actual job result are the evidence.
+
+## Optional hosted SQL backend — pending
 
 The current delivery is a local container, not a public hosted service. An inexpensive container host must support this image, a writable reports volume, and the stated CPU/memory/process controls. Check current host limits and pricing before selection; the SQL worker's constraints cannot be assumed on a restricted free app host.
 

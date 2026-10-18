@@ -10,4 +10,6 @@ R1 pending: review the existing candidates; expand 30 ordinary candidates toward
 
 R2 pending: approve an explicitly priced pilot/study, collect fresh repetitions, obtain actual held-out human failure labels, and generate the empirical comparisons/ablations/safety analysis. No empirical performance or student contribution has been invented.
 
-Public GitHub release and hosting are not performed. Local git history and the release checklist are included.
+The 0.2.0 public-delivery update adds four export safety/evidence tests (64 engineering tests total in the latest native evidence), a static browser walkthrough, CI-gated Pages deployment, tagged GHCR publishing, a prebuilt-image Compose path, and interview/resume preparation. All nine native checks passed for this update; see `reports/release-evidence.json`.
+
+The public repository is https://github.com/Jill-Vekariya/agent-reliability-harness. Hosted CI, container digests, and deployment results must be checked in the actual Actions runs/release notes. The public static walkthrough executes no SQL or model calls; the full execution demo runs in Docker. A public hosted SQL backend remains out of scope for this zero-cost release.

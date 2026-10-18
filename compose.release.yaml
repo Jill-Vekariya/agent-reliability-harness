@@ -1,0 +1,21 @@
+# Use only after the versioned GHCR image is publicly available.
+services:
+  viewer:
+    image: ghcr.io/jill-vekariya/agent-reliability-harness:0.2.0
+    ports: ["127.0.0.1:8501:8501"]
+    read_only: true
+    user: "10001:10001"
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 768m
+    cpus: 2.0
+    pids_limit: 64
+    tmpfs: ["/tmp:size=64m,mode=1777"]
+    volumes: ["reports:/reports"]
+    environment:
+      API_BUDGET_USD: "0"
+      ARH_PROJECT_ROOT: /app
+      ARH_ARTIFACT_DIR: /reports/artifacts
+    restart: unless-stopped
+volumes:
+  reports:

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore an SQL agent's answer, schema failure, and blocked attack. A reproducible Python engineering project with protected SQLite execution and honest evidence.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-__SCRIPT_HASH__'; style-src 'sha256-__STYLE_HASH__'; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <title>Agent Reliability Lab — inspect the boundary</title>
+  <style>__STYLE__</style>
+</head>
+<body>
+<a class="skip" href="#workspace">Skip to trace explorer</a>
+<header class="nav wrap">
+  <a class="brand" href="#"><span class="logo" aria-hidden="true">ar.</span> Agent Reliability Lab</a>
+  <a class="source" href="https://github.com/Jill-Vekariya/agent-reliability-harness">View source ↗</a>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <p class="eyebrow">SQL AGENTS / RELIABILITY ENGINEERING</p>
+    <h1>A correct answer is only<br>part of the story.</h1>
+    <p class="lede">Follow a tool call. Inspect a failure. See the execution boundary that stops an unsafe query.</p>
+    <div class="hero-actions"><a class="primary" href="#workspace">Explore the traces ↓</a><a class="secondary" href="https://github.com/Jill-Vekariya/agent-reliability-harness#start-here">Run the full Docker demo ↗</a></div>
+    <p class="disclosure"><span class="dot" aria-hidden="true"></span> Static walkthrough · Prewritten synthetic responses · No API calls</p>
+  </section>
+  <section class="stats" aria-label="Project evidence">
+    <div><strong id="test-count">—</strong><span>engineering tests passed</span></div>
+    <div><strong id="candidate-count">—</strong><span>development candidates</span></div>
+    <div><strong id="review-count">—</strong><span>human-reviewed tasks</span></div>
+    <div><strong>$0</strong><span>paid model API spend</span></div>
+  </section>
+  <section id="workspace" class="workspace">
+    <div class="section-heading"><div><p class="eyebrow">THE TRACE EXPLORER</p><h2>Evidence, one step at a time.</h2></div><span class="pill">SYNTHETIC FIXTURES</span></div>
+    <div class="explorer">
+      <aside class="case-list" aria-label="Example traces"><p class="small-label">CHOOSE A CASE</p><div id="cases"></div><div class="case-note">These examples illustrate the machinery. They do not measure a live model's accuracy or resistance to attacks.</div></aside>
+      <article class="trace" aria-live="polite" aria-atomic="false">
+        <div class="trace-heading"><span id="case-category" class="pill"></span><span id="step-count" class="muted"></span></div>
+        <h3 id="question"></h3><p id="case-context" class="context"></p>
+        <section id="answer" aria-label="Final result"></section>
+        <div class="timeline-title"><h4>Tool timeline</h4><span class="muted">Arguments → enforced result</span></div>
+        <div id="steps"></div>
+        <details class="provenance"><summary>Trace provenance</summary><p id="trace-source"></p><p class="mono" id="trace-hash"></p></details>
+      </article>
+    </div>
+  </section>
+  <section class="architecture">
+    <p class="eyebrow">WHAT THE PROJECT DOES</p><h2>Small surface. Explicit boundaries.</h2>
+    <div class="feature-grid">
+      <article><span class="feature-number">01 / EXECUTE</span><h3>Four tools. Protected SQL.</h3><p>Read-only SQLite, an authorizer, query work limits, and a separate worker with a parent deadline. No shell or filesystem tool.</p></article>
+      <article><span class="feature-number">02 / VERIFY</span><h3>Grade results with care.</h3><p>Typed multiset comparison preserves duplicates. Numeric tolerance uses matching rather than a greedy shortcut. Final answers reference a complete result.</p></article>
+      <article><span class="feature-number">03 / REPRODUCE</span><h3>Replay is a distinct mode.</h3><p>Strict recordings never fall back to a model. Regression executes current tools against saved synthetic responses and fails on incompatible requests.</p></article>
+    </div>
+  </section>
+  <section class="evidence-section">
+    <div><p class="eyebrow">ENGINEERING FIRST</p><h2>Measured claims<br>need measured evidence.</h2><p>The offline release is implemented and tested. The empirical study is pending. This distinction is part of the project.</p><a href="https://github.com/Jill-Vekariya/agent-reliability-harness/blob/main/docs/EXPERIMENTS.md">Read the study protocol ↗</a></div>
+    <dl class="evidence-list"><div><dt>Offline engineering</dt><dd id="verification">Checking evidence…</dd></div><div><dt>Live model experiments</dt><dd>0 fresh attempts; not yet measured</dd></div><div><dt>Benchmark review</dt><dd>Human review and grouped holdout pending</dd></div><div><dt>What this page runs</dt><dd>Saved trace navigation only. Use Docker to execute SQL and regression.</dd></div></dl>
+  </section>
+  <section class="closing"><h2>Read it. Run it. Question it.</h2><p>The code, tests, threat model, tradeoffs, and interview guide are all in the repository.</p><a class="primary" href="https://github.com/Jill-Vekariya/agent-reliability-harness">Open the project on GitHub ↗</a></section>
+</main>
+<footer class="wrap"><span>Agent Reliability Harness · MIT</span><span>AI-assisted engineering · Evidence before claims</span></footer>
+<noscript><p class="wrap">JavaScript is required to navigate the saved traces. The complete examples and source are available in the GitHub repository linked above.</p></noscript>
+<script type="application/json" id="demo-data">__DEMO_DATA__</script>
+<script>__SCRIPT__</script>
+</body></html>

@@ -66,7 +66,7 @@ def show_trace(trace: Trace, *, compact: bool = False) -> None:
             )
 
 
-st.caption("AGENT RELIABILITY HARNESS / ENGINEERING RELEASE 0.1")
+st.caption("AGENT RELIABILITY HARNESS / ENGINEERING RELEASE 0.2")
 st.title("Make agent behavior inspectable.")
 st.markdown("Follow the SQL, inspect a failure, and check the boundary that stopped it.")
 st.info(
@@ -167,7 +167,10 @@ with status:
                 "Stage": "R2 · empirical study",
                 "State": "Pending approved API budget and fresh model runs",
             },
-            {"Stage": "Public deployment", "State": "Not published; localhost demo only"},
+            {
+                "Stage": "Public delivery",
+                "State": "See GitHub releases for CI, container, and static walkthrough status",
+            },
         ]
     )
     st.markdown(
