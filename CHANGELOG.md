@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+* Read public-export inputs and task metadata explicitly as UTF-8 and write deterministic UTF-8/LF HTML. A subprocess regression checks export under a non-UTF-8 locale and verifies embedded script/style CSP hashes.
+* Repair the public demo's Docker quick-start link and add a concise project overview, clone instructions, and implementation-linked review guide.
+
 ## 0.3.1 - consistent demo evidence
 
 * Derive the viewer release label from package metadata.
