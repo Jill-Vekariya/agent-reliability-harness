@@ -10,7 +10,7 @@ from .grading import compare_rows
 
 
 def database_for_task(root: Path, task: EvaluationTask) -> Path:
-    manifest = json.loads((root / "data/manifest.json").read_text())
+    manifest = json.loads((root / "data/manifest.json").read_text(encoding="utf-8"))
     if task.database_fixture_id == manifest["dataset_id"]:
         path, expected = root / "data/chinook.sqlite", manifest["database_sha256"]
     else:
@@ -26,7 +26,7 @@ def database_for_task(root: Path, task: EvaluationTask) -> Path:
 def load_tasks(root: Path) -> list[EvaluationTask]:
     tasks: list[EvaluationTask] = []
     for path in sorted((root / "tasks").rglob("*.yaml")):
-        raw = yaml.safe_load(path.read_text())
+        raw = yaml.safe_load(path.read_text(encoding="utf-8"))
         if not isinstance(raw, list):
             raise ValueError(f"Expected a task list: {path}")
         tasks.extend(EvaluationTask.model_validate(item) for item in raw)
@@ -36,7 +36,7 @@ def load_tasks(root: Path) -> list[EvaluationTask]:
 def lint_tasks(root: Path) -> list[str]:
     tasks = load_tasks(root)
     sandbox = Sandbox(root / "data/chinook.sqlite")
-    manifest = json.loads((root / "data/manifest.json").read_text())
+    manifest = json.loads((root / "data/manifest.json").read_text(encoding="utf-8"))
     if (
         __import__("hashlib").sha256(sandbox.database.read_bytes()).hexdigest()
         != manifest["database_sha256"]
@@ -46,7 +46,7 @@ def lint_tasks(root: Path) -> list[str]:
     ids: set[str] = set()
     questions: set[str] = set()
     families: dict[str, str] = {}
-    splits = json.loads((root / "tasks/splits.json").read_text())["assignments"]
+    splits = json.loads((root / "tasks/splits.json").read_text(encoding="utf-8"))["assignments"]
     for task in tasks:
         if task.id in ids:
             errors.append(f"Duplicate ID: {task.id}")
