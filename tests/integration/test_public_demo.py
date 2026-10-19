@@ -1,5 +1,11 @@
+import base64
+import hashlib
 import json
+import os
+import re
 import shutil
+import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -50,6 +56,46 @@ def test_script_closing_and_html_payload_are_inert_json():
     encoded = safe_json(hostile)
     assert "<" not in encoded and ">" not in encoded and "&" not in encoded
     assert json.loads(encoded) == hostile
+
+
+def test_public_export_preserves_unicode_and_csp_under_non_utf8_locale(tmp_path):
+    copy_export_inputs(tmp_path)
+    shutil.copytree(ROOT / "web", tmp_path / "web")
+    # Include non-ASCII task text as well as the template's typography. Alter a
+    # disposable input only; the published tasks and recordings stay untouched.
+    tasks_path = tmp_path / "tasks/normal/candidates.yaml"
+    original = tasks_path.read_text(encoding="utf-8")
+    tasks_path.write_text(original + "\n# Unicode task metadata: café 中文\n", encoding="utf-8")
+    output = tmp_path / "site"
+    script = (
+        "import sys; from pathlib import Path; "
+        "from agent_reliability.reporting.public_demo import build; "
+        "build(Path(sys.argv[1]), Path(sys.argv[2]))"
+    )
+    environment = dict(
+        os.environ,
+        LC_ALL="C",
+        LANG="C",
+        PYTHONCOERCECLOCALE="0",
+        PYTHONUTF8="0",
+    )
+    subprocess.run(
+        [sys.executable, "-X", "utf8=0", "-c", script, str(tmp_path), str(output)],
+        env=environment,
+        check=True,
+        capture_output=True,
+        timeout=30,
+    )
+    raw = (output / "index.html").read_bytes()
+    html = raw.decode("utf-8")
+    assert "inspect the boundary" in html and "View source ↗" in html
+    assert b"\r\n" not in raw
+    assert "__DEMO_DATA__" not in html
+    for tag, directive in (("style", "style-src"), ("script", "script-src")):
+        match = re.search(rf"<{tag}>(.*?)</{tag}>", html, re.S)
+        assert match is not None
+        digest = base64.b64encode(hashlib.sha256(match.group(1).encode("utf-8")).digest()).decode()
+        assert f"{directive} 'sha256-{digest}'" in html
 
 
 def test_export_reports_incomplete_verification_without_inventing_test_count(tmp_path):

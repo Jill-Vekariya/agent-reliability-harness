@@ -27,7 +27,7 @@ def published_verification(root: Path) -> dict[str, Any]:
     reports = root / "reports"
     index_path = reports / "public-evidence.json"
     if not index_path.exists():
-        evidence = json.loads((reports / "release-evidence.json").read_text())
+        evidence = json.loads((reports / "release-evidence.json").read_text(encoding="utf-8"))
         return {
             "captured_at": evidence["captured_at"],
             "all_checks_passed": evidence["all_checks_passed"],
@@ -40,7 +40,7 @@ def published_verification(root: Path) -> dict[str, Any]:
                 None,
             ),
         }
-    index = json.loads(index_path.read_text())
+    index = json.loads(index_path.read_text(encoding="utf-8"))
     if (
         not isinstance(index, dict)
         or set(index) != {"schema_version", "source", "sha256"}
@@ -56,7 +56,7 @@ def published_verification(root: Path) -> dict[str, Any]:
         raise ValueError("Public evidence path escapes reports")
     if file_hash(source) != index["sha256"]:
         raise ValueError("Public evidence checksum mismatch")
-    record = json.loads(source.read_text())
+    record = json.loads(source.read_text(encoding="utf-8"))
     if not isinstance(record, dict):
         raise ValueError("Public evidence must be an object")
     counts, workflows = record.get("published_image_tests", {}), record.get("hosted_workflows", [])
@@ -147,9 +147,11 @@ def csp_hash(content: str) -> str:
 
 def build(root: Path, output: Path) -> Path:
     payload = public_payload(root)
-    template = (root / "web/index.html").read_text()
-    style = (root / "web/style.css").read_text()
-    script = (root / "web/app.js").read_text()
+    # The HTML declares UTF-8 and CSP hashes are computed over UTF-8 bytes.
+    # A host's default encoding must not change either the text or those hashes.
+    template = (root / "web/index.html").read_text(encoding="utf-8")
+    style = (root / "web/style.css").read_text(encoding="utf-8")
+    script = (root / "web/app.js").read_text(encoding="utf-8")
     html = (
         template.replace("__STYLE_HASH__", csp_hash(style))
         .replace("__SCRIPT_HASH__", csp_hash(script))
@@ -159,6 +161,6 @@ def build(root: Path, output: Path) -> Path:
     )
     output.mkdir(parents=True, exist_ok=True)
     path = output / "index.html"
-    path.write_text(html)
-    (output / ".nojekyll").write_text("")
+    path.write_text(html, encoding="utf-8", newline="\n")
+    (output / ".nojekyll").write_text("", encoding="utf-8")
     return path

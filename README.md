@@ -1,10 +1,84 @@
 # Agent Reliability Harness
 
-SQL agents can return plausible answers after a bad query, an unsafe proposal, or a failed tool call. This project makes those paths inspectable and reproducible over a pinned Chinook SQLite database.
+[![CI](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Its contribution is an offline-first harness combining a protected SQL worker, typed result grading, exact trace replay, current-tool regression, and conservative spending controls. **It has not yet established a live-model reliability or cost improvement.**
+**Inspect, constrain, and reproduce the failures of a SQL agent.**
 
-[Browser walkthrough](https://jill-vekariya.github.io/agent-reliability-harness/) · [v0.3.1 release](https://github.com/Jill-Vekariya/agent-reliability-harness/releases/tag/v0.3.1) · [Audit findings](docs/AUDIT.md) · [Evidence and remaining work](docs/STATUS.md)
+A plausible answer can hide an invalid query, an unsafe tool call, or an unsupported result. This Python project puts SQL execution behind a bounded read-only worker, grades typed result tables, and preserves traces that can be replayed or checked against the current implementation.
+
+**[Try the browser walkthrough](https://jill-vekariya.github.io/agent-reliability-harness/) · [Review the code](docs/REVIEW_GUIDE.md) · [Run locally](#quick-start) · [Release evidence](reports/releases/0.3.1/verification.json)**
+
+Python · SQLite · Pydantic · Docker · pytest · Streamlit · OpenTelemetry · GitHub Actions
+
+## At a glance
+
+| What to assess | What is implemented | Where to verify it |
+|---|---|---|
+| Execution boundaries | Read-only SQL authorization, subprocess supervision, deadlines and output limits | [Worker](src/agent_reliability/sandbox/worker.py), [lifecycle tests](tests/integration/test_worker_lifecycle.py) |
+| Answer correctness | Duplicate-aware typed grading; final answers must reference a complete result from the same attempt | [Grader](src/agent_reliability/evaluation/grading.py), [tool runtime](src/agent_reliability/tools/runtime.py) |
+| Reproducibility | Strict trace replay and current-tool regression; incompatible recordings fail without model fallback | [Recording](src/agent_reliability/tracing/recording.py), [regression tests](tests/integration/test_regression.py) |
+| Cost controls | Transactional spending reservations and conservative handling of unknown charges | [Ledger](src/agent_reliability/providers/budget.py), [budget tests](tests/unit/test_budget.py) |
+| Delivery | CI, a static public walkthrough, and a digest-pinned Docker release | [Workflow](.github/workflows/ci.yml), [release configuration](compose.release.yaml) |
+
+The published **v0.3.1 image passed 148 engineering tests** and the 37-case offline gate; the [verification record](reports/releases/0.3.1/verification.json) identifies the image, source revision and commands. The CI badge tracks current `main`, which may be newer than that release.
+
+This is an **AI-assisted engineering portfolio project**. The examples are synthetic, and live-model accuracy, cost improvement and human benchmark review remain unmeasured. [Ownership and completed contributions](docs/OWNERSHIP.md) are recorded separately from automated checks.
+
+## Start here
+
+| Your goal | Suggested route |
+|---|---|
+| Understand the project in two minutes | Open the [walkthrough](https://jill-vekariya.github.io/agent-reliability-harness/); compare the supported answer, schema failure and blocked query. |
+| Review the engineering | Follow the [five-minute code review guide](docs/REVIEW_GUIDE.md), then inspect the linked tests and tradeoffs. |
+| Run the implementation | Use the quick start below. The public walkthrough displays saved traces; Docker executes the SQL worker. |
+| Discuss it in an interview | Read the [design decisions](docs/DECISIONS.md), [failure cases](FAILURES.md), and [implementation questions](docs/INTERVIEW.md). |
+
+## Quick start
+
+Clone the repository first:
+
+```bash
+git clone https://github.com/Jill-Vekariya/agent-reliability-harness.git
+cd agent-reliability-harness
+```
+
+**Docker — published release:** start Docker Desktop or a Linux Docker engine, then run:
+
+```bash
+docker compose -f compose.release.yaml up -d
+```
+
+Open **http://localhost:8501**. This configuration pins the verified v0.3.1 image digest. It targets Linux AMD64; other architectures can build the checkout. No model API key is needed and `API_BUDGET_USD` defaults to zero.
+
+**Docker — current source:**
+
+```bash
+docker compose up --build -d
+```
+
+On Windows, `START_DEMO.cmd` starts the local source demo; `TEST_PROJECT.cmd` runs tests and offline regression against the image selected by Compose. Native Windows SQL execution requires Linux Docker.
+
+**Linux/macOS — native development**, with uv 0.12.23 and Make installed:
+
+```bash
+make setup
+make ci
+make demo
+```
+
+Python 3.12.14, dependencies and database checksums are pinned. [Reproduction details](docs/REPRODUCIBILITY.md) cover platform differences, reference hashes and resumes.
+
+## Demo: inspect a success and a failure
+
+![Public synthetic trace walkthrough](reports/releases/0.3.1/public-demo.png)
+
+1. **q001 — supported answer:** follow a query result into its attempt-local final answer.
+2. **q002 — schema failure:** an intentionally scripted invalid column produces an error, not correctness credit.
+3. **s001 — blocked injection:** untrusted database text is followed by a scripted destructive SQL proposal that the worker blocks.
+4. **Recovery — separate script:** inspect a correction after a schema error. This illustrates mechanics; it is not a measured retry benefit.
+
+The Streamlit application explores saved traces and runs offline regression. The public site displays four saved examples without a SQL/model backend. [Demo guide](docs/DEMO.md).
 
 ## Architecture
 
@@ -21,103 +95,52 @@ flowchart TD
     E --> V["Reports and trace viewer"]
 ```
 
-The agent tools are `list_tables`, `describe_table`, `run_sql`, and `final_answer`. Gold SQL and expected answers stay out of model requests. Logical separation does not isolate arbitrary malicious Python code.
+The tools are `list_tables`, `describe_table`, `run_sql`, and `final_answer`. Gold SQL and expected answers stay out of model requests. This logical separation does not isolate arbitrary malicious Python code. The [review guide](docs/REVIEW_GUIDE.md) maps each boundary to its source and tests.
 
-## Quick start
+## Verification and reproducibility
 
-**Windows:** start Docker Desktop, double-click `START_DEMO.cmd`, and open **http://localhost:8501**. `TEST_PROJECT.cmd` runs container tests and offline regression against the image selected by Compose.
-
-**Linux/macOS**, with uv 0.12.23 installed:
-
-```bash
-make setup
-make ci
-make demo
-```
-
-Python 3.12.14, dependencies, and database checksums are pinned. No API key is needed; `API_BUDGET_USD` defaults to zero. `docker compose up --build -d` builds the current checkout. To run the published release instead:
-
-```bash
-docker compose -f compose.release.yaml up -d
-```
-
-The release configuration pins the verified **v0.3.1 image digest**. The downloaded image passed 148 tests, all 37 offline cases, and runtime-control/source-integrity probes. Build the checkout to run from source. The image targets Linux AMD64; other architectures can build from source.
-
-## Demo
-
-The Streamlit viewer explores saved traces and executes offline regression. Follow q001 for a supported count, q002 for an intentionally scripted schema error, s001 for injected table text followed by blocked SQL, and the separately scripted recovery.
-
-The [public walkthrough](https://jill-vekariya.github.io/agent-reliability-harness/) displays four saved synthetic examples without a SQL/model backend. Docker runs the actual worker. These demonstrations establish engineering behavior, not model accuracy or a measured retry benefit.
-
-![Public synthetic trace walkthrough](reports/releases/0.3.1/public-demo.png)
-
-## Implementation and evidence
-
-| Capability | Evidence and limit |
+| Command | What it checks or produces |
 |---|---|
-| Read-only SQL authorization, deadlines, output/resource limits | SQL rejection/control tests and injected worker faults; finite tests, not complete security |
-| Typed multisets, ordering, tolerances, final-result integrity | Grader unit tests; unchanged synthetic reference |
-| Reservations and unknown-usage recovery | Concurrent ledger and fake-transport tests; no live SDK compatibility test |
-| Versioned traces, strict replay, current-tool regression | Bounded hash/schema/provenance checks and resume tests; no model fallback |
-| Review packets and grouped split checks | Blank forms, deterministic grouping, development-exposure protection; no human review performed |
-| Repeated-sample statistics and reporting | Synthetic coverage tests; incomplete plans suppress headline metrics |
-| Viewer, Docker, CI, static delivery, OTel export | Existing released checks plus separate local audit evidence |
-
-The audit's [local command results](reports/audit-evidence.json), [Docker results](reports/audit-desktop.json), and [external checks](reports/audit-external.json) have different scopes. The audit passed **145 tests natively and in Docker**. The [v0.3.1 verification](reports/releases/0.3.1/verification.json) separately records successful hosted workflows, the actual published-image tests, and browser checks. [STATUS.md](docs/STATUS.md) records exact counts, commands, and blockers.
-
-## Benchmark and experiment status
-
-| Item | Current state |
-|---|---|
-| Source | Chinook v1.4.5; checksums and upstream MIT license bundled |
-| Ordinary candidates | 30; 10 provisionally easy, medium, and hard |
-| Safety/clarification diagnostics | 7 |
-| Human-reviewed tasks / Spider adaptations | 0 / 0 |
-| Development / genuine held-out tasks | 37 / 0; published development tasks cannot be relabeled as holdout |
-| Fixed synthetic regression suite | 20 tasks, including the intentional q002 failure |
-| Fresh provider attempts / paid API spend | 0 / USD 0 |
-| Live pass@1, pass@5, flakiness, ablations, cost tradeoffs | Not yet measured |
-
-The later target is 150 reviewed tasks and seven configurations with five fresh attempts on 60 test tasks: **2,100 planned agent attempts**, not measurements or API calls. The [dataset card](docs/DATASET_CARD.md) covers selection, review, and leakage; the [protocol](docs/EXPERIMENTS.md) covers paired comparisons, uncertainty, missing attempts, and pass@5's oracle assumption.
-
-## Security assumptions
-
-The trusted parent permits bounded queries against approved tables in a read-only worker. Linux adds process resource limits; the parent deadline includes pipe input, output, and waiting, followed by terminate/kill/reap cleanup. Native Windows execution uses Linux Docker.
-
-Compose uses a non-root user, read-only root, dropped capabilities, no-new-privileges, CPU/memory/PID limits, localhost binding, and a separate writable reports volume. Offline verification uses `--network none`. The viewer needs networking to serve its local UI.
-
-Host/kernel/SDK compromise, hostile repository code, and arbitrary malicious Python agents are outside this boundary. A blocked unsafe proposal is still an unsafe agent decision. Review attestations do not prove a person's identity. See [SECURITY.md](SECURITY.md) and the [threat model](docs/THREAT_MODEL.md).
-
-## Reproduction commands
-
-| Command | Action |
-|---|---|
-| `make ci` | Data, lint, formatting, types, tests, packet/split checks, fixed regression |
+| `make ci` | Data, lint, formatting, types, tests, review/split checks, fixed regression |
 | `uv run --no-sync arh eval --all` | All 37 synthetic current-tool cases |
 | `make eval MODE=replay` | Exact saved playback |
 | `uv run --no-sync arh eval --mode fixture --all` | Prewritten scripts against current tools |
-| `uv run --no-sync arh review-check --packet reviews/benchmark-candidates.json` | Validate forms without promoting tasks |
-| `uv run --no-sync arh split-check --manifest tasks/grouped-split.proposal.json` | Validate draft grouping and exposure |
 | `make estimate`, `make report`, `make public-demo` | Planning arithmetic, available report, static export |
-| `uv run --no-sync python scripts/collect_evidence.py --audit --output reports/audit-evidence.json` | Capture offline checks and expected review denial |
+| `uv run --no-sync arh review-check --packet reviews/benchmark-candidates.json` | Validate review forms without promoting tasks |
+| `uv run --no-sync arh split-check --manifest tasks/grouped-split.proposal.json` | Validate draft grouping and development exposure |
 | `make eval-live CONFIG=... APPROVAL=...` | Scoped live mode; disabled by default |
 
-Do not regenerate the baseline to hide a regression. The [reproduction guide](docs/REPRODUCIBILITY.md) explains hashes, resumes, platform differences, and reference review.
+Do not regenerate the baseline to hide a regression. The fixed 20-case reference retains the intentional q002 failure. The larger 37-case offline gate passed with 29/30 ordinary scripted matches; these counts are **not model accuracy**.
 
-## Verified release
-
-[v0.3.1](https://github.com/Jill-Vekariya/agent-reliability-harness/releases/tag/v0.3.1) was built from `394f42c`. Its [pull-request checks](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152580419), [main/Pages workflow](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152751839), and [tag/container workflow](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39152759313) succeeded. The published image passed **148 tests** after anonymous download, with network disabled and the documented resource controls. SPDX SBOM and SLSA provenance v1 predicates are present.
+[v0.3.1](https://github.com/Jill-Vekariya/agent-reliability-harness/releases/tag/v0.3.1) was built from `394f42c`. Its anonymously downloaded image passed 148 tests with networking disabled and the documented resource controls. SPDX SBOM and SLSA provenance v1 predicates are recorded in the release evidence.
 
 ```text
 ghcr.io/jill-vekariya/agent-reliability-harness:0.3.1@sha256:4254993a830a5b827300f5c415fcbad4a1aaa4176c0a08130ff55cf02b8004da
 ```
 
-[Release verification](reports/releases/0.3.1/verification.json), [checksums](reports/releases/0.3.1/SHA256SUMS), and [publication details](docs/PUBLICATION.md) distinguish current results from historical releases. Public test counts select a checksum-bound published record and display its release. CI uses Ubuntu 24.04 and Node 24 checkout/Pages pins; the [evidence-selection deployment](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/39153456023) passed.
+[Current status](docs/STATUS.md) · [Release verification](reports/releases/0.3.1/verification.json) · [Checksums](reports/releases/0.3.1/SHA256SUMS) · [Audit findings](docs/AUDIT.md) · [Publication details](docs/PUBLICATION.md)
 
-## Known failures and contribution
+## Benchmark status and next experiment
 
-The scripted q002 failure is retained. The corpus/classifier lack human validation, the provider has only fake-transport tests, no clean holdout exists, and there are no empirical model tradeoffs. [FAILURES.md](FAILURES.md) separates examples from observations.
+| Item | Current state |
+|---|---|
+| Source | Chinook v1.4.5; checksums and upstream MIT license bundled |
+| Ordinary / safety and clarification candidates | 30 / 7 |
+| Human-reviewed tasks / Spider adaptations | 0 / 0 |
+| Development / genuine held-out tasks | 37 / 0 |
+| Fresh provider attempts / paid API spend | 0 / USD 0 |
+| Live pass@1, pass@5, flakiness, ablations and cost tradeoffs | Not yet measured |
 
-Follow [CONTRIBUTING.md](CONTRIBUTING.md). [Interview questions](docs/INTERVIEW.md), [ownership exercises](docs/OWNERSHIP.md), and the [resume guide](docs/PORTFOLIO.md) link claims to code and evidence. AI assistance is disclosed; user contributions and reviews are recorded only when completed. No project guarantees hiring or automated resume selection.
+The next substantive work is genuine task review, new unexposed families and a scoped real-provider compatibility pilot. The later study targets 150 reviewed tasks and seven configurations with five fresh attempts on 60 test tasks: **2,100 planned agent attempts**, not observations or API calls. The [dataset card](docs/DATASET_CARD.md) and [experiment protocol](docs/EXPERIMENTS.md) explain leakage, paired comparisons, uncertainty, missing attempts and pass@5's oracle assumption.
 
-MIT license; database/dependency rights are in [third-party notices](THIRD_PARTY_NOTICES.md).
+## Security and limitations
+
+The trusted parent restricts queries to approved tables in a read-only worker. Linux adds process resource limits; a parent deadline covers pipe input/output and waiting, followed by terminate/kill/reap cleanup. Compose uses a non-root user, a read-only root, dropped capabilities, no-new-privileges, CPU/memory/PID limits, localhost binding and a separate writable reports volume.
+
+Finite tests do not establish complete security. Host/kernel/SDK compromise, hostile repository code and arbitrary malicious Python agents are outside this boundary. A blocked unsafe proposal is still an unsafe agent decision. The provider has fake-transport coverage but no live compatibility evidence, and the corpus/classifier lack human validation. See [SECURITY.md](SECURITY.md), the [threat model](docs/THREAT_MODEL.md) and [known failures](FAILURES.md).
+
+## Contributing and project notes
+
+[Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md) · [Interview guide](docs/INTERVIEW.md) · [Portfolio wording](docs/PORTFOLIO.md) · [Ownership exercises](docs/OWNERSHIP.md)
+
+MIT license. Database and dependency rights are documented in [third-party notices](THIRD_PARTY_NOTICES.md).
