@@ -11,3 +11,5 @@ Use the root README's locked Python or Docker setup. `make ci` checks the source
 Real-provider compatibility, live pass@k/cost experiments, human gold review and a genuinely unexposed holdout are unfinished. Zero real reviews and zero fresh provider attempts must not become completed claims. Planned corpus expansion and Spider adaptations require real source/rights review. Core OpenTelemetry mapping does not imply separate GenAI convention compliance.
 
 Personal exercises in [ownership](OWNERSHIP.md) require actual work by the owner. No new research, paid calls or production-scale capability is claimed by this cleanup. Existing limitations in [the threat model](THREAT_MODEL.md) remain applicable.
+
+[Cleanup changes and local verification](CLEANUP_VERIFICATION.md).
