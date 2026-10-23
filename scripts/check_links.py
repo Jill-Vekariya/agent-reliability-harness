@@ -96,7 +96,9 @@ def main():
     print(f"Local Markdown targets checked: {checked}; broken: {failures}")
     if args.online:
         with ThreadPoolExecutor(max_workers=4) as executor:
-            for url, (status, detail) in zip(sorted(urls), executor.map(external, sorted(urls))):
+            for url, (status, detail) in zip(
+                sorted(urls), executor.map(external, sorted(urls)), strict=True
+            ):
                 print(f"{status}: {url} -> {detail}")
                 failures += status == "broken"
     else:
