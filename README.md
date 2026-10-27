@@ -1,146 +1,86 @@
 # Agent Reliability Harness
 
-[![CI](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+**Inspect, constrain and reproduce the failures of a SQL agent.**
 
-**Inspect, constrain, and reproduce the failures of a SQL agent.**
+The harness separates a provider-driven tool loop, protected SQL execution, typed result grading and trace persistence. It catches unsupported final answers and preserves incompatible or failed attempts instead of silently making a regression pass.
 
-A plausible answer can hide an invalid query, an unsafe tool call, or an unsupported result. This Python project puts SQL execution behind a bounded read-only worker, grades typed result tables, and preserves traces that can be replayed or checked against the current implementation.
+[Browser walkthrough](https://jill-vekariya.github.io/agent-reliability-harness/) · [Code review route](docs/REVIEW_GUIDE.md) · [Interview guide](docs/INTERVIEW.md) · [Design decisions](docs/DECISIONS.md)
 
-**[Try the browser walkthrough](https://jill-vekariya.github.io/agent-reliability-harness/) · [Review the code](docs/REVIEW_GUIDE.md) · [Run locally](#quick-start) · [Release evidence](reports/releases/0.3.1/verification.json)**
+The browser walkthrough displays saved synthetic traces. The Python/Docker application executes the SQL worker; the public site is not a SQL or model API.
 
-Python · SQLite · Pydantic · Docker · pytest · Streamlit · OpenTelemetry · GitHub Actions
+## Implemented boundaries
 
-## At a glance
-
-| What to assess | What is implemented | Where to verify it |
-|---|---|---|
-| Execution boundaries | Read-only SQL authorization, subprocess supervision, deadlines and output limits | [Worker](src/agent_reliability/sandbox/worker.py), [lifecycle tests](tests/integration/test_worker_lifecycle.py) |
-| Answer correctness | Duplicate-aware typed grading; final answers must reference a complete result from the same attempt | [Grader](src/agent_reliability/evaluation/grading.py), [tool runtime](src/agent_reliability/tools/runtime.py) |
-| Reproducibility | Strict trace replay and current-tool regression; incompatible recordings fail without model fallback | [Recording](src/agent_reliability/tracing/recording.py), [regression tests](tests/integration/test_regression.py) |
-| Cost controls | Transactional spending reservations and conservative handling of unknown charges | [Ledger](src/agent_reliability/providers/budget.py), [budget tests](tests/unit/test_budget.py) |
-| Delivery | CI, a static public walkthrough, and a digest-pinned Docker release | [Workflow](.github/workflows/ci.yml), [release configuration](compose.release.yaml) |
-
-The published **v0.3.1 image passed 148 engineering tests** and the 37-case offline gate; the [verification record](reports/releases/0.3.1/verification.json) identifies the image, source revision and commands. The CI badge tracks current `main`, which may be newer than that release.
-
-This is an **AI-assisted engineering portfolio project**. The examples are synthetic, and live-model accuracy, cost improvement and human benchmark review remain unmeasured. [Ownership and completed contributions](docs/OWNERSHIP.md) are recorded separately from automated checks.
-
-## Start here
-
-| Your goal | Suggested route |
-|---|---|
-| Understand the project in two minutes | Open the [walkthrough](https://jill-vekariya.github.io/agent-reliability-harness/); compare the supported answer, schema failure and blocked query. |
-| Review the engineering | Follow the [five-minute code review guide](docs/REVIEW_GUIDE.md), then inspect the linked tests and tradeoffs. |
-| Run the implementation | Use the quick start below. The public walkthrough displays saved traces; Docker executes the SQL worker. |
-| Discuss it in an interview | Read the [design decisions](docs/DECISIONS.md), [failure cases](FAILURES.md), and [implementation questions](docs/INTERVIEW.md). |
-
-## Quick start
-
-Clone the repository first:
-
-```bash
-git clone https://github.com/Jill-Vekariya/agent-reliability-harness.git
-cd agent-reliability-harness
-```
-
-**Docker — published release:** start Docker Desktop or a Linux Docker engine, then run:
-
-```bash
-docker compose -f compose.release.yaml up -d
-```
-
-Open **http://localhost:8501**. This configuration pins the verified v0.3.1 image digest. It targets Linux AMD64; other architectures can build the checkout. No model API key is needed and `API_BUDGET_USD` defaults to zero.
-
-**Docker — current source:**
-
-```bash
-docker compose up --build -d
-```
-
-On Windows, `START_DEMO.cmd` starts the local source demo; `TEST_PROJECT.cmd` runs tests and offline regression against the image selected by Compose. Native Windows SQL execution requires Linux Docker.
-
-**Linux/macOS — native development**, with uv 0.12.23 and Make installed:
-
-```bash
-make setup
-make ci
-make demo
-```
-
-Python 3.12.14, dependencies and database checksums are pinned. [Reproduction details](docs/REPRODUCIBILITY.md) cover platform differences, reference hashes and resumes.
-
-## Demo: inspect a success and a failure
-
-![Public synthetic trace walkthrough](reports/releases/0.3.1/public-demo.png)
-
-1. **q001 — supported answer:** follow a query result into its attempt-local final answer.
-2. **q002 — schema failure:** an intentionally scripted invalid column produces an error, not correctness credit.
-3. **s001 — blocked injection:** untrusted database text is followed by a scripted destructive SQL proposal that the worker blocks.
-4. **Recovery — separate script:** inspect a correction after a schema error. This illustrates mechanics; it is not a measured retry benefit.
-
-The Streamlit application explores saved traces and runs offline regression. The public site displays four saved examples without a SQL/model backend. [Demo guide](docs/DEMO.md).
+| Component | Behavior | Evidence |
+| --- | --- | --- |
+| SQL worker | Read-only authorization, resource/output limits, parent deadline and child cleanup | [Worker](src/agent_reliability/sandbox/worker.py), [lifecycle tests](tests/integration/test_worker_lifecycle.py) |
+| Answer grading | Typed, duplicate-aware rows; final answers reference complete attempt-local results | [Grader](src/agent_reliability/evaluation/grading.py), [tool runtime](src/agent_reliability/tools/runtime.py) |
+| Reproduction | Exact replay versus current-tool regression; incompatible recordings fail, including on resume | [Recording](src/agent_reliability/tracing/recording.py), [regression tests](tests/integration/test_regression.py) |
+| Optional live calls | Transactional exposure reservations; unknown charges remain unresolved | [Budget ledger](src/agent_reliability/providers/budget.py), [provider tests](tests/unit/test_provider_hardening.py) |
 
 ## Architecture
 
 ```mermaid
 flowchart TD
-    Q["Question and allowed context"] --> A["SQL agent"]
-    A <--> P["Provider adapter and spending ledger"]
-    A --> T["Four-tool runtime"]
-    T --> W["Isolated read-only SQLite worker"]
-    W --> D["Pinned database"]
-    T --> R["Versioned traces and attempt registry"]
-    G["Evaluator-only gold"] --> E["Typed deterministic grader"]
-    R --> E
-    E --> V["Reports and trace viewer"]
+  Q["Question and allowed context"] --> A["SQL agent and typed tools"]
+  A --> P["Fixture, recorded or optional live provider"]
+  P --> A
+  L["Live-call spending ledger"] --> P
+  A --> W["Supervised read-only SQLite worker"]
+  W --> A
+  A --> T["Versioned trace and attempt registry"]
+  G["Evaluator-only gold"] --> E["Typed result and behavior grading"]
+  T --> E
+  E --> R["Reports and trace viewer"]
 ```
 
-The tools are `list_tables`, `describe_table`, `run_sql`, and `final_answer`. Gold SQL and expected answers stay out of model requests. This logical separation does not isolate arbitrary malicious Python code. The [review guide](docs/REVIEW_GUIDE.md) maps each boundary to its source and tests.
+Gold SQL stays out of model requests. The four tools are `list_tables`, `describe_table`, `run_sql` and `final_answer`. This trusted SQL interface does not isolate arbitrary hostile Python code. [Threat model](docs/THREAT_MODEL.md).
 
-## Verification and reproducibility
+## Quick start
 
-| Command | What it checks or produces |
-|---|---|
-| `make ci` | Data, lint, formatting, types, tests, review/split checks, fixed regression |
-| `uv run --no-sync arh eval --all` | All 37 synthetic current-tool cases |
-| `make eval MODE=replay` | Exact saved playback |
-| `uv run --no-sync arh eval --mode fixture --all` | Prewritten scripts against current tools |
-| `make estimate`, `make report`, `make public-demo` | Planning arithmetic, available report, static export |
-| `uv run --no-sync arh review-check --packet reviews/benchmark-candidates.json` | Validate review forms without promoting tasks |
-| `uv run --no-sync arh split-check --manifest tasks/grouped-split.proposal.json` | Validate draft grouping and development exposure |
-| `make eval-live CONFIG=... APPROVAL=...` | Scoped live mode; disabled by default |
+Requires Git, Python 3.12, uv, Make and dependency-download access. Native SQL execution uses Linux/macOS; Windows uses Linux Docker.
 
-Do not regenerate the baseline to hide a regression. The fixed 20-case reference retains the intentional q002 failure. The larger 37-case offline gate passed with 29/30 ordinary scripted matches; these counts are **not model accuracy**.
-
-[v0.3.1](https://github.com/Jill-Vekariya/agent-reliability-harness/releases/tag/v0.3.1) was built from `394f42c`. Its anonymously downloaded image passed 148 tests with networking disabled and the documented resource controls. SPDX SBOM and SLSA provenance v1 predicates are recorded in the release evidence.
-
-```text
-ghcr.io/jill-vekariya/agent-reliability-harness:0.3.1@sha256:4254993a830a5b827300f5c415fcbad4a1aaa4176c0a08130ff55cf02b8004da
+```bash
+git clone https://github.com/Jill-Vekariya/agent-reliability-harness.git
+cd agent-reliability-harness
+make setup
+make ci
+make demo
 ```
 
-[Current status](docs/STATUS.md) · [Release verification](reports/releases/0.3.1/verification.json) · [Checksums](reports/releases/0.3.1/SHA256SUMS) · [Audit findings](docs/AUDIT.md) · [Publication details](docs/PUBLICATION.md)
+Open `http://127.0.0.1:8501`. `make setup` installs from `uv.lock`; `make ci` materializes/checks the pinned database before running quality and regression gates. No provider key is needed. [Reproduction and platform details](docs/REPRODUCIBILITY.md).
 
-## Benchmark status and next experiment
+For current-source Docker, start a Docker Linux engine and run `docker compose up --build -d`; stop with `docker compose down`, preserving the reports volume. The separately recorded v0.3.1 image contains older dependencies, including affected Pillow versions; its digest/receipt is retained as historical evidence rather than an updated security release. No replacement versioned image is claimed here. [Docker demo guide](docs/DEMO.md).
 
-| Item | Current state |
-|---|---|
-| Source | Chinook v1.4.5; checksums and upstream MIT license bundled |
-| Ordinary / safety and clarification candidates | 30 / 7 |
-| Human-reviewed tasks / Spider adaptations | 0 / 0 |
-| Development / genuine held-out tasks | 37 / 0 |
-| Fresh provider attempts / paid API spend | 0 / USD 0 |
-| Live pass@1, pass@5, flakiness, ablations and cost tradeoffs | Not yet measured |
+## Results and verification
 
-The next substantive work is genuine task review, new unexposed families and a scoped real-provider compatibility pilot. The later study targets 150 reviewed tasks and seven configurations with five fresh attempts on 60 test tasks: **2,100 planned agent attempts**, not observations or API calls. The [dataset card](docs/DATASET_CARD.md) and [experiment protocol](docs/EXPERIMENTS.md) explain leakage, paired comparisons, uncertainty, missing attempts and pass@5's oracle assumption.
+| Evidence | Actual result | Limit |
+| --- | --- | --- |
+| [v0.3.1 receipt](reports/releases/0.3.1/verification.json) | 148 tests passed; 37-case offline gate passed; source `394f42c2674d1d2135adaf0606f9fc789fef967c` | Historical published image, not the test count at every newer revision |
+| Same release gate | 29/30 ordinary scripted matches; seven additional safety/clarification cases | Prewritten scripts, not measured model accuracy |
+| [Stage 4 local review](docs/INTERVIEW.md) | 46 selected execution/grading/budget/replay tests passed | Focused subset on the reviewed source; no live provider call |
+| [Dataset status](docs/DATASET_CARD.md) | 37 exposed development tasks; zero genuinely held-out tasks and zero recorded human gold reviews | Independent empirical claims remain open |
 
-## Security and limitations
+From the installed checkout:
 
-The trusted parent restricts queries to approved tables in a read-only worker. Linux adds process resource limits; a parent deadline covers pipe input/output and waiting, followed by terminate/kill/reap cleanup. Compose uses a non-root user, a read-only root, dropped capabilities, no-new-privileges, CPU/memory/PID limits, localhost binding and a separate writable reports volume.
+```bash
+make ci
+uv run --no-sync arh eval --all
+make eval MODE=replay
+python scripts/check_links.py
+```
 
-Finite tests do not establish complete security. Host/kernel/SDK compromise, hostile repository code and arbitrary malicious Python agents are outside this boundary. A blocked unsafe proposal is still an unsafe agent decision. The provider has fake-transport coverage but no live compatibility evidence, and the corpus/classifier lack human validation. See [SECURITY.md](SECURITY.md), the [threat model](docs/THREAT_MODEL.md) and [known failures](FAILURES.md).
+`eval --all` executes today's tools against saved responses; replay displays the saved trace. Neither creates fresh model attempts. q002 deliberately contains a scripted schema failure. Do not regenerate its baseline to hide a regression. The [release receipt](reports/releases/0.3.1/verification.json) also identifies the image digest, resource controls and recorded provenance.
 
-## Contributing and project notes
+## Limits and next work
 
-[Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md) · [Interview guide](docs/INTERVIEW.md) · [Portfolio wording](docs/PORTFOLIO.md) · [Ownership exercises](docs/OWNERSHIP.md)
+The 27 October 2026 dependency review updates the source lock to Pillow 13.0.0 and the compatible Streamlit 1.66.1 patch release. The full local gate passed 149 tests, lint, formatting, types and fixed regression; the three bundled PNG screenshots also decoded successfully. Default-branch dependency alerts remain open until an authorized merge and GitHub rescan. This is a specific advisory/dependency update, not a blanket security certification.
 
-MIT license. Database and dependency rights are documented in [third-party notices](THIRD_PARTY_NOTICES.md).
+Provider adapters have fake-transport coverage, with no recorded live compatibility or model-quality study. A blocked unsafe proposal is still an unsafe agent decision. Self-contained checksums need a trusted reference; they do not authenticate a maliciously replaced corpus. [Known failures](FAILURES.md) · [Security](SECURITY.md) · [Experiment plan](docs/EXPERIMENTS.md).
+
+Next: genuine gold review, new unexposed task families and a scoped, explicitly budgeted provider pilot. Planned sample sizes and configurations are not completed observations.
+
+## Ownership and license
+
+The goal/requirements were user-supplied; implementation, candidate tasks, tests and documentation were AI-assisted. Personal review/coding exercises remain pending unless supported by actual evidence in [OWNERSHIP.md](docs/OWNERSHIP.md). No independent authorship, production usage or business savings are inferred.
+
+Repository license: [MIT](LICENSE). Database/dependency rights: [third-party notices](THIRD_PARTY_NOTICES.md). [Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md) · [Interview practice](docs/INTERVIEW_PRACTICE.md).
