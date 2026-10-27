@@ -73,7 +73,7 @@ python scripts/check_links.py
 
 ## Limits and next work
 
-The 27 October 2026 dependency review updates the source lock to Pillow 13.0.0 and the compatible Streamlit 1.66.1 patch release. The full local gate passed 149 tests, lint, formatting, types and fixed regression; the three bundled PNG screenshots also decoded successfully. Default-branch dependency alerts remain open until an authorized merge and GitHub rescan. This is a specific advisory/dependency update, not a blanket security certification.
+The 27 October 2026 dependency review updates the source lock to Pillow 13.0.0, the compatible Streamlit 1.66.1 patch release, and certifi 2026.10.19. The latter removes the compromised emSign ECC Root CA - G3 trust anchor described in [GHSA-6q48-6c7w-9gw2](https://github.com/advisories/GHSA-6q48-6c7w-9gw2); a regression test checks the certificate fingerprint in the bundled CA file. The full local gate passed 150 tests, lint, formatting, types and fixed regression. The three bundled PNG screenshots also decoded successfully during the Pillow update. GitHub marked all 41 reviewed Pillow alerts fixed after the initial merge; current alert status must be checked against the merged lockfile and GitHub's rescan. These are specific advisory/dependency updates, not a blanket security certification.
 
 Provider adapters have fake-transport coverage, with no recorded live compatibility or model-quality study. A blocked unsafe proposal is still an unsafe agent decision. Self-contained checksums need a trusted reference; they do not authenticate a maliciously replaced corpus. [Known failures](FAILURES.md) · [Security](SECURITY.md) · [Experiment plan](docs/EXPERIMENTS.md).
 
