@@ -69,6 +69,7 @@ def main():
         args.project,
     ]
     paused = False
+    opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
 
     def save():
         args.output.write_text(json.dumps(record, indent=2, default=str) + "\n", encoding="utf-8")
@@ -127,9 +128,23 @@ def main():
             headers["Idempotency-Key"] = key
         req = urllib.request.Request(args.url + path, data=data, headers=headers)
         try:
-            response = urllib.request.urlopen(req, timeout=3)
+            response = opener.open(req, timeout=3)
         except urllib.error.HTTPError as exc:
             response = exc
+        except OSError as exc:
+            record["http"].append(
+                {
+                    "at": datetime.now(UTC).isoformat(),
+                    "path": path,
+                    "method": "POST" if body is not None else "GET",
+                    "request": body,
+                    "idempotency_key": key,
+                    "status": None,
+                    "label": "FAILED",
+                    "error_type": type(exc).__name__,
+                }
+            )
+            raise
         with response:
             raw = response.read(2_500_001)
             if len(raw) > 2_500_000:

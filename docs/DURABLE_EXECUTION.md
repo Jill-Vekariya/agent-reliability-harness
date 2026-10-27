@@ -25,8 +25,10 @@ Windows uses Docker Linux and `py -3.12` for the configuration/verifier scripts;
 use `curl.exe` or PowerShell Invoke-RestMethod with equivalent JSON. Native durable
 workers require Linux process groups and parent-death signaling.
 
-The API binds host loopback only. PostgreSQL has no published host port. Compose's
-internal network is not authentication: other local processes can reach the API.
+The API binds host loopback only and joins a separate ingress bridge so Docker can
+publish that port. Workers and PostgreSQL stay on the internal workflow network;
+PostgreSQL has no published host port. This is not authentication: other local
+processes can reach the API.
 The database credential file is generated once, ignored and never printed.
 Do not replace it on an existing installation. Unix mode 0600 is requested; this
 does not establish Windows ACL protection. Do not expose this Stage 1 API publicly.

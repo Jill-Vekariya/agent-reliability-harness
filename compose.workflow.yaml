@@ -55,6 +55,7 @@ services:
 
   api:
     <<: *runtime
+    networks: [workflow, ingress]
     ports: ["127.0.0.1:8091:8091"]
     environment: *environment
     mem_limit: 256m
@@ -107,6 +108,7 @@ services:
 networks:
   workflow:
     internal: true
+  ingress: {}
 
 volumes:
   workflow-db:
