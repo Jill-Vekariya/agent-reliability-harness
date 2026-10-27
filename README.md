@@ -51,6 +51,15 @@ Open `http://127.0.0.1:8501`. `make setup` installs from `uv.lock`; `make ci` ma
 
 For current-source Docker, start a Docker Linux engine and run `docker compose up --build -d`; stop with `docker compose down`, preserving the reports volume. The separately recorded v0.3.1 image contains older dependencies, including affected Pillow versions; its digest/receipt is retained as historical evidence rather than an updated security release. No replacement versioned image is claimed here. [Docker demo guide](docs/DEMO.md).
 
+## Optional durable local jobs
+
+The [durable execution extension](docs/DURABLE_EXECUTION.md) adds FastAPI,
+PostgreSQL job/attempt state, leased workers and bounded synthetic crash/recovery
+demonstrations around the existing SQL agent. Workflow storage stays separate
+from agent-accessible read-only SQLite. This Stage 1 service is local-only, has
+no tenant authentication and exposes no live provider. See the exact verification
+receipt before treating configured recovery behavior as executed evidence.
+
 ## Results and verification
 
 | Evidence | Actual result | Limit |

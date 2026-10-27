@@ -66,10 +66,17 @@ def main() -> None:
     split_plan.add_argument("--seed", type=int, default=20261018)
     split_check = sub.add_parser("split-check")
     split_check.add_argument("--manifest", type=Path, required=True)
+    from .workflow.cli import add_commands
+
+    add_commands(sub)
     args = parser.parse_args()
     root = project_root()
     try:
-        if args.command == "data":
+        if args.command == "jobs":
+            from .workflow.cli import run
+
+            run(args, root)
+        elif args.command == "data":
             manifest = json.loads((root / "data/manifest.json").read_text())
             if file_hash(root / "data/chinook.sqlite") != manifest["database_sha256"]:
                 raise ValueError("Bundled Chinook checksum mismatch; restore verified snapshot")
@@ -188,7 +195,14 @@ def main() -> None:
             if not result["complete"]:
                 sys.exit(1)
     except Exception as exc:
-        print(f"{type(exc).__name__}: {exc}", file=sys.stderr)
+        if args.command == "jobs":
+            # Driver/configuration exceptions can contain connection information.
+            print(
+                f"{type(exc).__name__}: workflow operation failed; check local configuration and readiness",
+                file=sys.stderr,
+            )
+        else:
+            print(f"{type(exc).__name__}: {exc}", file=sys.stderr)
         sys.exit(1)
 
 
