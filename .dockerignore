@@ -12,3 +12,10 @@ site
 *.egg-info
 source-transfer*
 update-transfer*
+
+# Local credentials and workstation caches
+.env.*
+!.env.example
+!.env.sample
+.DS_Store
+Thumbs.db
