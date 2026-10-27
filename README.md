@@ -49,7 +49,7 @@ make demo
 
 Open `http://127.0.0.1:8501`. `make setup` installs from `uv.lock`; `make ci` materializes/checks the pinned database before running quality and regression gates. No provider key is needed. [Reproduction and platform details](docs/REPRODUCIBILITY.md).
 
-For the separately recorded v0.3.1 release, start a Docker Linux engine and run `docker compose -f compose.release.yaml up -d`. That file pins the release image digest and loopback port 8501. Stop with the matching `docker compose -f compose.release.yaml down`; preserve the reports volume. For current-source Docker, see [the demo guide](docs/DEMO.md).
+For current-source Docker, start a Docker Linux engine and run `docker compose up --build -d`; stop with `docker compose down`, preserving the reports volume. The separately recorded v0.3.1 image contains older dependencies, including affected Pillow versions; its digest/receipt is retained as historical evidence rather than an updated security release. No replacement versioned image is claimed here. [Docker demo guide](docs/DEMO.md).
 
 ## Results and verification
 
@@ -72,6 +72,8 @@ python scripts/check_links.py
 `eval --all` executes today's tools against saved responses; replay displays the saved trace. Neither creates fresh model attempts. q002 deliberately contains a scripted schema failure. Do not regenerate its baseline to hide a regression. The [release receipt](reports/releases/0.3.1/verification.json) also identifies the image digest, resource controls and recorded provenance.
 
 ## Limits and next work
+
+The 27 October 2026 dependency review updates the source lock to Pillow 13.0.0 and the compatible Streamlit 1.66.1 patch release. The full local gate passed 149 tests, lint, formatting, types and fixed regression; the three bundled PNG screenshots also decoded successfully. Default-branch dependency alerts remain open until an authorized merge and GitHub rescan. This is a specific advisory/dependency update, not a blanket security certification.
 
 Provider adapters have fake-transport coverage, with no recorded live compatibility or model-quality study. A blocked unsafe proposal is still an unsafe agent decision. Self-contained checksums need a trusted reference; they do not authenticate a maliciously replaced corpus. [Known failures](FAILURES.md) · [Security](SECURITY.md) · [Experiment plan](docs/EXPERIMENTS.md).
 
