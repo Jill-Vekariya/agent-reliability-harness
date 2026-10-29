@@ -14,8 +14,9 @@ passed and 35 PostgreSQL tests were skipped without a dedicated local database.
 Those skips are not local passes; the separate real PostgreSQL CI job passed.
 Local links, all-recorded regression and static walkthrough build also passed.
 The earlier 235-test Docker acceptance retains its original source and date;
-Stage 7 did not repeat Docker on this host. Security-alert reads returned HTTP 401
-without authenticated access. [Handover, scores and remaining work](../stage7/HANDOVER.md).
+Stage 7 did not repeat Docker on this host. The restored authenticated alert review is recorded in
+[Security review](../stage7/SECURITY_REVIEW.md); disabled scanners and absent analyses
+remain explicit coverage gaps. Earlier HTTP 401 attempts are historical. [Handover, scores and remaining work](../stage7/HANDOVER.md).
 
 ## Published-source acceptance
 
