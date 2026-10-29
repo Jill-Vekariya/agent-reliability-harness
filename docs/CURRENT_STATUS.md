@@ -5,8 +5,8 @@ Stage 5 is **VERIFIED locally**: fresh locked host setup, two Docker targets,
 telemetry, database outage health, coordinated backup, identical fresh restore,
 rollback/refusals and scoped teardown. [Exact evidence](stage6/EVIDENCE.md).
 
-Stage 6 presentation and ownership materials are prepared on the unpublished
-local branch. Independent owner implementation/review and the proposed upstream
+Stage 6 presentation and ownership materials are included on feature branch
+`feat/durable-workflow-portfolio-20261029` for review. Independent owner implementation/review and the proposed upstream
 contribution remain pending; nothing is recorded as an accepted human contribution.
 Repository settings/pins are proposals only. No public executing backend or paid
 provider work was authorized or performed. Earlier records below retain their
