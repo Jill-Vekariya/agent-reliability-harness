@@ -1,0 +1,424 @@
+[
+  {
+    "name": "config-validation",
+    "command": [
+      "${VERIFIER_PYTHON}",
+      "scripts/workflow_ops.py",
+      "--project",
+      "arh-stage5-tcp-20261029",
+      "validate"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "elapsed_seconds": 6.0470000000000255,
+    "cwd": "${WORKTREE}",
+    "label": "VERIFIED"
+  },
+  {
+    "name": "default-build",
+    "command": [
+      "docker",
+      "compose",
+      "--env-file",
+      ".env.workflow",
+      "-f",
+      "compose.workflow.yaml",
+      "-p",
+      "arh-stage5-tcp-20261029",
+      "--profile",
+      "checks",
+      "build",
+      "api",
+      "checks"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "elapsed_seconds": 123.42200000000003,
+    "cwd": "${WORKTREE}",
+    "label": "VERIFIED"
+  },
+  {
+    "name": "database-start",
+    "command": [
+      "docker",
+      "compose",
+      "--env-file",
+      ".env.workflow",
+      "-f",
+      "compose.workflow.yaml",
+      "-p",
+      "arh-stage5-tcp-20261029",
+      "up",
+      "-d",
+      "workflow-db"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "elapsed_seconds": 3.438000000000102,
+    "cwd": "${WORKTREE}",
+    "label": "VERIFIED"
+  },
+  {
+    "name": "migration-first",
+    "command": [
+      "docker",
+      "compose",
+      "--env-file",
+      ".env.workflow",
+      "-f",
+      "compose.workflow.yaml",
+      "-p",
+      "arh-stage5-tcp-20261029",
+      "run",
+      "--rm",
+      "-T",
+      "migrate"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "elapsed_seconds": 7.280999999999949,
+    "cwd": "${WORKTREE}",
+    "label": "VERIFIED"
+  },
+  {
+    "name": "migration-reentry",
+    "command": [
+      "docker",
+      "compose",
+      "--env-file",
+      ".env.workflow",
+      "-f",
+      "compose.workflow.yaml",
+      "-p",
+      "arh-stage5-tcp-20261029",
+      "run",
+      "--rm",
+      "-T",
+      "migrate"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "elapsed_seconds": 6.655999999999949,
+    "cwd": "${WORKTREE}",
+    "label": "VERIFIED"
+  },
+  {
+    "name": "full-tests",
+    "command": [
+      "docker",
+      "compose",
+      "--env-file",
+      ".env.workflow",
+      "-f",
+      "compose.workflow.yaml",
+      "-p",
+      "arh-stage5-tcp-20261029",
+      "--profile",
+      "checks",
+      "run",
+      "--rm",
+      "-T",
+      "checks",
+      "python",
+      "-m",
+      "pytest",
+      "-q",
+      "-o",
+      "cache_dir=/tmp/pytest-cache",
+      "--junitxml=/reports/stage5-tests.xml"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "elapsed_seconds": 164.39100000000008,
+    "cwd": "${WORKTREE}",
+    "label": "VERIFIED"
+  },
+  {
+    "name": "application-start",
+    "command": [
+      "docker",
+      "compose",
+      "--env-file",
+      ".env.workflow",
+      "-f",
+      "compose.workflow.yaml",
+      "-p",
+      "arh-stage5-tcp-20261029",
+      "up",
+      "-d",
+      "api",
+      "worker-a",
+      "worker-b"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "elapsed_seconds": 10.936999999999898,
+    "cwd": "${WORKTREE}",
+    "label": "VERIFIED"
+  },
+  {
+    "name": "synthetic-budget",
+    "command": [
+      "docker",
+      "compose",
+      "--env-file",
+      ".env.workflow",
+      "-f",
+      "compose.workflow.yaml",
+      "-p",
+      "arh-stage5-tcp-20261029",
+      "run",
+      "--rm",
+      "-T",
+      "--no-deps",
+      "migrate",
+      "arh",
+      "jobs",
+      "set-budget",
+      "--tenant",
+      "tenant-a",
+      "--limit-units",
+      "100"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "elapsed_seconds": 9.108999999999924,
+    "cwd": "${WORKTREE}",
+    "label": "VERIFIED"
+  },
+  {
+    "name": "application-logs",
+    "command": [
+      "docker",
+      "compose",
+      "--env-file",
+      ".env.workflow",
+      "-f",
+      "compose.workflow.yaml",
+      "-p",
+      "arh-stage5-tcp-20261029",
+      "logs",
+      "--no-color",
+      "--no-log-prefix",
+      "api",
+      "worker-a",
+      "worker-b"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "elapsed_seconds": 0.5,
+    "cwd": "${WORKTREE}",
+    "label": "VERIFIED"
+  },
+  {
+    "name": "task-database-stop",
+    "command": [
+      "docker",
+      "compose",
+      "--env-file",
+      ".env.workflow",
+      "-f",
+      "compose.workflow.yaml",
+      "-p",
+      "arh-stage5-tcp-20261029",
+      "stop",
+      "workflow-db"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "elapsed_seconds": 1.2339999999999236,
+    "cwd": "${WORKTREE}",
+    "label": "VERIFIED"
+  },
+  {
+    "name": "task-database-restart",
+    "command": [
+      "docker",
+      "compose",
+      "--env-file",
+      ".env.workflow",
+      "-f",
+      "compose.workflow.yaml",
+      "-p",
+      "arh-stage5-tcp-20261029",
+      "start",
+      "workflow-db"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "elapsed_seconds": 0.5470000000000255,
+    "cwd": "${WORKTREE}",
+    "label": "VERIFIED"
+  },
+  {
+    "name": "coordinated-backup",
+    "command": [
+      "${VERIFIER_PYTHON}",
+      "scripts/workflow_ops.py",
+      "--project",
+      "arh-stage5-tcp-20261029",
+      "--image",
+      "sha256:bc459f498d352ed6bfe37e9ee7212fbc5775e24d8b7b6b3195f44af1613bc94e",
+      "backup",
+      "${WORKTREE}\\.local\\stage5\\tcp-all-001\\backup"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "elapsed_seconds": 16.672000000000025,
+    "cwd": "${WORKTREE}",
+    "label": "VERIFIED"
+  },
+  {
+    "name": "fresh-restore",
+    "command": [
+      "${VERIFIER_PYTHON}",
+      "scripts/workflow_ops.py",
+      "--project",
+      "arh-stage5-tcp-20261029-r-490fd3",
+      "restore",
+      "${WORKTREE}\\.local\\stage5\\tcp-all-001\\backup"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "elapsed_seconds": 24.235000000000127,
+    "cwd": "${WORKTREE}",
+    "label": "VERIFIED"
+  },
+  {
+    "name": "existing-target-refused",
+    "command": [
+      "${VERIFIER_PYTHON}",
+      "scripts/workflow_ops.py",
+      "--project",
+      "arh-stage5-tcp-20261029-r-490fd3",
+      "restore",
+      "${WORKTREE}\\.local\\stage5\\tcp-all-001\\backup"
+    ],
+    "exit_code": 1,
+    "expected_exit": 1,
+    "elapsed_seconds": 6.969000000000051,
+    "cwd": "${WORKTREE}",
+    "label": "VERIFIED"
+  },
+  {
+    "name": "incompatible-rollback-refused",
+    "command": [
+      "${VERIFIER_PYTHON}",
+      "scripts/workflow_ops.py",
+      "--project",
+      "arh-stage5-tcp-20261029",
+      "--image",
+      "sha256:dca37f82d59e2ad0b0c98732895895c2f0263c31837d2d33955ca3d4d137e4e6",
+      "rollback"
+    ],
+    "exit_code": 1,
+    "expected_exit": 1,
+    "elapsed_seconds": 5.655999999999949,
+    "cwd": "${WORKTREE}",
+    "label": "VERIFIED"
+  },
+  {
+    "name": "teardown-arh-stage5-tcp-20261029",
+    "command": [
+      "docker",
+      "compose",
+      "--env-file",
+      ".env.workflow",
+      "-f",
+      "compose.workflow.yaml",
+      "-p",
+      "arh-stage5-tcp-20261029",
+      "down",
+      "--remove-orphans"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "elapsed_seconds": 2.5779999999999745,
+    "cwd": "${WORKTREE}",
+    "label": "VERIFIED"
+  },
+  {
+    "name": "remaining-arh-stage5-tcp-20261029",
+    "command": [
+      "docker",
+      "ps",
+      "-a",
+      "-q",
+      "--filter",
+      "label=com.docker.compose.project=arh-stage5-tcp-20261029"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "elapsed_seconds": 0.21900000000005093,
+    "cwd": "${WORKTREE}",
+    "label": "VERIFIED"
+  },
+  {
+    "name": "volumes-arh-stage5-tcp-20261029",
+    "command": [
+      "docker",
+      "volume",
+      "ls",
+      "-q",
+      "--filter",
+      "label=com.docker.compose.project=arh-stage5-tcp-20261029"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "elapsed_seconds": 0.17200000000002547,
+    "cwd": "${WORKTREE}",
+    "label": "VERIFIED"
+  },
+  {
+    "name": "teardown-arh-stage5-tcp-20261029-r-490fd3",
+    "command": [
+      "docker",
+      "compose",
+      "--env-file",
+      ".env.workflow",
+      "-f",
+      "compose.workflow.yaml",
+      "-p",
+      "arh-stage5-tcp-20261029-r-490fd3",
+      "down",
+      "--remove-orphans"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "elapsed_seconds": 4.094000000000051,
+    "cwd": "${WORKTREE}",
+    "label": "VERIFIED"
+  },
+  {
+    "name": "remaining-arh-stage5-tcp-20261029-r-490fd3",
+    "command": [
+      "docker",
+      "ps",
+      "-a",
+      "-q",
+      "--filter",
+      "label=com.docker.compose.project=arh-stage5-tcp-20261029-r-490fd3"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "elapsed_seconds": 0.15599999999994907,
+    "cwd": "${WORKTREE}",
+    "label": "VERIFIED"
+  },
+  {
+    "name": "volumes-arh-stage5-tcp-20261029-r-490fd3",
+    "command": [
+      "docker",
+      "volume",
+      "ls",
+      "-q",
+      "--filter",
+      "label=com.docker.compose.project=arh-stage5-tcp-20261029-r-490fd3"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "elapsed_seconds": 0.15599999999994907,
+    "cwd": "${WORKTREE}",
+    "label": "VERIFIED"
+  }
+]

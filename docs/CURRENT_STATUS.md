@@ -1,3 +1,19 @@
+# Current prepared branch status — 29 October 2026
+
+Stage 5 is **VERIFIED locally**: fresh locked host setup, two Docker targets,
+235 tests without failures/skips, four synthetic jobs, tenant/auth checks,
+telemetry, database outage health, coordinated backup, identical fresh restore,
+rollback/refusals and scoped teardown. [Exact evidence](stage6/EVIDENCE.md).
+
+Stage 6 presentation and ownership materials are included on feature branch
+`feat/durable-workflow-portfolio-20261029` for review. Independent owner implementation/review and the proposed upstream
+contribution remain pending; nothing is recorded as an accepted human contribution.
+Repository settings/pins are proposals only. No public executing backend or paid
+provider work was authorized or performed. Earlier records below retain their
+original dates and verification scopes.
+
+---
+
 # Current status
 
 Updated 2026-10-23 for the cleanup review. This is a software portfolio, with a working offline SQL-worker workflow and a public saved-trace walkthrough. [Release evidence](STATUS.md) retains the actual v0.3.1 observations; its 148-test count is not automatically the count at a newer source revision.

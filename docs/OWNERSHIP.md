@@ -1,5 +1,9 @@
 # Ownership and AI assistance
 
+Stage 1 durable execution additions are AI-assisted implementation and verification.
+They do not complete an independent owner coding, labeling or reproduction exercise.
+The proposed tenant-scoped attempt-pagination exercise remains pending actual work.
+
 The user supplied the project goal and detailed requirements. The assistant implemented the current code, candidate tasks, synthetic scripts, tests, packaging, and documentation. The user has not yet been recorded as reviewing gold SQL, implementing an exercise, or labeling failures. These fields remain pending.
 
 Review at least these 15 tasks personally: q001, q002, q004, q006, q007, q011, q012, q013, q014, q017, q021, q022, q025, q026, q030. Explain what each query counts, where duplicate multiplication could occur, how NULLs behave, and whether its expected result is informative.
@@ -31,3 +35,13 @@ The assistant implemented the audit changes and expanded tests; this does not co
 * Explain the missing-entire-cohort statistical test and why its apparent observed success rate is not a headline campaign estimate.
 
 Record date, your actual commit/review, commands/results, and what changed in your understanding. The completed automated checks and remaining human work are separated in `STATUS.md`.
+
+
+
+## Stage 6 preparation — independent work still pending
+
+The new [read-only budget audit exercise](stage6/OWNERSHIP_EXERCISE.md) is a bounded
+feature for the owner to implement and explain. Its implementation, test results,
+review and accepted contribution fields remain pending. Existing exercises above
+remain pending too. Stage 5 deployment evidence and AI-prepared Stage 6 materials
+do not count as independent human implementation or understanding.
