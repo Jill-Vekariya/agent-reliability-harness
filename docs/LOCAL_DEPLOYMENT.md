@@ -9,9 +9,11 @@ production authentication.
 
 ## One complete setup path
 
-Use the prepared Stage 5 worktree or apply the cumulative patch to the exact base
-listed in the stage report. Public `main` does not yet contain these unpublished
-workflow changes. Do not apply patches over an existing dirty worktree.
+Use a fresh checkout of `main`, which includes the durable workflow through
+[PR #19](https://github.com/Jill-Vekariya/agent-reliability-harness/pull/19).
+Stage 7 verified merge revision `823026d1d43756d0a474a3c90a4649467f1e1be8`;
+check out that revision for the recorded source. Do not apply historical patches
+over an existing dirty worktree. [Handover and current limits](stage7/HANDOVER.md).
 
 Prerequisites: Python 3.12, uv, Docker with Linux containers and Docker Compose v2.
 From the project root:
