@@ -1,0 +1,264 @@
+{
+  "observed_at": "2026-10-29T20:54:36.994848+00:00",
+  "authenticated_user": "Jill-Vekariya",
+  "scope": "All six repositories; open alerts; paginated authenticated API; secret values excluded",
+  "results": [
+    {
+      "repository": "agent-reliability-harness",
+      "kind": "dependabot",
+      "command": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/Jill-Vekariya/agent-reliability-harness/dependabot/alerts?state=open&per_page=100"
+      ],
+      "exit_code": 0,
+      "label": "VERIFIED",
+      "open_count": 0,
+      "alerts": []
+    },
+    {
+      "repository": "agent-reliability-harness",
+      "kind": "code-scanning",
+      "command": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/Jill-Vekariya/agent-reliability-harness/code-scanning/alerts?state=open&per_page=100"
+      ],
+      "exit_code": 1,
+      "label": "BLOCKED",
+      "error": "gh: no analysis found (HTTP 404)\ngh: This API operation needs the \"admin:repo_hook\" scope. To request it, run:  gh auth refresh -h github.com -s admin:repo_hook"
+    },
+    {
+      "repository": "agent-reliability-harness",
+      "kind": "secret-scanning",
+      "command": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/Jill-Vekariya/agent-reliability-harness/secret-scanning/alerts?state=open&per_page=100"
+      ],
+      "exit_code": 0,
+      "label": "VERIFIED",
+      "open_count": 0,
+      "alerts": []
+    },
+    {
+      "repository": "safeheal-ai",
+      "kind": "dependabot",
+      "command": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/Jill-Vekariya/safeheal-ai/dependabot/alerts?state=open&per_page=100"
+      ],
+      "exit_code": 1,
+      "label": "BLOCKED",
+      "error": "gh: Dependabot alerts are disabled for this repository. (HTTP 403)\ngh: This API operation needs the \"admin:repo_hook\" scope. To request it, run:  gh auth refresh -h github.com -s admin:repo_hook"
+    },
+    {
+      "repository": "safeheal-ai",
+      "kind": "code-scanning",
+      "command": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/Jill-Vekariya/safeheal-ai/code-scanning/alerts?state=open&per_page=100"
+      ],
+      "exit_code": 1,
+      "label": "BLOCKED",
+      "error": "gh: no analysis found (HTTP 404)\ngh: This API operation needs the \"admin:repo_hook\" scope. To request it, run:  gh auth refresh -h github.com -s admin:repo_hook"
+    },
+    {
+      "repository": "safeheal-ai",
+      "kind": "secret-scanning",
+      "command": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/Jill-Vekariya/safeheal-ai/secret-scanning/alerts?state=open&per_page=100"
+      ],
+      "exit_code": 1,
+      "label": "BLOCKED",
+      "error": "gh: Secret scanning is disabled on this repository. (HTTP 404)"
+    },
+    {
+      "repository": "ReleaseLens",
+      "kind": "dependabot",
+      "command": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/Jill-Vekariya/ReleaseLens/dependabot/alerts?state=open&per_page=100"
+      ],
+      "exit_code": 1,
+      "label": "BLOCKED",
+      "error": "gh: Dependabot alerts are disabled for this repository. (HTTP 403)\ngh: This API operation needs the \"admin:repo_hook\" scope. To request it, run:  gh auth refresh -h github.com -s admin:repo_hook"
+    },
+    {
+      "repository": "ReleaseLens",
+      "kind": "code-scanning",
+      "command": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/Jill-Vekariya/ReleaseLens/code-scanning/alerts?state=open&per_page=100"
+      ],
+      "exit_code": 1,
+      "label": "BLOCKED",
+      "error": "gh: no analysis found (HTTP 404)\ngh: This API operation needs the \"admin:repo_hook\" scope. To request it, run:  gh auth refresh -h github.com -s admin:repo_hook"
+    },
+    {
+      "repository": "ReleaseLens",
+      "kind": "secret-scanning",
+      "command": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/Jill-Vekariya/ReleaseLens/secret-scanning/alerts?state=open&per_page=100"
+      ],
+      "exit_code": 1,
+      "label": "BLOCKED",
+      "error": "gh: Secret scanning is disabled on this repository. (HTTP 404)"
+    },
+    {
+      "repository": "atlas-recsys",
+      "kind": "dependabot",
+      "command": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/Jill-Vekariya/atlas-recsys/dependabot/alerts?state=open&per_page=100"
+      ],
+      "exit_code": 1,
+      "label": "BLOCKED",
+      "error": "gh: Dependabot alerts are disabled for this repository. (HTTP 403)\ngh: This API operation needs the \"admin:repo_hook\" scope. To request it, run:  gh auth refresh -h github.com -s admin:repo_hook"
+    },
+    {
+      "repository": "atlas-recsys",
+      "kind": "code-scanning",
+      "command": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/Jill-Vekariya/atlas-recsys/code-scanning/alerts?state=open&per_page=100"
+      ],
+      "exit_code": 1,
+      "label": "BLOCKED",
+      "error": "gh: no analysis found (HTTP 404)\ngh: This API operation needs the \"admin:repo_hook\" scope. To request it, run:  gh auth refresh -h github.com -s admin:repo_hook"
+    },
+    {
+      "repository": "atlas-recsys",
+      "kind": "secret-scanning",
+      "command": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/Jill-Vekariya/atlas-recsys/secret-scanning/alerts?state=open&per_page=100"
+      ],
+      "exit_code": 0,
+      "label": "VERIFIED",
+      "open_count": 0,
+      "alerts": []
+    },
+    {
+      "repository": "sentinel-fraud-platform",
+      "kind": "dependabot",
+      "command": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/Jill-Vekariya/sentinel-fraud-platform/dependabot/alerts?state=open&per_page=100"
+      ],
+      "exit_code": 1,
+      "label": "BLOCKED",
+      "error": "gh: Dependabot alerts are disabled for this repository. (HTTP 403)\ngh: This API operation needs the \"admin:repo_hook\" scope. To request it, run:  gh auth refresh -h github.com -s admin:repo_hook"
+    },
+    {
+      "repository": "sentinel-fraud-platform",
+      "kind": "code-scanning",
+      "command": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/Jill-Vekariya/sentinel-fraud-platform/code-scanning/alerts?state=open&per_page=100"
+      ],
+      "exit_code": 1,
+      "label": "BLOCKED",
+      "error": "gh: no analysis found (HTTP 404)\ngh: This API operation needs the \"admin:repo_hook\" scope. To request it, run:  gh auth refresh -h github.com -s admin:repo_hook"
+    },
+    {
+      "repository": "sentinel-fraud-platform",
+      "kind": "secret-scanning",
+      "command": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/Jill-Vekariya/sentinel-fraud-platform/secret-scanning/alerts?state=open&per_page=100"
+      ],
+      "exit_code": 0,
+      "label": "VERIFIED",
+      "open_count": 0,
+      "alerts": []
+    },
+    {
+      "repository": "Jill-Vekariya",
+      "kind": "dependabot",
+      "command": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/Jill-Vekariya/Jill-Vekariya/dependabot/alerts?state=open&per_page=100"
+      ],
+      "exit_code": 1,
+      "label": "BLOCKED",
+      "error": "gh: Dependabot alerts are disabled for this repository. (HTTP 403)\ngh: This API operation needs the \"admin:repo_hook\" scope. To request it, run:  gh auth refresh -h github.com -s admin:repo_hook"
+    },
+    {
+      "repository": "Jill-Vekariya",
+      "kind": "code-scanning",
+      "command": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/Jill-Vekariya/Jill-Vekariya/code-scanning/alerts?state=open&per_page=100"
+      ],
+      "exit_code": 1,
+      "label": "BLOCKED",
+      "error": "gh: no analysis found (HTTP 404)\ngh: This API operation needs the \"admin:repo_hook\" scope. To request it, run:  gh auth refresh -h github.com -s admin:repo_hook"
+    },
+    {
+      "repository": "Jill-Vekariya",
+      "kind": "secret-scanning",
+      "command": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/Jill-Vekariya/Jill-Vekariya/secret-scanning/alerts?state=open&per_page=100"
+      ],
+      "exit_code": 0,
+      "label": "VERIFIED",
+      "open_count": 0,
+      "alerts": []
+    }
+  ]
+}

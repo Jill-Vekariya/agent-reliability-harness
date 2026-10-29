@@ -1,12 +1,20 @@
-# Current prepared branch status — 29 October 2026
+# Current main status — 30 October 2026
 
 Stage 5 is **VERIFIED locally**: fresh locked host setup, two Docker targets,
 235 tests without failures/skips, four synthetic jobs, tenant/auth checks,
 telemetry, database outage health, coordinated backup, identical fresh restore,
 rollback/refusals and scoped teardown. [Exact evidence](stage6/EVIDENCE.md).
 
-Stage 6 presentation and ownership materials are included on feature branch
-`feat/durable-workflow-portfolio-20261029` for review. Independent owner implementation/review and the proposed upstream
+Stage 6 presentation and ownership materials were merged in
+[PR #19](https://github.com/Jill-Vekariya/agent-reliability-harness/pull/19), at
+`823026d1d43756d0a474a3c90a4649467f1e1be8`. Its
+[post-merge verification, PostgreSQL and Pages jobs](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/40942244213)
+passed. A fresh Stage 7 locked install and local quickstart passed, with 200 tests
+passing and 35 PostgreSQL tests skipped because this host has no dedicated database.
+The real PostgreSQL job passed in CI. All 212 accepted runtime/test/data inputs
+match the merged source. [Stage 7 handover](stage7/HANDOVER.md) records the scope.
+
+Independent owner implementation/review and the proposed upstream
 contribution remain pending; nothing is recorded as an accepted human contribution.
 Repository settings/pins are proposals only. No public executing backend or paid
 provider work was authorized or performed. Earlier records below retain their

@@ -1,7 +1,8 @@
 # Reproduce and present the local workflow
 
-Select feature branch `feat/durable-workflow-portfolio-20261029`, described in
-[the evidence index](EVIDENCE.md), before running this workflow. Docker must use Linux containers; the
+The durable workflow is included in `main` after PR #19. For the Stage 7 verified
+snapshot, check out `823026d1d43756d0a474a3c90a4649467f1e1be8`; see
+[the evidence index](EVIDENCE.md). Docker must use Linux containers; the
 native Windows SQL worker is intentionally unsupported.
 
 ## Complete setup and test path

@@ -1,5 +1,23 @@
 # Evidence and exact source identity
 
+## Stage 7 merged-source verification — 30 October 2026
+
+[PR #19](https://github.com/Jill-Vekariya/agent-reliability-harness/pull/19) merged as
+`823026d1d43756d0a474a3c90a4649467f1e1be8`. Its tree equals the accepted PR head,
+and all 212 selected input hashes match the published acceptance below.
+[Post-merge CI](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/40942244213)
+passed verification, real PostgreSQL/worker tests and Pages deployment. Container
+publication was skipped because this was not a version tag.
+
+A fresh public clone and locked Python 3.12.14 install passed `make ci`: 200 tests
+passed and 35 PostgreSQL tests were skipped without a dedicated local database.
+Those skips are not local passes; the separate real PostgreSQL CI job passed.
+Local links, all-recorded regression and static walkthrough build also passed.
+The earlier 235-test Docker acceptance retains its original source and date;
+Stage 7 did not repeat Docker on this host. The restored authenticated alert review is recorded in
+[Security review](../stage7/SECURITY_REVIEW.md); disabled scanners and absent analyses
+remain explicit coverage gaps. Earlier HTTP 401 attempts are historical. [Handover, scores and remaining work](../stage7/HANDOVER.md).
+
 ## Published-source acceptance
 
 [Current acceptance](evidence/published-acceptance.json) binds all selected runtime,
@@ -77,7 +95,8 @@ Public main was observed at `0aa386e847d383ba6bbff6ff0e20aab99b3dd791`.
 [Verify-and-release CI](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/40527576130)
 and [the second recorded check](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/40527589602)
 were successful at that revision. They predate the workflow additions.
-The feature branch must pass checks on its exact head before merge. Existing [v0.3.1 evidence](../../reports/releases/0.3.1/verification.json)
+PR #19 passed its head checks and is now merged; the Stage 7 section above records
+the merged-source checks. Existing [v0.3.1 evidence](../../reports/releases/0.3.1/verification.json)
 and [Stage 3 report](../../reports/stage3/REPORT.md) retain their original scopes/counts.
 
 The public [saved-trace walkthrough](https://jill-vekariya.github.io/agent-reliability-harness/)
