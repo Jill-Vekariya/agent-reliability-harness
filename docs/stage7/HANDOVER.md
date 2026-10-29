@@ -6,9 +6,9 @@
 CI, fresh locked installation/quickstart, recorded regression and public saved-trace
 page were checked. All five project homepages returned HTTP 200.
 
-**PARTIALLY VERIFIED:** the handover has explicit limits. Authenticated security
-alerts could not be read; independent owner coding/explanation/review remains
-pending. No production, live-model-quality or independent authorship claim follows.
+**PARTIALLY VERIFIED:** the handover has explicit limits. The authenticated security-alert inventory is now complete for accessible APIs;
+disabled scanners and missing code analyses remain coverage gaps. Independent
+owner coding/explanation/review remains pending. No production, live-model-quality or independent authorship claim follows.
 
 ## 2. Scope and exact revisions
 
@@ -44,6 +44,7 @@ JUnit, current GitHub responses and endpoint hashes.
 | Complete local Docker deployment | Earlier source-bound acceptance: 235 tests, no failures/errors/skips, 22 expected command exits, migrations/reentry, four jobs, auth/tenant checks, outage health, backup/fresh restore, rollback/refusals and teardown passed; Stage 7 did not repeat Docker on this host |
 | Public endpoints | VERIFIED HTTP 200 for Harness, SafeHeal, ReleaseLens, Atlas and Sentinel; HTTP/static-page scope, not new browser interaction or backend operation |
 | Profile | VERIFIED: Harness first; SafeHeal Working demo link present; no old Demo guide label; local checker passed, with 18 external links collected but not all individually fetched |
+| Authenticated security inventory | VERIFIED access review: Harness Dependabot and secret scanning report zero open alerts; the other repositories have the mixed coverage listed in [Security review](SECURITY_REVIEW.md). Missing/disabled scans are not zero-alert results. |
 | Private SafeHeal preview | VERIFIED hosting metadata: active version 2, one allowed viewer, no groups; access was not changed |
 
 The earlier full deployment's runtime image is
@@ -72,20 +73,23 @@ for full numerical scores because Stage 7 did not repeat their technical audits.
 | --- | --- | --- | --- | --- |
 | Correctness | 8 | Fresh quickstart, typed grading/regression, source-bound 235-test acceptance and real PostgreSQL CI | Deterministic fixtures do not establish arbitrary workload correctness | Add independently reviewed edge-case tasks and invariants |
 | Reliability | 7 | Worker/API restart, stale-lease fencing, retry/cancel tests and identical restore | No sustained multi-host/load SLO; external effect semantics are adapter-specific | Measure bounded recovery/latency under a declared workload |
-| Security | 6 | Read-only SQL limits, tenant/auth tests, approval binding and fail-closed local deployment | Alert inventory blocked; local demo bearer identities are not production auth | Review authenticated alerts and design production identity/rotation before exposure |
+| Security | 6 | Read-only SQL limits, tenant/auth tests, approval binding and fail-closed local deployment | Missing code analysis and disabled scanners leave coverage gaps; local bearer identities are not production auth | Review scanner coverage and design production identity/rotation before exposure |
 | Testing | 8 | 235 source-bound Docker cases, fresh 200 local passes with 35 explicit skips, real PostgreSQL CI | No long-duration or diverse-host fault campaign | Add a bounded environmental/concurrency matrix |
 | Reproducibility | 8 | New locked install, pinned inputs/images, matching 212 hashes, backup/restore evidence | This host has no Docker/PostgreSQL; old release image remains historical | Reproduce the pinned full deployment on a second host and retain receipts |
 | System design | 7 | Separate workflow state/agent SQL, transactional claims, lease fencing, approval and budget state | Single database/local deployment; no demonstrated need for a broker/orchestrator | Document measured scale limits before adding infrastructure |
 | Evaluation quality | 3 | Typed grading, explicit exposure/provenance, review/split checks | 37 development-exposed tasks, zero independent gold reviews or honest holdout; no live quality study | Obtain real gold reviews and a new unexposed task family |
 | Observability | 7 | Correlated HTTP/worker spans, scoped metrics and DB-outage health observations | Representative local traces; no external collector or alert/SLO validation | Validate a bounded collector/alert path without leaking payloads |
-| Documentation | 6 | Setup, architecture, evidence, recovery and interview route; local links pass | Merged main still had pre-merge wording when inspected; correction prepared here | Publish the reviewed follow-up and verify its exact-head links |
+| Documentation | 6 | Setup, architecture, evidence, recovery and interview route; local links pass | Earlier main had pre-merge wording; this correction is documentation only | Keep setup and evidence links tied to verified revisions |
 | Interview readiness | UNASSESSED | Technical walkthrough and exercise exist | No actual independent owner implementation or explanation has been reviewed | Complete the exercise and review the real diff and reasoning |
 
 ## 5. Failures, blockers and unverified claims
 
-- **BLOCKED:** Dependabot, code-scanning and secret-scanning alert APIs returned
-  HTTP 401, “Requires authentication.” The signed-in remote terminal did not
-  respond. No zero-alert or all-dependencies-safe claim is made.
+- **VERIFIED access review:** the signed-in connection was restored. Paginated
+  authenticated alert reads found zero open Harness Dependabot and secret-scanning
+  alerts. [All six repository results](SECURITY_REVIEW.md) retain disabled/missing
+  scanner responses. Code analysis coverage remains **UNVERIFIED**; this is not a
+  blanket security certification. Earlier HTTP 401/connection failures remain
+  historical evidence in the handover archive.
 - **BLOCKED locally:** no Docker engine or dedicated PostgreSQL server on this
   host. All 35 local DB skips are retained; current CI and the earlier exact-input
   Docker acceptance supply distinct evidence.
@@ -112,18 +116,12 @@ Keep the existing [AI-assistance disclosure](../OWNERSHIP.md).
 
 ## 7. Remaining handover actions and authorization
 
-Finish the authenticated alert inventory when the existing signed-in connection
-works, then address any demonstrated findings. Publish/review the prepared
-documentation correction through the available authorized GitHub path; do not
-infer publication from a local patch. Complete the independent ownership review.
-These are visible outstanding items, not completed claims.
-
-The documentation follow-up is **BLOCKED from publication** in this environment:
-the Git push dry run exited 128 because no GitHub username/credential was
-available, and the existing signed-in remote command connection did not respond.
-No branch or PR was created by that dry run. The complete correction is retained
-as a reviewable patch; no additional permission is being substituted for the
-missing authenticated connection.
+The authenticated alert inventory and documentation correction are completed in
+this follow-up. Its exact-head CI and publication status are tracked by the
+pull request; a local commit alone is not proof of merge or deployment.
+The independent ownership exercise and actual review remain pending. Scanner
+configuration changes, a full upstream documentation build and external upstream
+submission remain separate proposed work; they were not performed here.
 
 No new runtime rollout, spending, license/settings change, destructive teardown,
 or upstream submission is part of Stage 7. Historical failed evidence, retained
