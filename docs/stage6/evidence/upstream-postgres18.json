@@ -1,0 +1,52 @@
+{
+  "label": "VERIFIED locally",
+  "image": "postgres@sha256:979bccfde35445db618c65107d27d08c6c21339d8dc3ad4c830c6633947be0e4",
+  "image_id": "sha256:979bccfde35445db618c65107d27d08c6c21339d8dc3ad4c830c6633947be0e4",
+  "upstream_blob": "156eda0d7ebbe6001815950de9249b742687a3af",
+  "cases": [
+    {
+      "case": "clean",
+      "project": "arh-stage6-pg18-20261029-clean-34a00b",
+      "label": "VERIFIED",
+      "network": "none",
+      "memory_bytes": 536870912,
+      "cpu_limit": 1,
+      "pids_limit": 128,
+      "compose_variable_interpolation_verified": true,
+      "unix_during_init_exit": 0,
+      "tcp_during_init_exit": 2,
+      "health_during_init": "unhealthy",
+      "final_health": "healthy",
+      "real_tcp_query": "stage6_db|stage6_user|initialized",
+      "server_version_num": 180006,
+      "initialized_volume_restart_verified": true,
+      "initialization_script_executions": 1,
+      "remaining_containers": [],
+      "retained_volumes": [
+        "arh-stage6-pg18-20261029-clean-34a00b_pg18"
+      ]
+    },
+    {
+      "case": "failed",
+      "project": "arh-stage6-pg18-20261029-failed-dc6948",
+      "label": "VERIFIED",
+      "network": "none",
+      "memory_bytes": 536870912,
+      "cpu_limit": 1,
+      "pids_limit": 128,
+      "compose_variable_interpolation_verified": true,
+      "unix_during_init_exit": 0,
+      "tcp_during_init_exit": 2,
+      "health_during_init": "unhealthy",
+      "container_exit_code": 23,
+      "tcp_health_successes": 0,
+      "final_state": "exited",
+      "remaining_containers": [],
+      "retained_volumes": [
+        "arh-stage6-pg18-20261029-failed-dc6948_pg18"
+      ]
+    }
+  ],
+  "live_provider_calls": 0,
+  "scope": "Two network-none local PostgreSQL18 fixtures; no published ports; volumes retained"
+}

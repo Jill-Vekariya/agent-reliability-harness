@@ -18,5 +18,7 @@ site/
 .env.*
 !.env.example
 !.env.sample
+!.env.workflow.example
+.local/
 .DS_Store
 Thumbs.db

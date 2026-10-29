@@ -22,8 +22,16 @@ packages = ["src/agent_reliability"]
 [project.scripts]
 arh = "agent_reliability.cli:main"
 
+[project.optional-dependencies]
+workflow = [
+    "fastapi==0.143.1",
+    "psycopg[binary]==3.3.6",
+    "uvicorn==0.54.0",
+]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]
 addopts = "-ra"
 
 [tool.ruff]

@@ -1,0 +1,30 @@
+{
+  "label": "VERIFIED locally; unpublished source",
+  "captured_date": "2026-10-29",
+  "branch": "fix/stage5-resume-20261029",
+  "base_revision": "bfd4d6f951a6e3d8e3d503cb96c6662ee0e258c6",
+  "source_digest": "6e51a5026bd5c467a9698ed15d3e65eabe6235bedfa385b3c2cf1d88b0279485",
+  "runtime_image": "sha256:bc459f498d352ed6bfe37e9ee7212fbc5775e24d8b7b6b3195f44af1613bc94e",
+  "checks_image": "sha256:b3f549286e549d7310ab0259a58922f85e92df08c9b56b65d8a98cfe94dc58d7",
+  "selected_input_count": 212,
+  "tests": {
+    "passed": 235,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "warnings": 1
+  },
+  "expected_command_exits_verified": 21,
+  "jobs_succeeded": 4,
+  "restored_state_identical": true,
+  "same_image_restart_verified": true,
+  "cross_version_downgrade_verified": false,
+  "live_provider_calls": 0,
+  "teardown_projects": 2,
+  "retained_volumes": 4,
+  "personal_independent_implementation": "PENDING",
+  "public_command_paths_redacted": true,
+  "upstream_submission": "NOT SUBMITTED",
+  "current_branch_ci": "NOT RUN; branch unpublished",
+  "upstream_postgres18_validation": "VERIFIED locally; two bounded fixtures, containers removed"
+}

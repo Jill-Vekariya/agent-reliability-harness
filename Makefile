@@ -2,7 +2,7 @@ UV ?= uv
 MODE ?= regression
 .PHONY: setup data test lint typecheck estimate eval eval-live report viewer demo public-demo docker ci
 setup:
-	$(UV) sync --locked
+	$(UV) sync --locked --extra workflow
 data:
 	$(UV) run --no-sync arh data
 test:

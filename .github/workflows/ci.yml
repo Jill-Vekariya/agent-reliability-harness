@@ -35,12 +35,44 @@ jobs:
       - name: Docker regression without networking
         run: |
           docker build -t agent-reliability-harness:ci .
-          docker run --rm --network none --read-only --tmpfs /tmp --tmpfs /reports:uid=10001,gid=10001,mode=1777 --memory 768m --cpus 2 --pids-limit 64 --cap-drop ALL --security-opt no-new-privileges agent-reliability-harness:ci pytest
+          docker build -f Dockerfile.workflow --target checks -t arh-workflow-checks:ci .
+          docker run --rm --network none --read-only --tmpfs /tmp --tmpfs /reports:uid=10001,gid=10001,mode=1777 --memory 768m --cpus 2 --pids-limit 64 --cap-drop ALL --security-opt no-new-privileges arh-workflow-checks:ci python -m pytest -q -o cache_dir=/tmp/pytest-cache
           docker run --rm --network none --read-only --tmpfs /tmp --tmpfs /reports:uid=10001,gid=10001,mode=1777 --memory 768m --cpus 2 --pids-limit 64 --cap-drop ALL --security-opt no-new-privileges agent-reliability-harness:ci arh eval
       - name: Build static walkthrough from validated synthetic traces
         run: uv run --no-sync python scripts/build_public_demo.py
+  workflow-postgres:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:16.15-bookworm@sha256:e8a07d2c7579b038938cdba6c539e580e5001caf9ea203d397b5cc83e76bd938
+        env:
+          POSTGRES_USER: arh
+          POSTGRES_DB: arh_workflow_tests
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports: ['127.0.0.1:5432:5432']
+        options: >-
+          --health-cmd "pg_isready -h 127.0.0.1 -U arh -d arh_workflow_tests"
+          --health-interval 2s --health-timeout 2s --health-retries 30
+    env:
+      # An ephemeral runner-local database only; no application credential is published.
+      ARH_WORKFLOW_TEST_DATABASE_URL: postgresql://arh@127.0.0.1:5432/arh_workflow_tests
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Install the locked workflow test environment
+        run: |
+          python3 -m pip install uv==0.12.23
+          uv python install 3.12.14
+          make setup
+      - name: Test real PostgreSQL and worker semantics
+        run: uv run --no-sync pytest tests/integration/test_workflow_postgres.py tests/integration/test_workflow_deployment_postgres.py tests/unit/test_workflow.py tests/unit/test_workflow_controls.py -q --junitxml=workflow-tests.xml
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # resolved v4
+        if: always()
+        with:
+          name: workflow-postgres-evidence
+          path: workflow-tests.xml
   container:
-    needs: verify
+    needs: [verify, workflow-postgres]
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-24.04
     timeout-minutes: 20
@@ -83,7 +115,7 @@ jobs:
           DIGEST: ${{ steps.push.outputs.digest }}
         run: echo "Published image \`$IMAGE@$DIGEST\`" >> "$GITHUB_STEP_SUMMARY"
   pages:
-    needs: verify
+    needs: [verify, workflow-postgres]
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     runs-on: ubuntu-24.04
     timeout-minutes: 10

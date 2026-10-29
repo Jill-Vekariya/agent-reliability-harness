@@ -1,0 +1,11 @@
+{
+  "label": "BLOCKED",
+  "development_exposed_tasks": 37,
+  "validation_tasks": 0,
+  "genuinely_unexposed_test_tasks": 0,
+  "independent_attested_tasks": 0,
+  "promotions_performed": false,
+  "reason": "Independent review and new genuinely unexposed families required; existing tasks remain development-only",
+  "current_review_packet": "reviews/stage3-review-packet.json",
+  "historical_packets": "Packets in measurement receipts bind their original byte-level dataset manifests; use current packet for new review"
+}

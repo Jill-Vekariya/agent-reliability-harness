@@ -1,5 +1,72 @@
 # Agent Reliability Harness
 
+**Reproduce SQL-agent failures and inspect durable job recovery.**
+
+Protected read-only SQL execution, typed result grading and strict trace replay
+are paired with a local FastAPI/PostgreSQL workflow for leases, approvals,
+tenant isolation and conservative synthetic-budget accounting.
+
+[Live walkthrough — saved traces](https://jill-vekariya.github.io/agent-reliability-harness/)
+· [Architecture and decisions](docs/stage6/OVERVIEW.md)
+· [Run the local workflow](docs/stage6/WALKTHROUGH.md)
+· [Verification](docs/stage6/EVIDENCE.md)
+· [Interview route](docs/stage6/INTERVIEW.md)
+
+The public walkthrough displays synthetic saved evidence. The executing API,
+SQL workers and PostgreSQL database run locally in Linux containers.
+
+## Reproduce the local workflow
+
+Select branch `feat/durable-workflow-portfolio-20261029` for the durable workflow.
+Public main receives these additions after review and merge.
+Prerequisites: Git, Python 3.12, uv and Docker with Linux containers/Compose v2.
+
+```bash
+git clone --branch feat/durable-workflow-portfolio-20261029 https://github.com/Jill-Vekariya/agent-reliability-harness.git
+cd agent-reliability-harness
+uv sync --locked --extra workflow
+uv run --no-sync python scripts/normalize_evidence.py --fix --output .local/stage5/checkout-001.json
+uv run --no-sync arh data
+uv run --no-sync python scripts/verify_workflow_deployment.py --project arh-showcase-001 --port 8095 --output .local/stage5/showcase-001
+```
+
+These commands also work in PowerShell. Use a new project and receipt path for
+each complete run. The verifier builds both images, runs the dedicated-database
+suite and four predefined jobs, compares a fresh restore, checks rollback and
+removes its containers. It retains volumes and private backups. No model key or
+billable call is used. [Manual startup and recovery](docs/LOCAL_DEPLOYMENT.md).
+
+## What was verified locally
+
+| Check on 29 October 2026 | Result |
+| --- | --- |
+| New locked Python 3.12.14 environment | Installation, dependency check and pinned datasets passed |
+| Current Linux Docker images | 235 tests passed; zero failures or skips |
+| Bounded deployment | Four jobs succeeded; tenant/auth and trace/metric checks passed |
+| Recovery | Six table fingerprints and synthetic-effect records matched after restore |
+| Rollback and cleanup | Incompatible image refused; same-image restart verified; both projects stopped |
+
+The [published-source acceptance](docs/stage6/evidence/published-acceptance.json) binds 212
+runtime, test and data inputs. This local result does not replace historical CI
+counts or claim a cross-version downgrade. [Retained failures and fixes](docs/stage6/CASE_STUDY.md).
+
+## Boundaries and ownership
+
+SQL protections assume trusted project/worker code. Local bearer identities are
+demonstration authentication. The corpus has 37 development-exposed tasks,
+zero independently reviewed gold tasks and no honest held-out model-quality
+result. Unknown synthetic usage remains reserved. [Deployment threat model](docs/stage6/THREATS.md).
+
+Implementation, tests and these materials are **AI-assisted**. Independent owner
+coding and review remain pending. [Bounded ownership exercise](docs/stage6/OWNERSHIP_EXERCISE.md)
+· [Existing ownership record](docs/OWNERSHIP.md). License and third-party notices
+remain [MIT](LICENSE) and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
+<details>
+<summary>Existing offline setup, release history and detailed limitations</summary>
+
+# Agent Reliability Harness
+
 **Inspect, constrain and reproduce the failures of a SQL agent.**
 
 The harness separates a provider-driven tool loop, protected SQL execution, typed result grading and trace persistence. It catches unsupported final answers and preserves incompatible or failed attempts instead of silently making a regression pass.
@@ -51,6 +118,16 @@ Open `http://127.0.0.1:8501`. `make setup` installs from `uv.lock`; `make ci` ma
 
 For current-source Docker, start a Docker Linux engine and run `docker compose up --build -d`; stop with `docker compose down`, preserving the reports volume. The separately recorded v0.3.1 image contains older dependencies, including affected Pillow versions; its digest/receipt is retained as historical evidence rather than an updated security release. No replacement versioned image is claimed here. [Docker demo guide](docs/DEMO.md).
 
+## Optional durable local jobs
+
+The [durable workflow](docs/WORKFLOW_CONTROLS.md) extends Harness with FastAPI,
+PostgreSQL leases, bounded workers, tenant-scoped local demo authentication,
+one-use action approvals, cancellation and synthetic budget accounting. Workflow
+state stays separate from agent-accessible read-only SQLite. Live providers remain
+disabled. See the exact revision and source-linked verification limits in the
+Stage 2 report before claiming database or Docker behavior demonstrated.
+The [Stage 1 contract](docs/DURABLE_EXECUTION.md) is retained as historical evidence.
+
 ## Results and verification
 
 | Evidence | Actual result | Limit |
@@ -84,3 +161,14 @@ Next: genuine gold review, new unexposed task families and a scoped, explicitly 
 The goal/requirements were user-supplied; implementation, candidate tasks, tests and documentation were AI-assisted. Personal review/coding exercises remain pending unless supported by actual evidence in [OWNERSHIP.md](docs/OWNERSHIP.md). No independent authorship, production usage or business savings are inferred.
 
 Repository license: [MIT](LICENSE). Database/dependency rights: [third-party notices](THIRD_PARTY_NOTICES.md). [Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md) · [Interview practice](docs/INTERVIEW_PRACTICE.md).
+
+## Workflow measurement
+
+[The Stage 3 protocol and driver](docs/WORKFLOW_MEASUREMENT.md) measure synthetic
+worker failure, terminal coverage, tenant isolation, effect deduplication and
+budget conservation. Initial failures are retained separately from the amended
+protocol. Live model quality remains blocked by independent review and unseen
+task-family requirements; development fixtures are not a held-out test set.
+
+
+</details>
