@@ -1,0 +1,10 @@
+{
+  "/live": {
+    "status": 200,
+    "elapsed_seconds": 0.1089999999999236
+  },
+  "/ready": {
+    "status": 503,
+    "elapsed_seconds": 4.125
+  }
+}

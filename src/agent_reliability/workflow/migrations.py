@@ -8,6 +8,13 @@ import psycopg
 MIGRATION_LOCK = 734621109
 
 
+def expected_checksums() -> dict[str, str]:
+    return {
+        path.name: hashlib.sha256(path.read_bytes()).hexdigest()
+        for path in sorted(Path(__file__).with_name("sql").glob("*.sql"))
+    }
+
+
 def migrate(url: str) -> None:
     with psycopg.connect(url, connect_timeout=3) as conn, conn.transaction():
         conn.execute("SELECT pg_advisory_xact_lock(%s)", (MIGRATION_LOCK,))

@@ -1,5 +1,10 @@
 # Durable fixture jobs — Stage 1
 
+Historical contract for `bfd4d6f`. On the Stage 2 branch, use
+[Workflow controls](WORKFLOW_CONTROLS.md) for current authentication, approvals,
+cancellation, setup and verification commands. Recorded Stage 1 evidence remains
+linked to its original revision.
+
 This optional local extension admits and recovers bounded synthetic SQL-agent jobs.
 It preserves the offline CLI, historical recordings, grading and read-only SQLite
 sandbox. It is not a generic command runner or a public multi-tenant service.

@@ -9,20 +9,24 @@ from pydantic import Field, model_validator
 
 from ..models import Model
 
-TERMINAL = frozenset({"succeeded", "failed"})
+TERMINAL = frozenset({"succeeded", "failed", "cancelled"})
 MAX_RESULT_BYTES = 2_000_000
 
 
 class JobRequest(Model):
     schema_version: Literal[1] = 1
     task_id: str = Field(default="q001", pattern=r"^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$")
-    demo: Literal["none", "fail_once", "always_fail", "sleep", "effect"] = "none"
+    demo: Literal["none", "fail_once", "always_fail", "sleep", "effect", "provider"] = "none"
     delay_seconds: float = Field(default=0.0, ge=0, le=10, allow_inf_nan=False)
+    require_approval: bool = False
+    fake_usage: Literal["known", "missing_usage", "missing_price"] = "known"
 
     @model_validator(mode="after")
     def delay_requires_demo(self) -> "JobRequest":
-        if self.delay_seconds and self.demo not in {"sleep", "effect"}:
+        if self.delay_seconds and self.demo not in {"sleep", "effect", "provider"}:
             raise ValueError("Delay is available only for bounded synthetic demonstrations")
+        if self.fake_usage != "known" and self.demo != "provider":
+            raise ValueError("Usage scenarios require the deterministic fake provider")
         return self
 
 

@@ -62,11 +62,14 @@ def test_child_does_not_inherit_secrets_or_pythonpath(monkeypatch, tmp_path):
     monkeypatch.setenv("ARH_WORKFLOW_DATABASE_URL", "synthetic-secret-dsn")
     monkeypatch.setenv("OPENAI_API_KEY", "synthetic-test-secret")
     monkeypatch.setenv("PGPASSWORD", "synthetic-db-secret")
+    monkeypatch.setenv("ARH_WORKFLOW_AUTH_JSON", "synthetic-auth-secret")
+    monkeypatch.setenv("ARH_WORKFLOW_AUTH_FILE", "/private/auth.json")
     monkeypatch.setenv("PYTHONPATH", "/untrusted")
     env = child_environment(ROOT, tmp_path / "effects.sqlite", os.getpid())
     assert not {"ARH_WORKFLOW_DATABASE_URL", "OPENAI_API_KEY", "PYTHONPATH"} & env.keys()
     assert "synthetic-test-secret" not in json.dumps(env)
     assert "PGPASSWORD" not in env and "synthetic-db-secret" not in json.dumps(env)
+    assert "ARH_WORKFLOW_AUTH_JSON" not in env and "ARH_WORKFLOW_AUTH_FILE" not in env
 
 
 def test_database_configuration_is_local_and_separate(monkeypatch):
