@@ -17,12 +17,12 @@ SQL workers and PostgreSQL database run locally in Linux containers.
 
 ## Reproduce the local workflow
 
-Select branch `feat/durable-workflow-portfolio-20261029` for the durable workflow.
-Public main receives these additions after review and merge.
+The durable workflow is included in `main` through [PR #19](https://github.com/Jill-Vekariya/agent-reliability-harness/pull/19).
+[Stage 7 handover](docs/stage7/HANDOVER.md) records the verified merged revision and remaining limits.
 Prerequisites: Git, Python 3.12, uv and Docker with Linux containers/Compose v2.
 
 ```bash
-git clone --branch feat/durable-workflow-portfolio-20261029 https://github.com/Jill-Vekariya/agent-reliability-harness.git
+git clone --branch main https://github.com/Jill-Vekariya/agent-reliability-harness.git
 cd agent-reliability-harness
 uv sync --locked --extra workflow
 uv run --no-sync python scripts/normalize_evidence.py --fix --output .local/stage5/checkout-001.json
