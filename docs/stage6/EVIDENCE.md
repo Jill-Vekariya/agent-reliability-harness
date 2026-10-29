@@ -1,5 +1,24 @@
 # Evidence and exact source identity
 
+## Published-source acceptance
+
+[Current acceptance](evidence/published-acceptance.json) binds all selected runtime,
+test and data input bytes to [source commit 50b74f4bb4626239ab4907d1dee82841186ef16c](https://github.com/Jill-Vekariya/agent-reliability-harness/commit/50b74f4bb4626239ab4907d1dee82841186ef16c).
+Its fresh Linux Docker run passed 235 tests with no failures/errors/skips and
+22 recorded expected command exits. Four synthetic jobs, auth/tenant checks,
+metrics/traces, outage health, identical fresh restore, rollback/refusals and
+teardown passed. All 212 selected input hashes match the committed Git blobs.
+
+[Implementation CI](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/40928953124)
+and [documentation CI](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/40928953045)
+passed at that exact source commit. Subsequent changes that only add this evidence
+and its links do not change the verified runtime inputs; check [PR19](https://github.com/Jill-Vekariya/agent-reliability-harness/pull/19)
+for checks on its latest head. Tag-only image publication and main-only Pages
+deployment do not run on a pull request. No new release image or executing public
+backend is claimed. Earlier local receipts below retain their original source.
+
+## Historical local capture
+
 Status: **Historical Stage 5 acceptance verified locally; human ownership work pending.**
 Feature branch: `feat/durable-workflow-portfolio-20261029`. Its pull request tracks CI on the current head.
 Captured 29 October 2026. This is not a new public release or a public backend deployment.
