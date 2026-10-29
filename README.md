@@ -46,7 +46,7 @@ billable call is used. [Manual startup and recovery](docs/LOCAL_DEPLOYMENT.md).
 | Recovery | Six table fingerprints and synthetic-effect records matched after restore |
 | Rollback and cleanup | Incompatible image refused; same-image restart verified; both projects stopped |
 
-The [source/image receipt](docs/stage6/evidence/verification.json) binds 212
+The [published-source acceptance](docs/stage6/evidence/published-acceptance.json) binds 212
 runtime, test and data inputs. This local result does not replace historical CI
 counts or claim a cross-version downgrade. [Retained failures and fixes](docs/stage6/CASE_STUDY.md).
 
