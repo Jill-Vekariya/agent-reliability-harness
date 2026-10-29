@@ -15,9 +15,10 @@ commit `436c5d5b0b42155f3e9daa99ce1a77b6658ecfb6`.
 | 5. Sentinel | Transactional risk decisions with history/outbox state, replay and model rollback | `fraud-detection`, `event-driven`, `machine-learning`, `replay` |
 
 Descriptions summarize the existing profile's project claims; the non-flagship
-implementations were not re-audited in Stage 6. Apply the new flagship wording and
-main-branch links after the feature branch is reviewed and merged. Until then the
-public profile should not link to missing Stage 5/6 paths on main.
+implementations were not re-audited in Stage 6. PR #19 is now merged, so the
+Stage 5/6 implementation and evidence links exist on `main`. Review the proposed
+flagship wording and links before updating the profile; this plan does not apply
+repository settings or record an independent owner contribution.
 
 Keep implementation, live demonstration and evidence as distinct links. SafeHeal's
 working demo is a hosted browser simulation; its executed Kubernetes recovery

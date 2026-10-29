@@ -1,7 +1,8 @@
 # Architecture and decisions
 
-This describes the durable-workflow feature branch. [Evidence and exact identities](EVIDENCE.md)
-distinguish it from public main and historical releases.
+This describes the durable workflow merged into `main` through PR #19.
+[Evidence and exact identities](EVIDENCE.md) distinguish the accepted implementation
+from historical releases and unverified deployment claims.
 
 ## SQL evaluation boundary
 
