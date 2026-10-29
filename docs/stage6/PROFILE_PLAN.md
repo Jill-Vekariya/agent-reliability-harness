@@ -16,7 +16,7 @@ commit `436c5d5b0b42155f3e9daa99ce1a77b6658ecfb6`.
 
 Descriptions summarize the existing profile's project claims; the non-flagship
 implementations were not re-audited in Stage 6. Apply the new flagship wording and
-links only after its prepared branch is reviewed and published. Until then the
+main-branch links after the feature branch is reviewed and merged. Until then the
 public profile should not link to missing Stage 5/6 paths on main.
 
 Keep implementation, live demonstration and evidence as distinct links. SafeHeal's

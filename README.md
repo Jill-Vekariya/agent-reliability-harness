@@ -17,12 +17,13 @@ SQL workers and PostgreSQL database run locally in Linux containers.
 
 ## Reproduce the local workflow
 
-The Stage 5/6 additions are prepared on `fix/stage5-resume-20261029`, based on
-`bfd4d6f951a6e3d8e3d503cb96c6662ee0e258c6`. They have not been pushed or merged.
-Use the prepared worktree; cloning public main alone does not provide them.
+Select branch `feat/durable-workflow-portfolio-20261029` for the durable workflow.
+Public main receives these additions after review and merge.
 Prerequisites: Git, Python 3.12, uv and Docker with Linux containers/Compose v2.
 
 ```bash
+git clone --branch feat/durable-workflow-portfolio-20261029 https://github.com/Jill-Vekariya/agent-reliability-harness.git
+cd agent-reliability-harness
 uv sync --locked --extra workflow
 uv run --no-sync python scripts/normalize_evidence.py --fix --output .local/stage5/checkout-001.json
 uv run --no-sync arh data

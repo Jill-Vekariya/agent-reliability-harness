@@ -1,7 +1,7 @@
 # Reproduce and present the local workflow
 
-Use the prepared branch described in [the evidence index](EVIDENCE.md). Public
-main has not received these additions. Docker must use Linux containers; the
+Select feature branch `feat/durable-workflow-portfolio-20261029`, described in
+[the evidence index](EVIDENCE.md), before running this workflow. Docker must use Linux containers; the
 native Windows SQL worker is intentionally unsupported.
 
 ## Complete setup and test path

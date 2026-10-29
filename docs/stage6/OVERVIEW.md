@@ -1,6 +1,6 @@
 # Architecture and decisions
 
-This describes the prepared local branch. [Evidence and exact identities](EVIDENCE.md)
+This describes the durable-workflow feature branch. [Evidence and exact identities](EVIDENCE.md)
 distinguish it from public main and historical releases.
 
 ## SQL evaluation boundary

@@ -1,11 +1,12 @@
 # Evidence and exact source identity
 
-Status: **VERIFIED locally for Stage 5; Stage 6 materials prepared; human ownership work pending.**
+Status: **Historical Stage 5 acceptance verified locally; human ownership work pending.**
+Feature branch: `feat/durable-workflow-portfolio-20261029`. Its pull request tracks CI on the current head.
 Captured 29 October 2026. This is not a new public release or a public backend deployment.
 
 | Identity | Value |
 | --- | --- |
-| Prepared branch | `fix/stage5-resume-20261029` (unpublished, with uncommitted additions) |
+| Local capture branch | `fix/stage5-resume-20261029` (pre-publication working tree) |
 | Base commit | `bfd4d6f951a6e3d8e3d503cb96c6662ee0e258c6` |
 | Selected runtime/test/data input digest | `6e51a5026bd5c467a9698ed15d3e65eabe6235bedfa385b3c2cf1d88b0279485` |
 | Runtime image | `sha256:bc459f498d352ed6bfe37e9ee7212fbc5775e24d8b7b6b3195f44af1613bc94e` |
@@ -13,9 +14,9 @@ Captured 29 October 2026. This is not a new public release or a public backend d
 | Selected input hashes | 212, retained in [source context](evidence/source-context.json) |
 | Executed project | `arh-stage5-tcp-20261029` |
 
-The base commit exists in the local worktree and is not available through
-GitHub's commit API. The [published source](https://github.com/Jill-Vekariya/agent-reliability-harness/tree/0aa386e847d383ba6bbff6ff0e20aab99b3dd791)
-identifies the older public revision, not the unpublished additions. Image labels and these
+At capture, the base commit existed only in the local worktree. Publication
+also uploads its ancestor history. The [published source](https://github.com/Jill-Vekariya/agent-reliability-harness/tree/0aa386e847d383ba6bbff6ff0e20aab99b3dd791)
+identifies the baseline before the workflow additions. Image labels and these
 operator-collected hashes bind selected bytes; they are not a signed supply-chain attestation.
 
 ## Executed acceptance checks
@@ -56,9 +57,8 @@ work. The independent exercise has not been implemented or reviewed.
 Public main was observed at `0aa386e847d383ba6bbff6ff0e20aab99b3dd791`.
 [Verify-and-release CI](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/40527576130)
 and [the second recorded check](https://github.com/Jill-Vekariya/agent-reliability-harness/actions/runs/40527589602)
-were successful at that revision. They do **not** validate this unpublished branch.
-Publication needs a separate review, integration with current main and checks on
-the resulting exact head. Existing [v0.3.1 evidence](../../reports/releases/0.3.1/verification.json)
+were successful at that revision. They predate the workflow additions.
+The feature branch must pass checks on its exact head before merge. Existing [v0.3.1 evidence](../../reports/releases/0.3.1/verification.json)
 and [Stage 3 report](../../reports/stage3/REPORT.md) retain their original scopes/counts.
 
 The public [saved-trace walkthrough](https://jill-vekariya.github.io/agent-reliability-harness/)
