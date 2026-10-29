@@ -1,8 +1,9 @@
 x-runtime: &runtime
-  image: arh-workflow:stage1-local
+  image: ${ARH_WORKFLOW_IMAGE:-arh-workflow:stage5-local}
   build:
     context: .
     dockerfile: Dockerfile.workflow
+    target: runtime
     args:
       BASE_IMAGE: ${ARH_WORKFLOW_BASE_IMAGE:-python:3.12.14-slim-trixie@sha256:f77ac9e44ae96ef2c90b8053ea08c31f8be030f824196b0ae4db6d462c84e51f}
       SOURCE_REVISION: ${ARH_WORKFLOW_SOURCE_REVISION:-uncommitted}
@@ -25,7 +26,7 @@ x-environment: &environment
 
 services:
   workflow-db:
-    image: ${ARH_WORKFLOW_POSTGRES_IMAGE:-postgres:16.15-bookworm}
+    image: ${ARH_WORKFLOW_POSTGRES_IMAGE:-postgres:16.15-bookworm@sha256:e8a07d2c7579b038938cdba6c539e580e5001caf9ea203d397b5cc83e76bd938}
     environment:
       POSTGRES_USER: arh
       POSTGRES_DB: arh_workflow
@@ -38,7 +39,7 @@ services:
     cpus: 1.0
     pids_limit: 128
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U arh -d arh_workflow"]
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U arh -d arh_workflow"]
       interval: 2s
       timeout: 2s
       retries: 30
@@ -56,8 +57,10 @@ services:
   api:
     <<: *runtime
     networks: [workflow, ingress]
-    ports: ["127.0.0.1:8091:8091"]
-    environment: *environment
+    ports: ["127.0.0.1:${ARH_WORKFLOW_API_PORT:-8091}:8091"]
+    environment:
+      <<: *environment
+      ARH_WORKFLOW_AUTH_JSON: ${ARH_WORKFLOW_AUTH_JSON:?Run scripts/configure_workflow.py}
     mem_limit: 256m
     cpus: 0.5
     depends_on:
@@ -94,6 +97,15 @@ services:
 
   checks:
     <<: *runtime
+    image: ${ARH_WORKFLOW_CHECKS_IMAGE:-arh-workflow:stage5-checks-local}
+    build:
+      context: .
+      dockerfile: Dockerfile.workflow
+      target: checks
+      args:
+        BASE_IMAGE: ${ARH_WORKFLOW_BASE_IMAGE:-python:3.12.14-slim-trixie@sha256:f77ac9e44ae96ef2c90b8053ea08c31f8be030f824196b0ae4db6d462c84e51f}
+        SOURCE_REVISION: ${ARH_WORKFLOW_SOURCE_REVISION:-uncommitted}
+        SOURCE_DIGEST: ${ARH_WORKFLOW_SOURCE_DIGEST:-unrecorded}
     profiles: [checks]
     command: ["pytest", "-q", "-o", "cache_dir=/tmp/pytest-cache"]
     environment:
@@ -113,3 +125,4 @@ networks:
 volumes:
   workflow-db:
   workflow-reports:
+

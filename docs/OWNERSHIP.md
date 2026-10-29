@@ -35,3 +35,13 @@ The assistant implemented the audit changes and expanded tests; this does not co
 * Explain the missing-entire-cohort statistical test and why its apparent observed success rate is not a headline campaign estimate.
 
 Record date, your actual commit/review, commands/results, and what changed in your understanding. The completed automated checks and remaining human work are separated in `STATUS.md`.
+
+
+
+## Stage 6 preparation — independent work still pending
+
+The new [read-only budget audit exercise](stage6/OWNERSHIP_EXERCISE.md) is a bounded
+feature for the owner to implement and explain. Its implementation, test results,
+review and accepted contribution fields remain pending. Existing exercises above
+remain pending too. Stage 5 deployment evidence and AI-prepared Stage 6 materials
+do not count as independent human implementation or understanding.

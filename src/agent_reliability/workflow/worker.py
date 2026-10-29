@@ -16,7 +16,8 @@ import psycopg
 
 from ..util import canonical
 from .models import MAX_RESULT_BYTES
-from .store import Claim, Store
+from .store import Claim, ControlConflict, Store
+from .telemetry import Telemetry
 
 log = logging.getLogger(__name__)
 
@@ -149,10 +150,53 @@ def supervise(
         cleanup(proc)
 
 
+def run_attempt(
+    store: Store, claim: Claim, root: Path, effects: Path, stop: threading.Event
+) -> dict[str, Any]:
+    request = claim.payload["request"]
+    if request["demo"] not in {"provider", "effect"}:
+        return supervise(store, claim, root, effects, stop)
+    units = (
+        (None if request["fake_usage"] == "missing_price" else 10)
+        if request["demo"] == "provider"
+        else 0
+    )
+    try:
+        operation = store.reserve(claim, units)
+    except ControlConflict as exc:
+        return failure(str(exc), retryable=False)
+    if not store.dispatch(claim, operation):
+        return failure("dispatch_not_authorized", retryable=False)
+    result = supervise(store, claim, root, effects, stop)
+    if result["ok"]:
+        actual = (
+            result.get("fake_provider", {}).get("usage_units")
+            if request["demo"] == "provider"
+            else 0
+        )
+        store.settle(claim, operation, actual)
+    return result
+
+
 def run_worker(
     store: Store, root: Path, worker_id: str, effects: Path, stop: threading.Event | None = None
 ) -> None:
     stopping = stop or threading.Event()
+    telemetry = Telemetry()
+    try:
+        _worker_loop(store, root, worker_id, effects, stopping, telemetry)
+    finally:
+        telemetry.close()
+
+
+def _worker_loop(
+    store: Store,
+    root: Path,
+    worker_id: str,
+    effects: Path,
+    stopping: threading.Event,
+    telemetry: Telemetry,
+) -> None:
     while not stopping.is_set():
         try:
             claim = store.claim(worker_id)
@@ -169,8 +213,19 @@ def run_worker(
                     }
                 )
             )
-            result = supervise(store, claim, root, effects, stopping)
-            accepted = store.finish(claim, result)
+            with telemetry.span(
+                "workflow.attempt",
+                trace_id=claim.trace_id,
+                parent_span_id=claim.parent_span_id,
+                request_id=claim.request_id,
+                job_id=claim.job_id,
+                attempt=claim.number,
+                worker_id=worker_id,
+            ) as span:
+                result = run_attempt(store, claim, root, effects, stopping)
+                accepted = store.finish(claim, result)
+                span.set_attribute("accepted", accepted)
+                span.set_attribute("ok", result["ok"])
             log.info(
                 canonical(
                     {

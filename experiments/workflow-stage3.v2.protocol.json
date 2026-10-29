@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "status": "predeclared_engineering_demonstration",
+  "purpose": "Measure bounded synthetic execution and crash recovery; no live-model quality inference",
+  "arms": [
+    "no_fault",
+    "worker_loss"
+  ],
+  "hypothesis": "One injected worker loss increases attempts and recovery latency while preserving terminal-job, tenant, deduplication and budget invariants",
+  "seeds": [
+    17,
+    29,
+    41
+  ],
+  "experimental_unit": "A fresh database-schema batch of 12 jobs; jobs within a batch share workers and are dependent",
+  "ordering": "Admit/cancel fixed cancellation control first; start two workers; admit ten ordinary/provider cases in matched seeded order with immediate automated approvals; admit the effect last and immediately observe its crash window; alternate arm order by seed index",
+  "jobs_per_batch": 12,
+  "planned_batches": 6,
+  "planned_jobs": 72,
+  "workers_per_batch": 2,
+  "maximum_attempts": 3,
+  "lease_seconds": 2,
+  "heartbeat_seconds": 0.3,
+  "attempt_seconds": 10,
+  "job_seconds": 45,
+  "trial_stop_seconds": 60,
+  "total_stop_seconds": 480,
+  "fake_credit_limit_per_batch": 200,
+  "fake_provider_quote": 10,
+  "fake_provider_known_usage": 6,
+  "fault": "SIGKILL exactly one worker after the effect sink records its first invocation; do not artificially expire the lease",
+  "workload": [
+    {
+      "name": "ordinary_correct",
+      "task_id": "q001",
+      "demo": "none"
+    },
+    {
+      "name": "ordinary_incorrect",
+      "task_id": "q002",
+      "demo": "none"
+    },
+    {
+      "name": "delayed_correct",
+      "task_id": "q001",
+      "demo": "sleep",
+      "delay_seconds": 0.5
+    },
+    {
+      "name": "delayed_incorrect",
+      "task_id": "q002",
+      "demo": "sleep",
+      "delay_seconds": 0.5
+    },
+    {
+      "name": "retry_once",
+      "task_id": "q001",
+      "demo": "fail_once"
+    },
+    {
+      "name": "exhaust_retries",
+      "task_id": "q001",
+      "demo": "always_fail"
+    },
+    {
+      "name": "cancel_queued",
+      "task_id": "q001",
+      "demo": "sleep",
+      "delay_seconds": 2.0
+    },
+    {
+      "name": "effect",
+      "task_id": "q001",
+      "demo": "effect",
+      "delay_seconds": 2.0
+    },
+    {
+      "name": "provider_known_1",
+      "task_id": "q001",
+      "demo": "provider"
+    },
+    {
+      "name": "provider_known_2",
+      "task_id": "q001",
+      "demo": "provider"
+    },
+    {
+      "name": "provider_unknown_usage",
+      "task_id": "q001",
+      "demo": "provider",
+      "fake_usage": "missing_usage"
+    },
+    {
+      "name": "provider_unknown_price",
+      "task_id": "q001",
+      "demo": "provider",
+      "fake_usage": "missing_price"
+    }
+  ],
+  "approval_actor": "Automated deterministic test driver, explicitly not an independent human reviewer",
+  "primary_outcomes": [
+    "planned-terminal coverage",
+    "retained lost/failed attempts",
+    "duplicate committed synthetic effects",
+    "budget reservation/spend conservation",
+    "cross-tenant disclosure count"
+  ],
+  "secondary_outcomes": [
+    "queue wait",
+    "execution/terminal latency",
+    "injection-to-recovery time",
+    "attempt amplification",
+    "child CPU time and per-process peak RSS"
+  ],
+  "success_criteria": "All 72 planned jobs are accounted for; each completed batch has 9 succeeded, 2 intentionally failed and 1 cancelled; each effect has one committed effect; rejected tenant reads disclose no data; persisted budget equals operation accounting; all injected losses are retained",
+  "sample_size_rationale": "Three matched batches expose deterministic races/recovery repeatedly within a small resource budget; insufficient for production availability or broad performance claims",
+  "analysis": "Retain failures, timeouts and unstarted work in denominators; report batches separately; pair arms by seed; exploratory seeded batch bootstrap for mean differences with explicit n=3 limitation",
+  "limits": "Requires dedicated PostgreSQL and Linux processes. Run inside checks container limits: 2 CPUs, 768 MiB, 64 PIDs. No network provider calls, money, public deployment or independent label attestations. Existing exposed tasks stay development-only.",
+  "driver_version": "workers_active_during_admission_v2",
+  "predeclared_after_run1": "Run 1 retained in full. Run 2 corrects delayed worker startup and records admission/pre-observation time. Timing limits are unchanged. No claim isolates one cause from all environmental changes.",
+  "environment_control": "Stop only idle services and the slow dependency build owned by this verification task before run 2; keep unrelated user services untouched and record shared-host limitations",
+  "driver_measurement": "Record admission and pre-observation durations; perform tenant access probes after the timed workload; keep all original timing/resource limits"
+}

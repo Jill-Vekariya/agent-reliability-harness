@@ -44,6 +44,13 @@ def execute(root: Path, message: dict[str, Any]) -> dict[str, Any]:
     request = JobRequest.model_validate(payload["request"])
     if resolved_payload(root, request) != payload:
         return {"ok": False, "error_code": "provenance_changed", "retryable": False}
+    if request.demo == "provider":
+        # Deterministic bounded local provider; no network, key or billable SDK.
+        time.sleep(request.delay_seconds)
+        return {
+            "ok": True,
+            "fake_provider": {"usage_units": 6 if request.fake_usage == "known" else None},
+        }
     attempt = message["attempt"]
     if request.demo == "always_fail" or (request.demo == "fail_once" and attempt == 1):
         return {"ok": False, "error_code": "synthetic_failure", "retryable": True}

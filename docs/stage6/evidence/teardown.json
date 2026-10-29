@@ -1,0 +1,18 @@
+[
+  {
+    "project": "arh-stage5-tcp-20261029",
+    "remaining_containers": [],
+    "retained_volumes": [
+      "arh-stage5-tcp-20261029_workflow-db",
+      "arh-stage5-tcp-20261029_workflow-reports"
+    ]
+  },
+  {
+    "project": "arh-stage5-tcp-20261029-r-490fd3",
+    "remaining_containers": [],
+    "retained_volumes": [
+      "arh-stage5-tcp-20261029-r-490fd3_workflow-db",
+      "arh-stage5-tcp-20261029-r-490fd3_workflow-reports"
+    ]
+  }
+]

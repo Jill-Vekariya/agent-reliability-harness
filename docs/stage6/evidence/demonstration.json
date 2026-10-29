@@ -1,0 +1,106 @@
+{
+  "label": "VERIFIED",
+  "planned_jobs": 4,
+  "jobs": [
+    {
+      "id": "4c32a89d-f28b-402a-a688-0ec58f65f33b",
+      "state": "succeeded",
+      "demo": "none",
+      "usage": "known",
+      "key": "stage5-b45e7cb863674a32a34ba3f0c4bde34e",
+      "request": {
+        "task_id": "q001",
+        "demo": "none",
+        "fake_usage": "known"
+      }
+    },
+    {
+      "id": "5abc497b-cab6-4cd6-92e8-0bd0bb3397dc",
+      "state": "succeeded",
+      "demo": "effect",
+      "usage": "known",
+      "key": "stage5-2e68f4d9dd3d404785404ec71fb7e04e",
+      "request": {
+        "task_id": "q001",
+        "demo": "effect",
+        "fake_usage": "known"
+      }
+    },
+    {
+      "id": "5d6c3491-1e9d-477e-8a33-f6490bee5382",
+      "state": "succeeded",
+      "demo": "provider",
+      "usage": "known",
+      "key": "stage5-ac54a93462d14f2abe78d3b9a8d33020",
+      "request": {
+        "task_id": "q001",
+        "demo": "provider",
+        "fake_usage": "known"
+      }
+    },
+    {
+      "id": "f329a4a0-4cb4-49dd-a9b2-eb0d6abf741c",
+      "state": "succeeded",
+      "demo": "provider",
+      "usage": "missing_usage",
+      "key": "stage5-fb5276cb0ef942b381de84a42a07ec62",
+      "request": {
+        "task_id": "q001",
+        "demo": "provider",
+        "fake_usage": "missing_usage"
+      }
+    }
+  ],
+  "correlation": {
+    "job_id": "4c32a89d-f28b-402a-a688-0ec58f65f33b",
+    "request_id": "adb578ed298f49789f7a6e58f8b6ecbc",
+    "trace_id": "92ebbbd09333d48e462c8efb432bf3ae"
+  },
+  "source_state": {
+    "workflow_jobs": {
+      "count": 4,
+      "sha256": "6c75c6ac3cdf64c0c850ad10cd4068d92b38916413aa9551dc8ac94743c93733"
+    },
+    "workflow_attempts": {
+      "count": 4,
+      "sha256": "a1ca85790fcbae3111640f036891d826713787f808d4a191e18de8d86cf948ba"
+    },
+    "workflow_approvals": {
+      "count": 3,
+      "sha256": "d02b78cb8fbcafbd83ebf7c9641b277431c84c2cf5af17b26c9a87b9153e92be"
+    },
+    "workflow_operations": {
+      "count": 3,
+      "sha256": "42bc4d91417da4fa765eb432df52800bde8393ac2bd37a82e9e19189e8bda2e4"
+    },
+    "workflow_budgets": {
+      "count": 1,
+      "sha256": "63785d94c91f00963409c1f771d9dce7a11b643021bf46416f8c585669d33654"
+    },
+    "workflow_schema_migrations": {
+      "count": 3,
+      "sha256": "0fff99dcb09e262d0d1e3316f597fd67ea7b248c14c55b01484f2def5c615ea2"
+    }
+  },
+  "restored_state_identical": true,
+  "synthetic_effects": {
+    "counts": {
+      "effects": 1,
+      "invocations": 1
+    },
+    "sha256": "4a0a1796d6854ee7d86fa838146ec82ec964008c6eb57f9febdf9f114996d815"
+  },
+  "budget": {
+    "tenant_id": "tenant-a",
+    "limit_units": 100,
+    "reserved_units": 10,
+    "spent_units": 6,
+    "unit": "synthetic-credit",
+    "live_provider_enabled": false
+  },
+  "live_while_db_down": 200,
+  "ready_while_db_down": 503,
+  "restored_project": "arh-stage5-tcp-20261029-r-490fd3",
+  "rollback_scope": "incompatible image refused; matching-image restart verified",
+  "live_provider_calls": 0
+}
