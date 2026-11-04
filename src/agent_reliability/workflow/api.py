@@ -9,6 +9,7 @@ from typing import Any, Literal
 import psycopg
 from fastapi import Depends, FastAPI, Header, HTTPException, Query, Request
 from fastapi.encoders import jsonable_encoder
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, PlainTextResponse
 from pydantic import Field
 
@@ -144,6 +145,12 @@ def create_app(root: Path, store: Store, auth: DemoAuth | None = None) -> FastAP
         lifespan=lifespan,
     )
     app.add_middleware(BodyLimit)
+
+    @app.exception_handler(RequestValidationError)
+    async def invalid_request(request: Request, exc: RequestValidationError) -> JSONResponse:
+        # Rejected nonfinite numbers and arbitrary input/context stay out of JSON.
+        detail = [{key: error[key] for key in ("loc", "msg", "type")} for error in exc.errors()]
+        return JSONResponse({"detail": detail}, status_code=422)
 
     @app.middleware("http")
     async def correlation(request: Request, call_next: Any) -> Any:
