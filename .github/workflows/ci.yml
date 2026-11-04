@@ -25,6 +25,8 @@ jobs:
           make setup
       - name: Verify current implementation
         run: make ci
+      - name: Audit locked Python dependencies
+        run: uv tool run --from pip-audit==2.10.1 pip-audit --path .venv/lib/python3.12/site-packages
       - name: Compare against target-branch baseline on PRs
         if: github.event_name == 'pull_request'
         env:
