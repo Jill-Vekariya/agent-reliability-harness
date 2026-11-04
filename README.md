@@ -1,19 +1,23 @@
 # Agent Reliability Harness
 
-**Reproduce SQL-agent failures and inspect durable job recovery.**
+**Inspect a SQL agent's answer, replay its tools and test job recovery.**
 
-Protected read-only SQL execution, typed result grading and strict trace replay
-are paired with a local FastAPI/PostgreSQL workflow for leases, approvals,
-tenant isolation and conservative synthetic-budget accounting.
+The harness combines read-only SQLite execution, typed result grading and
+strict trace replay. A separate FastAPI/PostgreSQL workflow adds durable jobs,
+worker leases, tenant-scoped access and one-use approvals.
 
-[Live walkthrough — saved traces](https://jill-vekariya.github.io/agent-reliability-harness/)
-· [Architecture and decisions](docs/stage6/OVERVIEW.md)
-· [Run the local workflow](docs/stage6/WALKTHROUGH.md)
-· [Verification](docs/stage6/EVIDENCE.md)
-· [Interview route](docs/stage6/INTERVIEW.md)
+[Explore saved traces](https://jill-vekariya.github.io/agent-reliability-harness/) · [Architecture](docs/stage6/OVERVIEW.md) · [Local walkthrough](docs/stage6/WALKTHROUGH.md) · [Recovery case study](docs/stage6/CASE_STUDY.md)
 
-The public walkthrough displays synthetic saved evidence. The executing API,
-SQL workers and PostgreSQL database run locally in Linux containers.
+## Start with the recovery evidence
+
+The recorded Docker acceptance passed **235 tests** and compared six table
+fingerprints after a fresh restore. The case study retains the readiness
+deadline and PostgreSQL startup failures that preceded the passing run.
+[Exact source, dates and verification scope](docs/stage6/EVIDENCE.md).
+
+**Demo scope:** the public walkthrough displays saved synthetic traces.
+The executing API, SQL workers and PostgreSQL database run locally in Linux
+containers. These checks do not measure live-model answer accuracy.
 
 ## Reproduce the local workflow
 
