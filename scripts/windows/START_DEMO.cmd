@@ -1,5 +1,5 @@
 @echo off
-cd /d "%~dp0"
+cd /d "%~dp0\..\.."
 echo Building and launching the offline demo. No API key is needed.
 docker compose up --build -d
 if errorlevel 1 (

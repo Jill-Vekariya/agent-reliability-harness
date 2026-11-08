@@ -1,6 +1,6 @@
 # Reproducibility
 
-Recommended Windows path: Docker Desktop (Linux containers), `START_DEMO.cmd`, and `TEST_PROJECT.cmd`. Recommended native Linux/macOS path: install uv 0.12.23, `make setup`, `make ci`, `make demo`. Python 3.12.14 is pinned; the lock pins runtime/dev distributions and hashes. Build-system versions and transitive build constraints are pinned separately. The Docker base image is pinned by an independently queried registry digest.
+Recommended Windows path: Docker Desktop (Linux containers), `scripts\windows\START_DEMO.cmd`, and `scripts\windows\TEST_PROJECT.cmd`. Recommended native Linux/macOS path: install uv 0.12.23, `make setup`, `make ci`, `make demo`. Python 3.12.14 is pinned; the lock pins runtime/dev distributions and hashes. Build-system versions and transitive build constraints are pinned separately. The Docker base image is pinned by an independently queried registry digest.
 
 The clean-checkout path uses bundled pinned databases. `make data` verifies them without a network request. `python scripts/materialize_data.py` downloads only the checksum-pinned official snapshot if omitted and reconstructs the exact harmless injection fixture. Existing changed databases are never silently overwritten.
 
