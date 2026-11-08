@@ -44,7 +44,7 @@ make ci
 uv run --no-sync arh eval --all
 ```
 
-On Windows use Linux Docker and `TEST_PROJECT.cmd`. Keep the expected q002 schema failure visible. The public 37-task development set is not a clean holdout, and no fresh provider study has been performed.
+On Windows use Linux Docker and `scripts\windows\TEST_PROJECT.cmd`. Keep the expected q002 schema failure visible. The public 37-task development set is not a clean holdout, and no fresh provider study has been performed.
 
 ## Contribution and interview context
 

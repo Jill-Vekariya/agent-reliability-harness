@@ -1,6 +1,6 @@
 # Contributing
 
-Use Python 3.12.14 and the committed uv lock. Run `make setup`, then `make ci` before proposing changes. On Windows, use `TEST_PROJECT.cmd` with Docker Desktop running.
+Use Python 3.12.14 and the committed uv lock. Run `make setup`, then `make ci` before proposing changes. On Windows, use `scripts\windows\TEST_PROJECT.cmd` with Docker Desktop running.
 
 Keep data/provenance, recordings, and expected results reviewable. Never mark AI-authored tasks human-reviewed without actual review. Record aliases, ties, numeric policies, duplicate handling, and expected behavior explicitly.
 
