@@ -15,8 +15,8 @@ Those skips are not local passes; the separate real PostgreSQL CI job passed.
 Local links, all-recorded regression and static walkthrough build also passed.
 The earlier 235-test Docker acceptance retains its original source and date;
 Stage 7 did not repeat Docker on this host. The restored authenticated alert review is recorded in
-[Security review](../stage7/SECURITY_REVIEW.md); disabled scanners and absent analyses
-remain explicit coverage gaps. Earlier HTTP 401 attempts are historical. [Handover, scores and remaining work](../stage7/HANDOVER.md).
+Security review: disabled scanners and absent analyses
+remain explicit coverage gaps. Earlier HTTP 401 attempts are historical.
 
 ## Published-source acceptance
 
@@ -78,16 +78,13 @@ private configuration are excluded.
 
 ## Stage 6 contribution validation
 
-The [upstream documentation patch](UPSTREAM.md) was tested against pinned
+The upstream documentation patch (`upstream-startup-order.patch`) was tested against pinned
 PostgreSQL 18 in two local fixtures. Both showed Unix readiness during the
 temporary initializer while TCP remained unavailable. The corrected check then
 passed a real TCP SQL query and an initialized-volume restart; an intentional
 initializer failure never produced healthy TCP status. Both containers were
 removed and their two test volumes retained. [Version-18 receipt](evidence/upstream-postgres18.json).
 
-[Ownership exercise](OWNERSHIP_EXERCISE.md), [interview route](INTERVIEW.md) and
-[profile/pin proposals](PROFILE_PLAN.md) remain separate from completed personal
-work. The independent exercise has not been implemented or reviewed.
 
 ## Public CI and historical evidence
 
