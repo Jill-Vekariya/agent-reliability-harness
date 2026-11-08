@@ -7,6 +7,10 @@ updates:
     groups:
       python-minor-and-patch:
         update-types: [minor, patch]
+    ignore:
+      # openai 3.x changes the client API; migrate deliberately rather than via automated bumps.
+      - dependency-name: openai
+        update-types: [version-update:semver-major]
   - package-ecosystem: docker
     directory: /
     schedule: {interval: monthly}
