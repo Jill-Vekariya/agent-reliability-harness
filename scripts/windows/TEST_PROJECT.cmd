@@ -1,5 +1,5 @@
 @echo off
-cd /d "%~dp0"
+cd /d "%~dp0\..\.."
 docker compose build
 if errorlevel 1 exit /b 1
 set "ARH_TEST_IMAGE="

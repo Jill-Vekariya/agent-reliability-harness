@@ -1,6 +1,6 @@
 # Launch the no-key demo
 
-On Windows, start Docker Desktop and double-click `START_DEMO.cmd`. The app opens at http://localhost:8501. Alternatively run `docker compose up --build -d` from the project folder. `docker compose down` stops only this project's viewer.
+On Windows, start Docker Desktop and double-click `scripts\windows\START_DEMO.cmd`. The app opens at http://localhost:8501. Alternatively run `docker compose up --build -d` from the project folder. `docker compose down` stops only this project's viewer.
 
 On Linux/macOS: install uv 0.12.23, run `make setup`, `make data`, `make ci`, then `make demo`. The SQL worker uses POSIX resource limits. Native Windows execution of the SQL worker is intentionally disabled; use Docker.
 
