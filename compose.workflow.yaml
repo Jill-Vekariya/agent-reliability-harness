@@ -5,7 +5,7 @@ x-runtime: &runtime
     dockerfile: Dockerfile.workflow
     target: runtime
     args:
-      BASE_IMAGE: ${ARH_WORKFLOW_BASE_IMAGE:-python:3.12.14-slim-trixie@sha256:f77ac9e44ae96ef2c90b8053ea08c31f8be030f824196b0ae4db6d462c84e51f}
+      BASE_IMAGE: ${ARH_WORKFLOW_BASE_IMAGE:-python:3.12.15-slim-trixie@sha256:a0f57064cbdcd6285fa45f51237ab0b35ea8ebaed06a1f5973e89e19dfb86704}
       SOURCE_REVISION: ${ARH_WORKFLOW_SOURCE_REVISION:-uncommitted}
       SOURCE_DIGEST: ${ARH_WORKFLOW_SOURCE_DIGEST:-unrecorded}
   init: true
@@ -103,7 +103,7 @@ services:
       dockerfile: Dockerfile.workflow
       target: checks
       args:
-        BASE_IMAGE: ${ARH_WORKFLOW_BASE_IMAGE:-python:3.12.14-slim-trixie@sha256:f77ac9e44ae96ef2c90b8053ea08c31f8be030f824196b0ae4db6d462c84e51f}
+        BASE_IMAGE: ${ARH_WORKFLOW_BASE_IMAGE:-python:3.12.15-slim-trixie@sha256:a0f57064cbdcd6285fa45f51237ab0b35ea8ebaed06a1f5973e89e19dfb86704}
         SOURCE_REVISION: ${ARH_WORKFLOW_SOURCE_REVISION:-uncommitted}
         SOURCE_DIGEST: ${ARH_WORKFLOW_SOURCE_DIGEST:-unrecorded}
     profiles: [checks]

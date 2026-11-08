@@ -82,7 +82,7 @@
       "started_at": "2026-10-18T12:57:06.305062+00:00",
       "finished_at": "2026-10-18T12:57:06.601030+00:00",
       "exit_code": 0,
-      "stdout": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/uv run --no-sync arh data\nPinned Chinook v1.4.5 and diagnostic fixture checksums verified; no download needed.\n",
+      "stdout": "uv run --no-sync arh data\nPinned Chinook v1.4.5 and diagnostic fixture checksums verified; no download needed.\n",
       "stderr": ""
     },
     {
@@ -93,7 +93,7 @@
       "started_at": "2026-10-18T12:57:06.601112+00:00",
       "finished_at": "2026-10-18T12:57:06.718859+00:00",
       "exit_code": 0,
-      "stdout": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/uv run --no-sync ruff check src tests scripts\nAll checks passed!\n/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/uv run --no-sync ruff format --check src tests scripts\n53 files already formatted\n",
+      "stdout": "uv run --no-sync ruff check src tests scripts\nAll checks passed!\nuv run --no-sync ruff format --check src tests scripts\n53 files already formatted\n",
       "stderr": ""
     },
     {
@@ -104,7 +104,7 @@
       "started_at": "2026-10-18T12:57:06.718989+00:00",
       "finished_at": "2026-10-18T12:57:08.484210+00:00",
       "exit_code": 0,
-      "stdout": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/uv run --no-sync mypy src\nSuccess: no issues found in 31 source files\n",
+      "stdout": "uv run --no-sync mypy src\nSuccess: no issues found in 31 source files\n",
       "stderr": ""
     },
     {
@@ -115,7 +115,7 @@
       "started_at": "2026-10-18T12:57:08.484307+00:00",
       "finished_at": "2026-10-18T12:57:18.033906+00:00",
       "exit_code": 0,
-      "stdout": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/uv run --no-sync pytest\n============================= test session starts ==============================\nplatform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.7.0\nrootdir: /workspace/scratch/c4cd5847dedb/agent-reliability-harness\nconfigfile: pyproject.toml\ntestpaths: tests\nplugins: anyio-4.15.1\ncollected 64 items\n\ntests/integration/test_agent.py ...                                      [  4%]\ntests/integration/test_cli.py .                                          [  6%]\ntests/integration/test_public_demo.py ....                               [ 12%]\ntests/integration/test_recording.py ..                                   [ 15%]\ntests/integration/test_regression.py ..                                  [ 18%]\ntests/integration/test_sandbox.py ...........................            [ 60%]\ntests/integration/test_tasks.py .                                        [ 62%]\ntests/integration/test_viewer.py .                                       [ 64%]\ntests/unit/test_budget.py ...                                            [ 68%]\ntests/unit/test_final_grade.py .                                         [ 70%]\ntests/unit/test_grading.py ..........                                    [ 85%]\ntests/unit/test_human.py ..                                              [ 89%]\ntests/unit/test_otel.py .                                                [ 90%]\ntests/unit/test_provider.py ..                                           [ 93%]\ntests/unit/test_statistics.py ....                                       [100%]\n\n============================== 64 passed in 8.69s ==============================\n",
+      "stdout": "uv run --no-sync pytest\n============================= test session starts ==============================\nplatform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.7.0\nrootdir: /app\nconfigfile: pyproject.toml\ntestpaths: tests\nplugins: anyio-4.15.1\ncollected 64 items\n\ntests/integration/test_agent.py ...                                      [  4%]\ntests/integration/test_cli.py .                                          [  6%]\ntests/integration/test_public_demo.py ....                               [ 12%]\ntests/integration/test_recording.py ..                                   [ 15%]\ntests/integration/test_regression.py ..                                  [ 18%]\ntests/integration/test_sandbox.py ...........................            [ 60%]\ntests/integration/test_tasks.py .                                        [ 62%]\ntests/integration/test_viewer.py .                                       [ 64%]\ntests/unit/test_budget.py ...                                            [ 68%]\ntests/unit/test_final_grade.py .                                         [ 70%]\ntests/unit/test_grading.py ..........                                    [ 85%]\ntests/unit/test_human.py ..                                              [ 89%]\ntests/unit/test_otel.py .                                                [ 90%]\ntests/unit/test_provider.py ..                                           [ 93%]\ntests/unit/test_statistics.py ....                                       [100%]\n\n============================== 64 passed in 8.69s ==============================\n",
       "stderr": "",
       "test_counts": {
         "passed": 64,
@@ -125,7 +125,7 @@
     },
     {
       "command": [
-        "/workspace/scratch/c4cd5847dedb/agent-reliability-harness/.venv/bin/python",
+        "/app/.venv/bin/python",
         "-m",
         "agent_reliability.cli",
         "validate-tasks"
@@ -144,7 +144,7 @@
       "started_at": "2026-10-18T12:57:19.483207+00:00",
       "finished_at": "2026-10-18T12:57:20.546596+00:00",
       "exit_code": 0,
-      "stdout": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/uv run --no-sync arh eval --mode regression\nMODE=regression; network/model fallback forbidden; bundled origin=SYNTHETIC\n{\n  \"schema_version\": 1,\n  \"origin\": \"synthetic\",\n  \"mode\": \"regression\",\n  \"run_dir\": \"/workspace/scratch/c4cd5847dedb/agent-reliability-harness/artifacts/20261018T125719Z-43f659ea\",\n  \"ordinary_successes\": 19,\n  \"ordinary_attempts\": 20,\n  \"baseline_successes\": 19,\n  \"regressions\": [],\n  \"incompatible\": [],\n  \"gate_passed\": true,\n  \"live_measurements\": 0,\n  \"api_spend_usd\": \"0\"\n}\n",
+      "stdout": "uv run --no-sync arh eval --mode regression\nMODE=regression; network/model fallback forbidden; bundled origin=SYNTHETIC\n{\n  \"schema_version\": 1,\n  \"origin\": \"synthetic\",\n  \"mode\": \"regression\",\n  \"run_dir\": \"/app/artifacts/20261018T125719Z-43f659ea\",\n  \"ordinary_successes\": 19,\n  \"ordinary_attempts\": 20,\n  \"baseline_successes\": 19,\n  \"regressions\": [],\n  \"incompatible\": [],\n  \"gate_passed\": true,\n  \"live_measurements\": 0,\n  \"api_spend_usd\": \"0\"\n}\n",
       "stderr": ""
     },
     {
@@ -156,7 +156,7 @@
       "started_at": "2026-10-18T12:57:20.546657+00:00",
       "finished_at": "2026-10-18T12:57:20.974827+00:00",
       "exit_code": 0,
-      "stdout": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/uv run --no-sync arh eval --mode replay\nMODE=replay; network/model fallback forbidden; bundled origin=SYNTHETIC\n{\n  \"schema_version\": 1,\n  \"origin\": \"synthetic\",\n  \"mode\": \"replay\",\n  \"run_dir\": \"/workspace/scratch/c4cd5847dedb/agent-reliability-harness/artifacts/20261018T125720Z-45b0d762\",\n  \"ordinary_successes\": 19,\n  \"ordinary_attempts\": 20,\n  \"baseline_successes\": 19,\n  \"regressions\": [],\n  \"incompatible\": [],\n  \"gate_passed\": true,\n  \"live_measurements\": 0,\n  \"api_spend_usd\": \"0\"\n}\n",
+      "stdout": "uv run --no-sync arh eval --mode replay\nMODE=replay; network/model fallback forbidden; bundled origin=SYNTHETIC\n{\n  \"schema_version\": 1,\n  \"origin\": \"synthetic\",\n  \"mode\": \"replay\",\n  \"run_dir\": \"/app/artifacts/20261018T125720Z-45b0d762\",\n  \"ordinary_successes\": 19,\n  \"ordinary_attempts\": 20,\n  \"baseline_successes\": 19,\n  \"regressions\": [],\n  \"incompatible\": [],\n  \"gate_passed\": true,\n  \"live_measurements\": 0,\n  \"api_spend_usd\": \"0\"\n}\n",
       "stderr": ""
     },
     {
@@ -167,7 +167,7 @@
       "started_at": "2026-10-18T12:57:20.974890+00:00",
       "finished_at": "2026-10-18T12:57:21.182970+00:00",
       "exit_code": 0,
-      "stdout": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/uv run --no-sync arh estimate\n{\n  \"currency\": \"USD\",\n  \"authorized_budget\": \"0\",\n  \"pricing_status\": \"unknown / unconfigured; paid execution disabled\",\n  \"current_dev_candidates\": 37,\n  \"current_reviewed_test_tasks\": 0,\n  \"target_test_tasks\": 60,\n  \"target_configurations\": 7,\n  \"fresh_repetitions\": 5,\n  \"target_test_agent_attempts\": 2100,\n  \"target_ordinary_attempts\": 1680,\n  \"target_safety_attempts\": 420,\n  \"cost_upper_bound_usd\": null,\n  \"pilot_cost_usd\": null,\n  \"full_study_cost_usd\": null,\n  \"note\": \"Planning arithmetic only. Supply verified official model/pricing/context bounds and request concrete approval before paid work.\"\n}\n",
+      "stdout": "uv run --no-sync arh estimate\n{\n  \"currency\": \"USD\",\n  \"authorized_budget\": \"0\",\n  \"pricing_status\": \"unknown / unconfigured; paid execution disabled\",\n  \"current_dev_candidates\": 37,\n  \"current_reviewed_test_tasks\": 0,\n  \"target_test_tasks\": 60,\n  \"target_configurations\": 7,\n  \"fresh_repetitions\": 5,\n  \"target_test_agent_attempts\": 2100,\n  \"target_ordinary_attempts\": 1680,\n  \"target_safety_attempts\": 420,\n  \"cost_upper_bound_usd\": null,\n  \"pilot_cost_usd\": null,\n  \"full_study_cost_usd\": null,\n  \"note\": \"Planning arithmetic only. Supply verified official model/pricing/context bounds and request concrete approval before paid work.\"\n}\n",
       "stderr": ""
     },
     {
@@ -178,7 +178,7 @@
       "started_at": "2026-10-18T12:57:21.183032+00:00",
       "finished_at": "2026-10-18T12:57:21.355976+00:00",
       "exit_code": 0,
-      "stdout": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/uv run --no-sync arh report\n/workspace/scratch/c4cd5847dedb/agent-reliability-harness/reports/generated/REPORT.md\n",
+      "stdout": "uv run --no-sync arh report\n/app/reports/generated/REPORT.md\n",
       "stderr": ""
     }
   ],
