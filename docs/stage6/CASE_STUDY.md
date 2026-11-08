@@ -1,8 +1,8 @@
 # Failure recovery: keep the failed evidence
 
 The local continuation retained each failed attempt, changed the demonstrated
-boundary, and ran a new verification. These are engineering findings from an
-AI-assisted implementation, not personal authorship or live-model results.
+boundary, and ran a new verification. These are engineering findings from the
+local implementation, not live-model results.
 
 ## Byte-bound evidence broke after a Windows checkout
 

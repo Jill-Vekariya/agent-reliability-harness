@@ -4,7 +4,7 @@
 ![Python 3.12](https://img.shields.io/badge/python-3.12-blue)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-**[Explore saved traces](https://jill-vekariya.github.io/agent-reliability-harness/)** · [Architecture](docs/stage6/OVERVIEW.md) · [Recovery case study](docs/stage6/CASE_STUDY.md) · [Code walkthrough](docs/INTERVIEW.md)
+**[Explore saved traces](https://jill-vekariya.github.io/agent-reliability-harness/)** · [Architecture](docs/stage6/OVERVIEW.md) · [Recovery case study](docs/stage6/CASE_STUDY.md) · [Review guide](docs/REVIEW_GUIDE.md)
 
 ![Trace explorer](reports/screenshots/trace-explorer.png)
 
@@ -84,11 +84,8 @@ No model API key is needed. For the durable workflow with PostgreSQL, follow the
 - Provider adapters have fake-transport coverage only; no recorded live compatibility study.
 - A blocked unsafe proposal is still an unsafe agent decision; the harness makes it visible, it does not fix the model.
 
-[Known failures](FAILURES.md) · [Security](SECURITY.md) · [Deployment threat model](docs/stage6/THREATS.md) · [Full reference](docs/REFERENCE.md)
+[Known failures](docs/FAILURES.md) · [Security](SECURITY.md) · [Deployment threat model](docs/stage6/THREATS.md) · [Full reference](docs/REFERENCE.md)
 
-## How this was built
-
-I used AI coding assistants throughout this project. [HOW_THIS_WAS_BUILT.md](docs/HOW_THIS_WAS_BUILT.md) explains what was assisted, what I verified myself, and what I am still working through. The full attribution record is in [OWNERSHIP.md](docs/OWNERSHIP.md) and the [ownership exercise](docs/stage6/OWNERSHIP_EXERCISE.md).
 
 ## License
 

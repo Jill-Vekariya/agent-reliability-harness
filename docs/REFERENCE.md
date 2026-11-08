@@ -24,7 +24,7 @@ containers. These checks do not measure live-model answer accuracy.
 ## Reproduce the local workflow
 
 The durable workflow is included in `main` through [PR #19](https://github.com/Jill-Vekariya/agent-reliability-harness/pull/19).
-[Stage 7 handover](stage7/HANDOVER.md) records the verified merged revision and remaining limits.
+Stage 7 verified the merged revision; remaining limits are listed below.
 Prerequisites: Git, Python 3.12, uv and Docker with Linux containers/Compose v2.
 
 ```bash
@@ -56,17 +56,14 @@ The [published-source acceptance](stage6/evidence/published-acceptance.json) bin
 runtime, test and data inputs. This local result does not replace historical CI
 counts or claim a cross-version downgrade. [Retained failures and fixes](stage6/CASE_STUDY.md).
 
-## Boundaries and ownership
+## Boundaries
 
 SQL protections assume trusted project/worker code. Local bearer identities are
 demonstration authentication. The corpus has 37 development-exposed tasks,
 zero independently reviewed gold tasks and no honest held-out model-quality
 result. Unknown synthetic usage remains reserved. [Deployment threat model](stage6/THREATS.md).
 
-Implementation, tests and these materials are **AI-assisted**. Independent owner
-coding and review remain pending. [Bounded ownership exercise](stage6/OWNERSHIP_EXERCISE.md)
-· [Existing ownership record](OWNERSHIP.md). License and third-party notices
-remain [MIT](../LICENSE) and [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md).
+License and third-party notices: [MIT](../LICENSE) and [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md).
 
 <details>
 <summary>Existing offline setup, release history and detailed limitations</summary>
@@ -77,7 +74,7 @@ remain [MIT](../LICENSE) and [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md)
 
 The harness separates a provider-driven tool loop, protected SQL execution, typed result grading and trace persistence. It catches unsupported final answers and preserves incompatible or failed attempts instead of silently making a regression pass.
 
-[Browser walkthrough](https://jill-vekariya.github.io/agent-reliability-harness/) · [Code review route](REVIEW_GUIDE.md) · [Interview guide](INTERVIEW.md) · [Design decisions](DECISIONS.md)
+[Browser walkthrough](https://jill-vekariya.github.io/agent-reliability-harness/) · [Code review route](REVIEW_GUIDE.md) · [Design decisions](DECISIONS.md)
 
 The browser walkthrough displays saved synthetic traces. The Python/Docker application executes the SQL worker; the public site is not a SQL or model API.
 
@@ -140,7 +137,7 @@ The [Stage 1 contract](DURABLE_EXECUTION.md) is retained as historical evidence.
 | --- | --- | --- |
 | [v0.3.1 receipt](../reports/releases/0.3.1/verification.json) | 148 tests passed; 37-case offline gate passed; source `394f42c2674d1d2135adaf0606f9fc789fef967c` | Historical published image, not the test count at every newer revision |
 | Same release gate | 29/30 ordinary scripted matches; seven additional safety/clarification cases | Prewritten scripts, not measured model accuracy |
-| [Stage 4 local review](INTERVIEW.md) | 46 selected execution/grading/budget/replay tests passed | Focused subset on the reviewed source; no live provider call |
+| Stage 4 local review | 46 selected execution/grading/budget/replay tests passed | Focused subset on the reviewed source; no live provider call |
 | [Dataset status](DATASET_CARD.md) | 37 exposed development tasks; zero genuinely held-out tasks and zero recorded human gold reviews | Independent empirical claims remain open |
 
 From the installed checkout:
@@ -158,15 +155,14 @@ python scripts/check_links.py
 
 The 27 October 2026 dependency review updates the source lock to Pillow 13.0.0, the compatible Streamlit 1.66.1 patch release, and certifi 2026.10.19. The latter removes the compromised emSign ECC Root CA - G3 trust anchor described in [GHSA-6q48-6c7w-9gw2](https://github.com/advisories/GHSA-6q48-6c7w-9gw2); a regression test checks the certificate fingerprint in the bundled CA file. The full local gate passed 150 tests, lint, formatting, types and fixed regression. The three bundled PNG screenshots also decoded successfully during the Pillow update. GitHub marked all 41 reviewed Pillow alerts fixed after the initial merge; current alert status must be checked against the merged lockfile and GitHub's rescan. These are specific advisory/dependency updates, not a blanket security certification.
 
-Provider adapters have fake-transport coverage, with no recorded live compatibility or model-quality study. A blocked unsafe proposal is still an unsafe agent decision. Self-contained checksums need a trusted reference; they do not authenticate a maliciously replaced corpus. [Known failures](../FAILURES.md) · [Security](../SECURITY.md) · [Experiment plan](EXPERIMENTS.md).
+Provider adapters have fake-transport coverage, with no recorded live compatibility or model-quality study. A blocked unsafe proposal is still an unsafe agent decision. Self-contained checksums need a trusted reference; they do not authenticate a maliciously replaced corpus. [Known failures](FAILURES.md) · [Security](../SECURITY.md) · [Experiment plan](EXPERIMENTS.md).
 
 Next: genuine gold review, new unexposed task families and a scoped, explicitly budgeted provider pilot. Planned sample sizes and configurations are not completed observations.
 
-## Ownership and license
+## License
 
-The goal/requirements were user-supplied; implementation, candidate tasks, tests and documentation were AI-assisted. Personal review/coding exercises remain pending unless supported by actual evidence in [OWNERSHIP.md](OWNERSHIP.md). No independent authorship, production usage or business savings are inferred.
 
-Repository license: [MIT](../LICENSE). Database/dependency rights: [third-party notices](../THIRD_PARTY_NOTICES.md). [Contributing](../CONTRIBUTING.md) · [Changelog](../CHANGELOG.md) · [Interview practice](INTERVIEW_PRACTICE.md).
+Repository license: [MIT](../LICENSE). Database/dependency rights: [third-party notices](../THIRD_PARTY_NOTICES.md). [Contributing](../CONTRIBUTING.md) · [Changelog](../CHANGELOG.md).
 
 ## Workflow measurement
 

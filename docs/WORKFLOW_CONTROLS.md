@@ -156,8 +156,7 @@ docker compose --env-file .env.workflow -f compose.workflow.yaml -p arh-stage2-d
 
 ## Learning and ownership
 
-This Stage 2 change is AI-assisted; it establishes no independent personal
-contribution or production usage. Explain the dispatch/crash window, lock ordering
+This Stage 2 change establishes no production usage. To explain it, cover the dispatch/crash window, lock ordering
 (job, operation/approval, budget), one-use approval policy, and why cancellation
 cannot prove remote preemption. As a bounded independent exercise, implement a
 human-reviewed reconciliation command for uncertain fake-provider costs. Require
