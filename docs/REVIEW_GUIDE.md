@@ -48,4 +48,4 @@ On Windows use Linux Docker and `scripts\windows\TEST_PROJECT.cmd`. Keep the exp
 
 ## Contribution and interview context
 
-The implementation is AI-assisted. [OWNERSHIP.md](OWNERSHIP.md) records completed work and pending personal exercises; [INTERVIEW.md](INTERVIEW.md) provides implementation-linked questions. A useful discussion is to reproduce one failure, predict what breaks without its fix, explain the test, and identify the remaining limitation. Personal authorship and review claims should refer to actual completed contributions.
+A useful discussion is to reproduce one failure, predict what breaks without its fix, explain the test, and identify the remaining limitation.

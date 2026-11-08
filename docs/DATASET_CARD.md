@@ -6,7 +6,7 @@ Current collection: **30 ordinary AI-assisted candidates**, 10 at each author-as
 
 Gold SQL was executed to generate expected values, and lint reexecutes it to detect staleness. It has not been independently human reviewed. Empty-result questions are included as diagnostics and require review for vacuous-match risk.
 
-Review status: **0 human-reviewed**. Reviewer fields are null. No student authorship is claimed. Difficulty assignments are provisional.
+Review status: **0 human-reviewed**. Reviewer fields are null. Difficulty assignments are provisional.
 
 Spider adaptations: **0 of the target 20**. None of these questions is labeled Spider-adapted. Sourcing, adaptation, attribution, redistribution checks, and review are pending.
 
