@@ -1,6 +1,6 @@
 # Actual decisions
 
-* Python 3.12.14: available in the build environment and pinned in Docker and `.python-version`. The installed SQLite version is recorded separately.
+* Python 3.12.15: available in the build environment and pinned in Docker and `.python-version`. The installed SQLite version is recorded separately.
 * Standard-library SQLite in a fresh `-I -S` worker: a read-only connection alone cannot bound query CPU, memory, or tool output. SQL is never executed with a provider key in the child environment.
 * Docker/Linux as the Windows execution path: Windows pipes and OS resource APIs differ. The project does not quietly weaken the native worker to make a demo launch. Docker Desktop was started and its Linux engine became available through Desktop Commander.
 * Typed multisets with augmenting-path matching: sorting or greedy tolerance matching can lose duplicates or reject a valid assignment.
