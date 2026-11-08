@@ -1,4 +1,4 @@
-FROM python:3.12.14-slim-trixie@sha256:f77ac9e44ae96ef2c90b8053ea08c31f8be030f824196b0ae4db6d462c84e51f
+FROM python:3.15.0-slim-trixie@sha256:f5b92f2a669a4c347044f29367f31983280b648250ca94dea66f98c53bc87e58
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 \
     PATH="/app/.venv/bin:$PATH" ARH_PROJECT_ROOT=/app \
     ARH_ARTIFACT_DIR=/reports/artifacts MPLCONFIGDIR=/tmp/matplotlib \
