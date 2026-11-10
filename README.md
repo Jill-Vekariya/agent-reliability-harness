@@ -10,9 +10,9 @@
 
 ## The problem
 
-An LLM agent that answers questions by writing SQL will sometimes run the wrong query, read a result it never fetched, or give a confident answer with no supporting rows. If you cannot replay exactly what it did, you cannot tell a model regression from a tooling regression, and you cannot safely let it run unattended. This harness is the test bench I built to make that behaviour observable, replayable and gradable.
+SQL agents need more than a plausible final answer: their queries, retrieved rows and tool calls must be inspectable. Agent Reliability Harness combines constrained SQL execution, typed result grading and strict trace replay to distinguish answer failures from tooling regressions. A durable workflow service adds approvals, cancellation, recovery and budget accounting.
 
-## What I built
+## Implementation
 
 - **A constrained tool loop:** four tools (`list_tables`, `describe_table`, `run_sql`, `final_answer`) executed through a supervised, read-only SQLite worker with resource limits, deadlines and child-process cleanup.
 - **Typed grading:** final answers are graded against evaluator-only gold results with duplicate-aware row comparison, and an answer that cites rows the agent never retrieved fails.
@@ -29,7 +29,7 @@ An LLM agent that answers questions by writing SQL will sometimes run the wrong 
 | [Recovery case study](docs/stage6/CASE_STUDY.md) | Readiness-deadline and PostgreSQL startup failures retained alongside the passing run | What broke before it worked |
 | [Dataset card](docs/DATASET_CARD.md) | 37 development tasks, 0 independently reviewed gold tasks | Model-quality claims are deliberately not made |
 
-The point of this project is the harness, not a leaderboard number. I do not have a held-out task set or human-reviewed gold yet, and the README says so rather than quoting a number I cannot defend.
+The recorded results validate execution, grading and recovery behaviour. Model-quality evaluation remains pending a reviewed, held-out task set.
 
 ## Where this applies
 
@@ -69,13 +69,11 @@ make demo       # trace explorer at http://127.0.0.1:8501
 
 No model API key is needed. For the durable workflow with PostgreSQL, follow the [local walkthrough](docs/stage6/WALKTHROUGH.md); the verifier script builds the images, runs four jobs, restores from backup and cleans up. Windows launchers live in [`scripts/windows/`](scripts/windows/). Everything else: [reference guide](docs/REFERENCE.md).
 
-## What I learned
-
-<!-- Rewrite these in your own words before you point a recruiter here. Short, specific, first person. -->
+## Engineering takeaways
 
 - Recording the provider response is not enough; you also have to record the tool contract, or a replay can pass against tools that no longer exist.
 - Crash recovery you have not tested with a real restore is a hope, not a feature.
-- "Zero gold tasks reviewed" is a more useful line in a README than an accuracy number nobody can reproduce.
+- Engineering regression results and model-quality benchmarks need separate datasets, review criteria and reporting.
 
 ## Limits
 

@@ -46,6 +46,6 @@ uv run --no-sync arh eval --all
 
 On Windows use Linux Docker and `scripts\windows\TEST_PROJECT.cmd`. Keep the expected q002 schema failure visible. The public 37-task development set is not a clean holdout, and no fresh provider study has been performed.
 
-## Contribution and interview context
+## Review a failure end to end
 
 A useful discussion is to reproduce one failure, predict what breaks without its fix, explain the test, and identify the remaining limitation.

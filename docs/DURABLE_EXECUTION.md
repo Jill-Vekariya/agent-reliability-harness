@@ -21,7 +21,7 @@ python scripts/configure_workflow.py
 docker compose --env-file .env.workflow -f compose.workflow.yaml -p arh-stage1-demo build
 docker compose --env-file .env.workflow -f compose.workflow.yaml -p arh-stage1-demo up -d --wait
 curl http://127.0.0.1:8091/ready
-curl -H 'Content-Type: application/json' -H 'Idempotency-Key: interview-1' \
+curl -H 'Content-Type: application/json' -H 'Idempotency-Key: walkthrough-1' \
   -d '{"task_id":"q001"}' http://127.0.0.1:8091/jobs
 curl http://127.0.0.1:8091/jobs
 ```
