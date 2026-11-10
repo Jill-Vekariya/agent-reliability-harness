@@ -109,14 +109,13 @@ proposals visible. Their safety checks do not establish that a live model will
 avoid unsafe proposals. A live pilot still requires exact models, verified
 current prices, a separately approved budget and stopping rules.
 
-## Interview exercise
+## Measurement extension
 
-Explain why there are three batch pairs rather than 72 independent samples,
-what the synthetic sink proves, and why uncertain costs remain reserved. Review
-one failed batch before examining averages. As independent work, add a recorded
-container memory/CPU time series with a declared sampling interval and explain
-how missed samples and measurement overhead affect the conclusions. Do not claim
-that this exercise or any independent implementation has already been completed.
+Interpret the results as three batch pairs rather than 72 independent samples.
+Account for the synthetic sink, retained uncertain costs and failed batches before
+comparing averages. A future extension is a recorded container memory/CPU time
+series with a declared sampling interval, missed-sample counts and measurement
+overhead. This extension has not been completed.
 
 ## Retained initial failure and amended protocol
 

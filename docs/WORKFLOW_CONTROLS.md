@@ -83,7 +83,7 @@ docker compose --env-file .env.workflow -f compose.workflow.yaml -p arh-stage2-d
 docker compose --env-file .env.workflow -f compose.workflow.yaml -p arh-stage2-demo up -d --wait
 # Operator-only funding: these credits cannot purchase any real provider usage.
 docker compose --env-file .env.workflow -f compose.workflow.yaml -p arh-stage2-demo run --rm migrate arh jobs set-budget --tenant tenant-a --limit-units 20
-python scripts/workflow_controls_client.py submit --key interview-stage2 --demo provider
+python scripts/workflow_controls_client.py submit --key walkthrough-stage2 --demo provider
 python scripts/workflow_controls_client.py --subject approver-a approvals
 ```
 
