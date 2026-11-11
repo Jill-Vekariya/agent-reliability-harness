@@ -37,7 +37,9 @@ backend is claimed. Earlier local receipts below retain their original source.
 
 ## Historical local capture
 
-Status: **Historical Stage 5 acceptance verified locally; human ownership work pending.**
+Historical capture status: **Stage 5 acceptance verified locally; personal contribution evidence was pending at that checkpoint.**
+
+**Owner-review update — 11 November 2026:** the [current owner statement](../OWNER_REVIEW.md) records sustained personal effort and repeated project review. This later statement does not change the historical acceptance results, complete an independent implementation exercise or update benchmark-label review counts.
 Feature branch: `feat/durable-workflow-portfolio-20261029`. Its pull request tracks CI on the current head.
 Captured 29 October 2026. This is not a new public release or a public backend deployment.
 

@@ -51,7 +51,7 @@ in [LOCAL_DEPLOYMENT.md](../LOCAL_DEPLOYMENT.md).
 | 3–5 min | Show the real restart integration test. It kills an actual worker after dispatch, retains uncertain exposure, requires a fresh approval, and observes persisted results after API restart. |
 | 5–7 min | Open the retained complete-run receipts: 235 tests, four jobs, known spend 6 and unknown reservation 10 of 100 synthetic units. Show representative HTTP/worker trace linkage. |
 | 7–9 min | Show liveness 200/readiness 503 during the DB outage, matching restored fingerprints, rollback refusal and two empty container lists after teardown. |
-| 9–10 min | State the limits and actual ownership status. Present the independent exercise without claiming it is completed. |
+| 9–10 min | Explain the documented limits and the [current owner-review statement](../OWNER_REVIEW.md). Distinguish repeated project review from formal benchmark validation and separately evidenced independent exercises. |
 
 Run the automated verification before presenting or allow extra time for downloads
 and Docker builds. Do not promise that a clean build fits a ten-minute talk.
