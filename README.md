@@ -12,6 +12,10 @@
 
 SQL agents need more than a plausible final answer: their queries, retrieved rows and tool calls must be inspectable. Agent Reliability Harness combines constrained SQL execution, typed result grading and strict trace replay to distinguish answer failures from tooling regressions. A durable workflow service adds approvals, cancellation, recovery and budget accounting.
 
+## My involvement
+
+I have invested sustained personal effort in this project and reviewed it repeatedly throughout development. My focus is constrained SQL execution, trace replay, typed grading and durable workflow recovery. See [project ownership and review](docs/OWNER_REVIEW.md) for my current statement, review scope and technical references.
+
 ## Implementation
 
 - **A constrained tool loop:** four tools (`list_tables`, `describe_table`, `run_sql`, `final_answer`) executed through a supervised, read-only SQLite worker with resource limits, deadlines and child-process cleanup.

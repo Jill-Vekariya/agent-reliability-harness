@@ -1,4 +1,6 @@
-# Evidence report - current release v0.3.1
+# Evidence report — v0.3.1 measurements
+
+**Owner-review update — 11 November 2026:** Jill Vekariya records sustained personal effort and repeated project review in the [current owner statement](OWNER_REVIEW.md). The measurements below retain their original release scope. Project review and formal benchmark-label review are tracked separately.
 
 ## A. Implemented
 
@@ -40,7 +42,7 @@ Fresh real-provider attempts: **0**. Paid API spend: **USD 0**. Human task revie
 1. Real reviewers must verify gold/results, provenance, ambiguity, difficulty, and safety using `reviews/benchmark-candidates.json`; validation does not establish identity or diligence.
 2. All 37 current tasks are development-exposed. Genuine unexposed families, the target reviewed corpus, sourced adaptations/rights checks, and a final grouped holdout remain incomplete.
 3. Exact models, official pricing/context bounds, credentials, a scoped nonzero spending approval, and an actual freeze are required before a live pilot. No approval or review has been fabricated.
-4. Personal ownership exercises and actual held-out failure labels require the user's participation. Publication is complete and does not substitute for that work.
+4. Actual held-out failure labels and formal per-task review records remain incomplete. The owner's repeated project review is documented separately in [project ownership and review](OWNER_REVIEW.md).
 
 ## F. Remaining risks
 
@@ -48,7 +50,7 @@ Finite tests do not prove complete security. Malicious Python/repository/host/SD
 
 ## G. Next actions
 
-1. Complete genuine gold/provenance review and personal ownership exercises; add unexposed families and resolve disagreements.
+1. Complete formal gold/provenance review; add unexposed families and resolve disagreements. Record any completed independent exercises with their own source and evidence.
 2. Prepare and approve a concretely priced pilot, verify real-provider accounting, and collect fresh planned repetitions with gaps retained.
 3. Obtain real failure labels and report supported paired/ablation effects with family uncertainty and explicit denominators.
 
@@ -62,4 +64,4 @@ Finite tests do not prove complete security. Malicious Python/repository/host/SD
 | Empirical evidence | Absent for live models; no accuracy, savings, or ablation conclusion is justified. |
 | Reproducibility | Pinned runtime/data/dependencies, preserved references, campaign hashes, immutable image, and checked artifacts; platform/live nondeterminism remains. |
 | Public delivery | v0.3.1 source, CI/Pages, GHCR image, anonymous download tests, and current browser checks are evidenced. |
-| Interview readiness | Factual resume bullets, a demo route, code-linked answers, real implementation failure cases, and ownership exercises are ready; personal understanding still needs practice. |
+| Owner involvement | The [current owner statement](OWNER_REVIEW.md) records sustained personal effort and repeated project review. Technical review paths and recorded failure cases are linked separately. |
