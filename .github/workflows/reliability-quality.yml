@@ -1,0 +1,39 @@
+name: Reliability quality
+
+on:
+  push:
+    branches: [main, upgrade/four-reliability-contributions]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: reliability-quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Install pinned environment
+        run: |
+          python3 -m pip install uv==0.12.23
+          uv python install 3.12.15
+          uv sync --frozen --group dev
+      - name: Lint quality contributions
+        run: uv run ruff check src/agent_reliability/quality.py tests/quality
+      - name: Type-check quality module
+        run: uv run mypy src/agent_reliability/quality.py
+      - name: Run integrity, comparison and adversarial tests
+        run: uv run pytest tests/quality -q --junitxml=reports/quality-tests.xml
+      - name: Retain test results
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: reliability-quality-results
+          path: reports/quality-tests.xml
+          if-no-files-found: ignore
