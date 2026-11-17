@@ -1,7 +1,4 @@
-"""Offline dataset integrity and paired regression gates.
-
-Run with python -m agent_reliability.quality {dataset,compare} ...
-"""
+"""Offline dataset integrity and paired regression gates."""
 
 import argparse
 import json
@@ -75,7 +72,7 @@ def compare_runs(
     candidate: list[dict[str, Any]],
     max_drop: float = 0.0,
 ) -> dict[str, Any]:
-    """Compare exactly paired tasks; max_drop is an absolute rate, not percent."""
+    """Compare paired tasks; max_drop is an absolute rate, not percent."""
     _number(max_drop, "max_drop")
     if max_drop > 1:
         raise ValueError("max_drop must be between 0 and 1")
@@ -85,8 +82,12 @@ def compare_runs(
     count = len(before)
     base_passes = sum(row["passed"] for row in before.values())
     next_passes = sum(row["passed"] for row in after.values())
-    regressions = sorted(key for key in before if before[key]["passed"] and not after[key]["passed"])
-    improvements = sorted(key for key in before if not before[key]["passed"] and after[key]["passed"])
+    regressions = sorted(
+        key for key in before if before[key]["passed"] and not after[key]["passed"]
+    )
+    improvements = sorted(
+        key for key in before if not before[key]["passed"] and after[key]["passed"]
+    )
     metrics: dict[str, Any] = {}
     for key in ("latency_ms", "cost_usd"):
         complete = all(row.get(key) is not None for row in [*before.values(), *after.values()])
@@ -131,7 +132,7 @@ def main() -> int:
             result = validate_dataset(load(args.input))
         else:
             result = compare_runs(load(args.baseline), load(args.candidate), args.max_drop)
-    except (OSError, ValueError, TypeError) as exc:
+    except (OSError, ValueError, TypeError, OverflowError) as exc:
         parser.exit(2, f"quality: {exc}\n")
     print(json.dumps(result, indent=2, allow_nan=False))
     return 0 if result.get("gate_passed", True) else 1

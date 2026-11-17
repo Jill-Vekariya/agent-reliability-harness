@@ -9,7 +9,8 @@ def task(task_id="a", split="dev", question="Question", family="f"):
 
 class DatasetTests(unittest.TestCase):
     def test_valid_separation(self):
-        self.assertEqual(validate_dataset([task(), task("b", "test", "Other", "g")])["tasks"], 2)
+        rows = [task(), task("b", "test", "Other", "g")]
+        self.assertEqual(validate_dataset(rows)["tasks"], 2)
 
     def test_empty(self):
         with self.assertRaises(ValueError):
@@ -39,17 +40,22 @@ class DatasetTests(unittest.TestCase):
 
 class ComparisonTests(unittest.TestCase):
     def test_regression(self):
-        result = compare_runs([{"task_id": "a", "passed": True}], [{"task_id": "a", "passed": False}])
+        old = [{"task_id": "a", "passed": True}]
+        new = [{"task_id": "a", "passed": False}]
+        result = compare_runs(old, new)
         self.assertFalse(result["gate_passed"])
         self.assertEqual(result["regressions"], ["a"])
 
     def test_improvement(self):
-        result = compare_runs([{"task_id": "a", "passed": False}], [{"task_id": "a", "passed": True}])
-        self.assertEqual(result["improvements"], ["a"])
+        old = [{"task_id": "a", "passed": False}]
+        new = [{"task_id": "a", "passed": True}]
+        self.assertEqual(compare_runs(old, new)["improvements"], ["a"])
 
     def test_different_tasks(self):
+        old = [{"task_id": "a", "passed": True}]
+        new = [{"task_id": "b", "passed": True}]
         with self.assertRaises(ValueError):
-            compare_runs([{"task_id": "a", "passed": True}], [{"task_id": "b", "passed": True}])
+            compare_runs(old, new)
 
     def test_duplicate_attempt(self):
         row = {"task_id": "a", "passed": True}
