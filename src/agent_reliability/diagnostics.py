@@ -21,6 +21,15 @@ def _cost(value: Any) -> Decimal:
     return cost
 
 
+def _latency(value: Any) -> float:
+    if isinstance(value, bool) or not isinstance(value, int | float):
+        raise ValueError("latency_ms must be numeric")
+    latency = float(value)
+    if not math.isfinite(latency) or latency < 0:
+        raise ValueError("latency_ms must be finite and non-negative")
+    return latency
+
+
 def summarize(traces: list[dict[str, Any]]) -> dict[str, Any]:
     """Summarize selected v1 fields without exposing questions, SQL or rows."""
     if not traces:
@@ -40,10 +49,7 @@ def summarize(traces: list[dict[str, Any]]) -> dict[str, Any]:
         if identity in seen:
             raise ValueError("Duplicate task/attempt pair")
         seen.add(identity)
-        latency = trace.get("latency_ms")
-        if type(latency) not in (int, float) or not math.isfinite(latency) or latency < 0:
-            raise ValueError("latency_ms must be finite and non-negative")
-        latencies.append(float(latency))
+        latencies.append(_latency(trace.get("latency_ms")))
         terminations[trace["termination"]] += 1
         error = trace.get("infrastructure_error")
         if error is not None and not isinstance(error, str):
